@@ -43,6 +43,7 @@ void ActionEngine::do_work(ActionEngine* obj) {
         }
         else if(msg.mtype == "rlcmd" && actions->member(msg.getString("action"))) {
             obj->actions->exec(msg.getString("action"),msg.getString("delay"));
+            obj->actions->purge_expired();
         }
     }
 }
