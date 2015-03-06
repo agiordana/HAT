@@ -7,9 +7,9 @@
 <field name="$FCONDITION" value=""/>
 <field name="$ACTION" value=""/>
 <field name="$ALARM" value="Alarms"/>
-<field name="$FROM" value="00.00"/>
-<field name="$TO" value="23.59"/>
-<field name="$MODE" value=""/>
+<field name="$FROM" value="00:00"/>
+<field name="$TO" value="23:59"/>
+<field name="$MODE" value="programon"/>
 <field name="$CYCLE" value="0"/>
 <field name="url" value="/configure/rule"/>
 </message>

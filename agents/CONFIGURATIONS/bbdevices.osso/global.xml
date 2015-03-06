@@ -5,6 +5,7 @@
 <attribute name="emergency_homedir" value="/home/horus/horus_home/bbdevices"/>
 <attribute name="logfile" value="AGENT-LOG"/>
 <attribute name="description" value="Local I/O Devices"/>
+<attribute name="url" value="/doc/index.html"/>
 <attribute name="timeunit" value="1"/>
 <attribute name="configurator" value="ON"/>
 </set>

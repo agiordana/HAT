@@ -115,7 +115,7 @@ div.leftitem {
 }
 div.rightitem {
     display: block;
-    width:250px;
+    width:350px;
     float:right;
     border:1px solid #d4d4d4;
 }
@@ -313,6 +313,14 @@ function cleanPostfix(name) {
    return name.substring(0,i);
 }
 
+function getCategory(name) {
+   var i;
+   for(i=0; i<name.length&&name[i]!='_'; i++);
+   if(i == 0) return "";
+   return name.substring(0,i);
+}
+
+
 function addItemCB(name, target) {
   $(target).append("<div class=\"td2\"><label><input type=\"checkbox\" class=\"inckb\" name=\"event\" value=\"" + name +"\"/>" + cleanItem(name) + "</label></div>");
 }
@@ -326,7 +334,9 @@ function addItemERB(name, target) {
 }
 
 function addItemActionRB(name, target) {
-  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+ if(getCategory(name) == "LI")
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"sw\" /> SW <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+  else $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
 }
 
 function makeRuleName(path) {
@@ -409,6 +419,10 @@ function addRule() {
   $("#actions :radio[value='on']:checked").each(function(index,field){
 	if(action=="") action=field.name+"_on";
 	  else action = action +'+'+field.name+"_on";
+	});
+  $("#actions :radio[value='sw']:checked").each(function(index,field){
+	if(action=="") action=field.name+"_switch";
+	  else action = action +'+'+field.name+"_switch";
 	});
   $("#actions :radio[value='off']:checked").each(function(index,field){
 	if(action=="") action=field.name+"_off";
@@ -538,6 +552,7 @@ function plotRule(name) {
      fcond = nameNormalize(fcond,"");
      onaction = nameNormalizeF(action, "_on");
      offaction = nameNormalizeF(action, "_off");
+     switchaction = nameNormalizeF(action, "_switch");
      var i_mode = "";
      var i_minevent = "";
      if(cycle == "" || cycle == "0") {
@@ -565,6 +580,7 @@ function plotRule(name) {
       descriptor += "<div id=\"consequent\" class=\"fpart\">";
         descriptor += ("<div class=\"ru\"><button class=\"deletebtn\" onclick=\"deleteRule('" + name + "')\"><img src=\"/doc/img/cross.png\" width=\"15px\" height=\"15px\"></button> </div>");
         if(offaction != "") descriptor += ("<div class=\"ry\"> OFF: " +offaction+"</div>");
+        if(switchaction != "") descriptor += ("<div class=\"ry\"> SW: " +switchaction+"</div>");
         if(onaction != "") descriptor += ("<div class=\"ry\"> ON: " +onaction+"</div>");
      descriptor += "</div></div>";
      $("#footer").append(descriptor);

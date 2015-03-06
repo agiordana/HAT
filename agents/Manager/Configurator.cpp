@@ -202,12 +202,16 @@ bool Configurator::mkActions() {
   string temp = "action.xml";
   string nameon;
   string nameoff;
+  string nameswitch;
   string cmdon;
   string cmdoff;
+  string cmdswitch;
   for(size_t i=0; i<cmdname.size(); i++) {
     MMessage mon;
     MMessage moff;
+    MMessage mswitch;
     if(getCategory(cmdname[i])=="SH") {
+       nameswitch = "";
        nameon = cmdname[i]+"_pup";
        nameoff = cmdname[i]+"_pdown";
        cmdon = cmdname[i];
@@ -216,22 +220,32 @@ bool Configurator::mkActions() {
     else {
        nameon = cmdname[i]+"_on";
        nameoff = cmdname[i]+"_off";
+       nameswitch = cmdname[i]+"_switch";
        cmdon = cmdname[i];
        cmdoff = cmdname[i];
+       cmdswitch = cmdname[i];
     }
     // creazione actions per rules
     mon.add("$NAME", nameon);
     mon.add("$TARGET", cmdon);
     if(getCategory(cmdname[i])=="SH") mon.add("$VALUE","UP");
-    else if(getCategory(cmdname[i])=="LI") mon.add("$VALUE","PON");
+    else if(getCategory(cmdname[i])=="LI") {
+	mon.add("$VALUE","PON");
+        mswitch.add("$NAME", nameswitch);
+        mswitch.add("$TARGET", cmdswitch);
+	mswitch.add("$VALUE","ON");
+    }
     else mon.add("$VALUE", "ON");
     moff.add("$NAME", nameoff);
     moff.add("$TARGET", cmdoff);
     if(getCategory(cmdname[i])=="SH") moff.add("$VALUE","DOWN");
-    else if(getCategory(cmdname[i])=="LI") moff.add("$VALUE","POFF");
+    else if(getCategory(cmdname[i])=="LI") {
+	moff.add("$VALUE","POFF");
+    }
     else moff.add("$VALUE", "OFF");
     mkItem(mon, path, temp);
     mkItem(moff, path, temp);
+    if(getCategory(cmdname[i])=="LI") mkItem(mswitch, path, temp);
     // creazione actions per timedrules
   } 
   for(size_t i=0; i<optcmdname.size(); i++) {
