@@ -1,0 +1,15 @@
+<?xml version="1.0"?><set type="archive">
+<attribute category="root" name="archive" value="*"/>
+<attribute category="root" name="status" value="*"/>
+<attribute category="root" name="subjects" value="*"/>
+<attribute category="root" name="scheduler" value="*"/>
+<attribute category="conf" name="threads" value="*"/>
+<attribute category="root" name="control" value="*"/>
+<attribute category="root" name="sensor" value="*"/>
+<attribute category="conf" name="doc" value="*"/>
+<attribute category="history" name="archive" value="10"/>
+<attribute category="history" name="status" value="1"/>
+<attribute category="history" name="subjects" value="-1"/>
+<attribute category="control" name="status" value="ON"/>
+</set>
+

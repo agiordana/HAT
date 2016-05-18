@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<script>
+
+var myVar = setInterval(myTimer, 1000);
+
+var firsttime = 1;
+
+function myTimer() {
+   $(document).ready(function(){
+     if(firsttime > 0) { 
+        $("#rawio").text("");
+        $.get("/DynamicPage.json", function(data, status){
+		$.each(data.list, function(k,v){
+		   $.each(v, function(p, out) {
+		       $("#rawio").append(makeImage(p,out));
+		   })
+		})
+        });
+	firsttime = 0;
+      }
+      else {
+        $.get("/DynamicPage.json", function(data, status){
+                $.each(data.list, function(k,v){
+                   $.each(v, function(p, out) {
+                       updateImage(p, out);
+                   })
+                })
+        });
+      }
+  })
+};
+
+function makeImage(name, value) {
+    var image = document.getElementById('myImage');
+    var result = "<td width=\"50px\" align=\"center\">"+name+"<br>";
+    if (value<1) {
+        result += "<img id="+ name +" src=\"/doc/img/green-led.png\" width=\"20\" height=\"20\">";
+    } else {
+        result += "<img id="+ name +" src=\"/doc/img/red-led.png\" width=\"20\" height=\"20\">";
+    }
+    result += "</td>";
+    return result;
+}
+
+function updateImage(id, value) {
+    var image = document.getElementById(id);
+    if (value<1) {
+        image.src = "/doc/img/green-led.png";
+    } else {
+        image.src = "/doc/img/red-led.png";
+    }
+}
+
+</script>
+</head>
+<body>
+<div id="rawio"> </div>
+<br>
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<set type="agentset">
+<attribute name="port" category="generic" value="2452"/>
+<attribute name="public_key" category="generic" value="keys/agentpub.pem"/>
+<attribute name="private_key" category="generic" value="keys/agentpriv.pem"/>
+<attribute name="import" category="netsubjects" value="cmd+event"/>
+<attribute name="export" category="netsubjects" value="alarm+cmd+program"/>
+<attribute name="crypt" category="mode" value="OFF"/>
+<attribute name="send_period" category="time" value="20"/>
+<attribute name="check_period" category="time" value="60"/>
+<attribute name="validity_time" category="time" value="180"/>
+<attribute name="send_agent_info" category="generic" value="YES"/>
+</set>

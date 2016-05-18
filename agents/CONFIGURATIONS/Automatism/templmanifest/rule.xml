@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<message type="configure" subtype="rule"> 
+<field name="$NAME" value=""/>
+<field name="$EVENT" value=""/>
+<field name="$MIN_EVENT" value=""/>
+<field name="$TCONDITION" value=""/>
+<field name="$FCONDITION" value=""/>
+<field name="$ACTION" value=""/>
+<field name="$ALARM" value="Automatisms"/>
+<field name="$FROM" value="00:00"/>
+<field name="$TO" value="23:59"/>
+<field name="$MODE" value=""/>
+<field name="$CYCLE" value=""/>
+<field name="url" value="/configure/rule"/>
+</message>

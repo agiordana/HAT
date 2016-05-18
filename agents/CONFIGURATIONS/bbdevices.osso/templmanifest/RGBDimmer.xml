@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="devConfigure">
+<field name="$NAME" value=""/>
+<field name="$REDOUT" value=""/>
+<field name="$GREENOUT" value=""/>
+<field name="$BLUEOUT" value=""/>
+<field name="$PREFIX" value="DI"/>
+<field name="url" value="/cmd/devConfigure/RGBDimmer"/>
+<field name="value" value="RGBDimmer"/>
+</message>

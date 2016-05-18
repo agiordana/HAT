@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<set type="logmanager">
+<attribute name="full_log" category="Controls" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"cmd"},{"name":"event"}]}'/>
+<attribute name="short_log" category="Controls" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"cmd"}]}'/>
+<attribute name="full_log" category="Alarm" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"cmd"},{"name":"alarm"},{"name":"program"}]}'/>
+<attribute name="short_log" category="Alarm" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"alarm"},{"name":"program"}]}'/>
+<attribute name="full_log" category="Automatisms" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"cmd"},{"name":"alarm"},{"name":"program"}]}'/>
+<attribute name="short_log" category="Automatisms" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"alarm"},{"name":"program"}]}'/>
+<attribute name="full_log" category="Video" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"alarm"}]}'/>
+<attribute name="short_log" category="Video" value='{"window": {"start_date":"$start_date","start_time":"$start_time","end_date":"$end_date","end_time":"$end_time"},"select":[{"name":"alarm"}]}'/>
+<attribute name="answer_prefix" category="generic" value='{"response":{"message":"ok","content":"'/>
+<attribute name="answer_suffix" category="generic" value='"}}'/>
+</set>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+#all {
+    width:80%;
+    padding:30px;
+}
+
+#header {
+    width:97%;
+    color:black;
+    display:inline-block;
+    text-align:left;
+    font-size: 2em;
+    padding:30px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+}
+
+button.install{
+   float:right;
+   text-align: center;
+   width:120px;
+   height:25;
+   font-size: 12px;
+}
+
+#board {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#webservice {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#loggerextra {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#managers {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+input.inrb {
+  margin-left: 20px;
+}
+
+input.inckb {
+  margin-right: 20px;
+}
+
+div.prfield {
+  background-color:White;
+  text-align:center;
+  border:1px solid #d4d4d4;
+  font-weight:normal;
+  padding: 5px;
+}
+</style>
+<script>
+
+function sendCmd(id) {
+   var image = document.getElementById(id);
+   if(image.src.match("green"))
+      $.post("/cmd/"+id+"/ON",{},function(){});
+   else
+      $.post("/cmd/"+id+"/OFF",{},function(){});
+};
+
+function sendVCmd(id) {
+   var image = document.getElementById(id);
+   if(image.src.match("green"))
+      $.post("/cmd/"+id+"/ON",{},function(){});
+   else
+      $.post("/cmd/"+id+"/OFF",{},function(){});
+};
+
+function sendPCmd(id) {
+  var name = "F_"+id;
+  var value = document.getElementById(name);
+  var v = value.innerHTML;
+  var x = parseInt(v, 10);
+  x += 10;
+  if(x > 100) x = 0;
+  value = x.toString(10);
+
+  $.post("/cmd/"+id+"/"+value,{},function(){});
+};
+
+function makePwm(name, value) {
+   var result = "<div id=\"" + name + "\" class=\"probe\"><button id=\"B_"+name+"\" onclick='sendPCmd(\""+name+"\")'>"+name+"</button><div id=\"F_"+name+"\" class=\"prfield\"> 000000 </div></div>";
+   return result;
+   
+}
+
+</script>
+</head>
+<body>
+<div id="all">
+<div id="header"> Configurazione Agenti <button id="configure" class="install" onclick="install()">Installa</button> </div>
+<div id="board">Tipo di CAPE installato: <input type="radio" class="inrb" name="boardname" value="osso"> OSSO
+                <input type="radio" class="inrb" name="boardname" value="2relay"> 2RELAY 
+		<input type="radio" class="inrb" name="boardname" value="4pwm"> 4PWM 
+</div>
+<div id="managers">
+  <div><input type="checkbox" class="inckb" value="Alarm"> Sistema Allarme</div>
+  <div><input type="checkbox" class="inckb" value="Automatism"> Controllo Azioni Automatizzate</div>
+  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Gestore Energia Elettrica</div>
+  <div><input type="checkbox" class="inckb" value="engagent"> Climatizzatore</div>
+</div>
+<div id="webservice"><div><input type="checkbox" class="inckb" value="wsserver"> REST Web Server</div></div>
+<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Logger Aggiuntivo</div></div>
+</div>
+</body>
+</html>
+

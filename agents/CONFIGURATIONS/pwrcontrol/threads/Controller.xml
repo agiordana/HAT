@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<set type="Controller">
+	<attribute name="status" value="ON"/>
+	<attribute category="observe" name="setcontrol" value="cmd"/>
+	<attribute category="observe" name="resetcontrol" value="cmd"/>
+	<attribute category="observe" name="settarget" value="cmd"/>
+	<attribute category="observe" name="setschedulerstatus" value="cmd"/>
+	<attribute category="observe" name="checkalignement" value="trigger"/>
+	<attribute category="observe" name="mkcontroldev" value="cmd"/>
+</set>

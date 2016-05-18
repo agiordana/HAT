@@ -1,0 +1,9 @@
+{
+	"token": {
+		"Target correctly defined" : "Il contatore &egrave; definito correttamente",
+		"Problems with target configuration" : "Problema con la configurazione del contantore",
+		"Control correctly defined" : "Il Controllo &egrave; definito correttamente",
+		"Control not correctly configured" : "Problema con la configurazione del controllo",
+		"Here you can describe the devices handled by the power manager" : "In questa sezione si possono scegliere e configurare i componenti gestiti dal power manager"
+	}
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="settractions">
+<field name="rule" value="$NAME"/>
+<field name="set" value="$ENABLE"/>
+<field name="reset" value="$DISABLE"/>
+<field name="url" value="/cmd/settractions"/>
+</message>
+

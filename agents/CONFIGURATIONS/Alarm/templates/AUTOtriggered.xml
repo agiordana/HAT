@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set>
+<attribute name="name" value="AUTOtriggered"/>
+<attribute name="mode" value="program_timed"/>
+<attribute name="active_for_program" value="AUTO"/>
+<attribute name="from" value="-INF"/>
+<attribute name="to" value="INF"/>
+<attribute name="cycle" value="0"/>
+<attribute name="set" value="none"/>
+<attribute name="reset" value="none"/>
+<attribute name="status" value="ON"/>
+</set>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<set type="TimedRuleEngine">
+	<attribute name="status" value="ON"/>
+	<attribute category="observe" name="timedruleupdate" value="trigger"/>
+	<attribute category="observe" name="prgstatus" value="program"/>
+	<attribute category="observe" name="settimedrules" value="cmd"/>
+	<attribute category="observe" name="resettimedrules" value="cmd"/>
+	<attribute category="observe" name="settrconditions" value="cmd"/>
+	<attribute category="observe" name="resettrconditions" value="cmd"/>
+	<attribute category="observe" name="settractions" value="cmd"/>
+	<attribute category="observe" name="settrvaliditytime" value="cmd"/>
+	<attribute category="observe" name="checkcycle" value="trigger"/>
+</set>

@@ -1,0 +1,14 @@
+called: g++
+	/home/horus/.netbeans/remote/192.168.1.253/truelion.local-MacOSX-x86_64/Users/attilio/programs/Horus/master-track/agents/BBDevices
+	g++
+	-c
+	-O2
+	-I.
+	-I../minilibs
+	-I../tinyxml
+	-I../libjson
+	-I/opt/include
+	-g
+	-DNDEBUG
+	agent.cpp
+

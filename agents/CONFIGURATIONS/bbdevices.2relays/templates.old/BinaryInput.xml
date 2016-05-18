@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<!--semantic_class=BinaryInput-->
+<set type="$PREFIX_$NAME">
+<attribute name="type" category="generic" value="BinaryInput"/>
+<attribute name="name" category="generic" value="$PREFIX_$NAME"/>
+<attribute name="input" category="input" value="$INPUT"/>
+<attribute name="0" category="remap" value="0"/>
+<attribute name="1" category="remap" value="1"/>
+<attribute name="status" category="generic" value="ON"/>
+</set>

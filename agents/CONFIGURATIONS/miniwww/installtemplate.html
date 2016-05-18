@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+#all {
+    width:80%;
+    padding:30px;
+}
+
+#header {
+    width:100%;
+    color:black;
+    display:inline-block;
+    text-align:left;
+    font-size: 2em;
+    padding:30px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+}
+
+button.install{
+   float:right;
+   text-align: center;
+   width:120px;
+   height:25;
+   font-size: 12px;
+}
+
+#board {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#webservice {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#loggerextra {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+#managers {
+    display: inline-block;
+    width:100%;
+    padding:10px;
+    border:3px solid #d4d4d4;
+}
+
+input.inrb {
+  margin-left: 20px;
+}
+
+input.inckb {
+  margin-right: 20px;
+}
+
+div.prfield {
+  background-color:White;
+  text-align:center;
+  border:1px solid #d4d4d4;
+  font-weight:normal;
+  padding: 5px;
+}
+</style>
+<script>
+
+var tmanifestpath = "/doc/install.xml";
+var installcmd = "/configure/install";
+
+function doreboot() {
+   $.post("/configure/reboot",{},function(){});
+};
+
+
+function install() {
+  
+  var agents="";
+  $("#board :radio[name='boardname']:checked").each(function(index,field){
+        if(agents=="") agents=field.value;
+          else agents = agents +'+'+field.value;
+        });
+  $("#managers :checkbox:checked").each(function(index,field){
+        agents = agents +'+'+field.value;
+        });
+  $("#webservice :checkbox:checked").each(function(index,field){
+        agents = agents +'+'+field.value;
+        });
+  $("#loggerextra :checkbox:checked").each(function(index,field){
+        agents = agents +'+'+field.value;
+        });
+  $.get(tmanifestpath, function(data, status) {
+      var tmanifest;
+        try {
+          serializer = new XMLSerializer();
+          tmanifest = serializer.serializeToString(data);
+        }
+        catch (e) {
+                // Internet Explorer has a different approach to serializing XML
+           tmanifest = data.xml;
+        }
+        var pos;
+        if((pos = tmanifest.indexOf("$AGENTS"))>0) {
+	   tmanifest = setValue(tmanifest, agents, pos);
+        }
+	$.post(installcmd, tmanifest, function(){});
+   });
+}
+
+function setValue(manifest, value, pos) {
+   var i = pos;
+   while(i <manifest.length && manifest[i] != '"') i++;
+   var newmanifest = manifest.substring(0,pos) + value +manifest.substring(i);
+   return newmanifest;
+}
+
+
+</script>
+</head>
+<body>
+<div id="all">
+<div id="header"> Configurazione Agenti 
+	<button id="confreboot" class="install" onclick="doreboot()">Reboot</button>
+	<button id="configure" class="install" onclick="install()">Installa</button>
+</div>
+<div id="board">Tipo di CAPE installato:
+$CAPETYPE
+</div>
+<div id="managers">
+  <div><input type="checkbox" class="inckb" value="Alarm"> Sistema Allarme</div>
+  <div><input type="checkbox" class="inckb" value="Automatism"> Controllo Azioni Automatizzate</div>
+  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Gestore Energia Elettrica</div>
+  <div><input type="checkbox" class="inckb" value="engagent"> Climatizzatore</div>
+</div>
+<div id="webservice"><div><input type="checkbox" class="inckb" value="wsserver"> REST Web Server</div></div>
+<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Logger Aggiuntivo</div></div>
+</div>
+</body>
+</html>
+

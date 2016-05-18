@@ -1,0 +1,101 @@
+/* 
+    Created on : 27-ago-2015, 16.35.59
+    Author     : Alessandro Gallina <alessandro.gallina88@hotmail.it>
+*/
+html, body {
+    height: 100%;
+	overflow-y: hidden;
+}
+
+.container-fluid, .container-fluid > .row, .main, #content-block {
+    height: 100%;
+}
+
+#PowerConfig {
+    height: 90%;
+    overflow-y: hidden;
+}
+
+.main {
+    margin: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+.main {
+    padding: 20px;
+    overflow-y: hidden;
+}
+
+#PowerConfig .list-group-item {
+    cursor: pointer;
+}
+
+#PowerConfig .list-group-item:last-child {
+    border-bottom: 0px none;
+}
+
+#PowerConfig .list-group {
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#PowerConfig .list-group, #ScheduleActionScheduleForm .list-group, #RuleRuleForm .list-group {
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+	box-shadow:none;
+}
+#PowerConfig .list-group-item {
+	border-top: 30px;
+}
+
+.device-installed {
+    margin: 0px;
+    min-height: 163px;
+}
+
+.tab-pane .thumbnail {
+    border: 0px;
+}
+
+.tab-pane .thumbnail img {
+	height:240px;
+}
+
+.device-category {
+    width: 125px;
+    display: block;
+    float: left;
+}
+
+#message .alert{
+	width:98%;
+	margin-left:1%;
+}
+
+.table-rotate th > div {
+  -ms-transform: translate(-21px, 0px) rotate(315deg);
+  -webkit-transform: translate(-21px, 0px) rotate(315deg);
+  transform: translate(-21px, 0px) rotate(315deg);
+  width: 30px;
+}
+
+.table-rotate th > div > span {
+  border-bottom: 1px solid #ccc;
+  padding: 2px 5px;
+}
+
+td.rotate {
+    border-left: 1px solid #CCC;
+}
+
+.field-action {
+    width: 130px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.toolbar {
+    padding: 15px 25px 15px 15px;
+}

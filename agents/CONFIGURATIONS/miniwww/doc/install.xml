@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<message type="configure" subtype="install"> 
+<field name="agents" value="$AGENTS"/>
+<field name="url" value="/configure/install"/>
+</message>

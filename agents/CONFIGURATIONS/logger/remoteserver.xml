@@ -1,0 +1,5 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="server" value="$SERVER"/>
+<attribute name="urlroot" value="/archive"/>
+<attribute name="sendcmd" value="/url/bin/curl -s $SERVER/$URL -d $BODY"/>
+</set>

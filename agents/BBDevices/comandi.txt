@@ -1,0 +1,9 @@
+Inizializzazione:
+echo am33xx_pwm > /sys/devices/bone_capemgr.9/slots
+echo bone_pwm_P8_19 > /sys/devices/bone_capemgr.9/slots
+
+Comandi:
+echo 1 > /sys/devices/ocp.3/pwm_test_P8_19.15/run
+echo 250000 > /sys/devices/ocp.3/pwm_test_P8_19.15/duty
+echo 500000 > /sys/devices/ocp.3/pwm_test_P8_19.15/period
+

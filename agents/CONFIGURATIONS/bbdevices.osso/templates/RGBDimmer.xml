@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!--semantic_class=RGBPwm-->
+<set type="$PREFIX_$NAME">
+<attribute name="name" category="generic" value="$PREFIX_$NAME"/>
+<attribute name="type" category="generic" value="RGBPwm"/>
+<attribute name="eventname" category="generic" value="$PREFIX_$NAME_state"/>
+<attribute name="red" category="output" value="$REDOUT"/>
+<attribute name="green" category="output" value="$GREENOUT"/>
+<attribute name="blue" category="output" value="$BLUEOUT"/>
+<attribute name="OFF" category="remap" value="OFF"/>
+<attribute name="ON" category="remap" value="ON"/>
+<attribute name="default" category="generic" value="OFF"/>
+<attribute name="status" category="generic" value="ON"/>
+</set>

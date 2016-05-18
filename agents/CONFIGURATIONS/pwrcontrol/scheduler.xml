@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<set type="scheduler">
+<attribute name="control_category" category="generic" value="SA"/>
+<attribute name="sensor_category" category="generic" value="PM"/>
+<attribute name="status" category="generic" value="ON"/>
+</set>

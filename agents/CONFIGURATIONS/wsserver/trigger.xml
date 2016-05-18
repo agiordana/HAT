@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<set type="trigger">
+        <attribute category="trigger" name="poll" value="10"/>
+        <attribute category="trigger" name="timeout" value="12"/>
+        <attribute category="trigger" name="archiveupd" value="60"/>
+</set>

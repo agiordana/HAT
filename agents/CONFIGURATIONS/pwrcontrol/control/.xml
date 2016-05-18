@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="">
+<attribute name="name" value=""/>
+<attribute name="control" value=""/>
+<attribute name="testedby" value="none"/>
+<attribute name="mode" value="UN"/>
+<attribute name="status" value="ON"/>
+<attribute name="priority" value="0"/>
+<attribute name="nominalload" value="1200"/>
+<attribute name="latency" category="generic" value="10"/>
+</set>

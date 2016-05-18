@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="AA_Sirena_on">
+<attribute name="name" value="AA_Sirena_on"/>
+<attribute name="cmd" value="AA_Sirena"/>
+<attribute name="value" value="ON"/>
+<attribute name="status" value="ON"/>
+</set>

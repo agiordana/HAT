@@ -1,0 +1,9 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="agenttype" value="miniwww"/>
+<attribute name="agentname" value="miniwww_$HOST"/>
+<attribute name="homedir" value="/home/horus/horus/horus_home/miniwww"/>
+<attribute name="emergency_homedir" value="/home/horus/horus_home/miniwww"/>
+<attribute name="logfile" value="AGENT-LOG"/>
+<attribute name="timeunit" value="1"/>
+<attribute name="configurator" value="ON"/>
+</set>

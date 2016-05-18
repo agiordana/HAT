@@ -1,0 +1,10 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="agenttype" value="bbdevices"/>
+<attribute name="agentname" value="bbdevices_$HOST"/>
+<attribute name="homedir" value="/home/horus/horus/horus_home/bbdevices"/>
+<attribute name="emergency_homedir" value="/home/horus/horus_home/bbdevices"/>
+<attribute name="logfile" value="AGENT-LOG"/>
+<attribute name="timeunit" value="1"/>
+<attribute name="description" value="Local I/O Devices"/>
+<attribute name="configurator" value="ON"/>
+</set>

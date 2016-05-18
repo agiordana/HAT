@@ -1,0 +1,20 @@
+<?xml version="1.0" ?><set type="commands">
+<attribute name="curl" value="/usr/bin/curl -s "/>
+<attribute name="chmod" value="/bin/chmod"/>
+<attribute name="chown" value="/bin/chown"/>
+<attribute name="cp" value="/bin/cp"/>
+<attribute name="rm" value="/bin/rm"/>
+<attribute name="zip" value="/usr/bin/zip"/>
+<attribute name="unzip" value="/usr/bin/unzip"/>
+<attribute name="ps" value="/bin/ps p "/>
+<attribute name="kill" value="kill -9 "/>
+<attribute name="link" value="/bin/ln -s "/>
+<attribute name="tar" value="/usr/bin/tar "/>
+<attribute name="gzip" value="/bin/gzip "/>
+<attribute name="filter" value="/home/horus/Projects/MDetector/bin/hawklite" />
+<attribute name="gunzip" value="/bin/gunzip "/>
+<attribute name="export" value="/usr/bin/mysqldump -u root -psatellite --all-databases --events --add-drop-table >"/>
+<attribute name="import" value="/usr/bin/mysql -u root -psatellite <"/>
+<attribute name="pack" value="cd $PATH; tar cf horus_image.tar horus_image; /bin/gzip --force horus_image.tar"/>
+<attribute name="unpack" value="cd $PATH; /bin/gunzip --force horus_image.tar.gz; tar xf horus_image.tar"/>
+</set>

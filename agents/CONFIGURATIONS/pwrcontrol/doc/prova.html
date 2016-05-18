@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+The global function (myFunction) returns the product of the arguments (a ,b):
+</p>
+
+<p id="demo1"></p>
+
+<script>
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+    var d = new Date();
+    document.getElementById("demo1").innerHTML = d.toLocaleTimeString();
+}
+</script>
+
+<p id="demo2"></p>
+
+<script>
+function myFunction(a, b) {
+    return a * b;
+}
+
+document.getElementById("demo2").innerHTML = myFunction(10, 2); 
+</script>
+
+<button type="button"
+onclick="document.getElementById('demo').innerHTML = 'Hello JavaScript!'">
+Click Me!
+</button>
+
+<img id="myImage" onclick="changeImage()" src="/doc/img/green-led.png" width="20" height="20">
+
+<p>Click the light bulb to turn on/off the light.</p>
+
+<script>
+function changeImage() {
+    var image = document.getElementById('myImage');
+    if (image.src.match("green")) {
+        image.src = "/doc/img/red-led.png";
+    } else {
+        image.src = "/doc/img/green-led.png";
+    }
+}
+</script>
+
+</body>
+</html>
+

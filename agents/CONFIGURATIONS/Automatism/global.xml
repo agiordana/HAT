@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="agenttype" value="manager"/>
+<attribute name="agentname" value="Automatism"/>
+<attribute name="homedir" value="/home/horus/horus/horus_home/Automatism"/>
+<attribute name="emergency_homedir" value="/home/horus/horus_home/Automatism"/>
+<attribute name="logfile" value="AGENT-LOG"/>
+<attribute name="startprogram" value="ON"/>
+<attribute name="timeunit" value="1"/>
+<attribute name="description" value="Automatism Control"/>
+<attribute name="configurator" value="ON"/>
+</set>

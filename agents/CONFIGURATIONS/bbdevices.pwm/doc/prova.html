@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.getJSON("/DynamicPage/OUT1.json", function(result){
+            $.each(result, function(i, field){
+                $("div").append(field + " ");
+            });
+        });
+    });
+});
+</script>
+
+</head>
+
+<body>
+
+<script>
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+    var d = new Date();
+    document.getElementById("demo1").innerHTML = d.toLocaleTimeString();
+}
+</script>
+
+<p id="demo1"></p>
+
+<img id="myImage" onclick="changeImage()" src="/doc/img/green-led.png" width="20" height="20">
+
+<p>Click turn on/off the led.</p>
+
+<script>
+function changeImage() {
+    var image = document.getElementById('myImage');
+    if (image.src.match("green")) {
+        image.src = "/doc/img/red-led.png";
+    } else {
+        image.src = "/doc/img/green-led.png";
+    }
+}
+</script>
+
+<br>
+<button>Get Json Data</button>
+<div></div>
+</body>
+</html>
+

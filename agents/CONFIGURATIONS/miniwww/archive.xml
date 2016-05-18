@@ -1,0 +1,6 @@
+<?xml version="1.0"?><set type="archive">
+<attribute category="conf" name="doc" value="*"/>
+<attribute category="conf" name="templates" value="*"/>
+<attribute category="control" name="status" value="ON"/>
+</set>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<set type="archivethread">
+	<attribute name="status" value="ON"/>
+	<attribute category="subject" name="serversend" value="rscmd"/>
+	<attribute category="observe" name="archive" value="logcmd"/>
+</set>
+

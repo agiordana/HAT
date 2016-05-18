@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<set type="GPIOThread">
+<attribute category="generic" name="gpiodir" value="/sys/class/gpio"/>
+<attribute category="generic" name="onewiredir" value="/sys/bus/w1/devices"/>
+<attribute category="subject" name="update" value="local_event"/>
+<attribute category="observe" name="*" value="devcmd"/>
+<attribute category="observe" name="pollw1" value="trigger"/>
+</set>

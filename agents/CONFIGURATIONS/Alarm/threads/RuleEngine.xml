@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<set type="RuleEngine">
+	<attribute name="status" value="ON"/>
+	<attribute name="wait_after_on" value="120"/>
+	<attribute name="wait_forbidden" value="300"/>
+	<attribute category="observe" name="eventupdate" value="trigger"/>
+	<attribute category="observe" name="prgstatus" value="program"/>
+	<attribute category="observe" name="setwait" value="cmd"/>
+	<attribute category="observe" name="waitfor" value="cmd"/>
+	<attribute category="observe" name="seteventcounters" value="cmd"/>
+	<attribute category="observe" name="reseteventcounters" value="cmd"/>
+	<attribute category="observe" name="setrules" value="cmd"/>
+	<attribute category="observe" name="resetrules" value="cmd"/>
+	<attribute category="observe" name="setconditions" value="cmd"/>
+	<attribute category="observe" name="resetconditions" value="cmd"/>
+	<attribute category="observe" name="setvaliditytime" value="cmd"/>
+	<attribute category="observe" name="_ON" value="event"/>
+	<attribute category="observe" name="_OFF" value="event"/>
+	<attribute category="observe" name="_SWITCH" value="event"/>
+	<attribute category="observe" name="checkcycle" value="trigger"/>
+</set>

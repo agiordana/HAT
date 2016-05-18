@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+#main {
+    width: 100%;
+    align: justify;
+}
+#header {
+    width:100%;
+    color:black;
+    display:inline-block;
+    text-align:left;
+    font-size: 2em;
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:15px;
+    color:black;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+}
+#banner0 {
+    display:block;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+}
+#banner1 {
+    display:block;
+    font-size: 1em;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+    font
+}
+#banner2 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:left;
+}
+#banner3 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:right;
+}
+#rule {
+    display: inline-block;
+    width:100%;
+    padding:5px;
+    border:3px solid #d4d4d4;
+}
+div.rulename {
+    display: block;
+    text-align:center;
+    font-weight:bold;
+    float:left;
+    padding: 10px;
+}
+
+input.number {
+  height:27px;
+  width:40px;
+}
+
+input.radioin {
+  height:20px;
+}
+
+input.numberw {
+  height:27px;
+  width:70px;
+}
+
+input.inrb {
+  margin-left: 20px;
+}
+
+input.inckb {
+  margin-right: 20px;
+}
+
+div.leftitem {
+    display: block;
+    width:250px;
+    border:1px solid #d4d4d4;
+    float:left;
+}
+div.rightitem {
+    display: block;
+    width:250px;
+    float:right;
+    border:1px solid #d4d4d4;
+}
+div.smallleftitem {
+    display: block;
+    float:left;
+    background-color:WhiteSmoke;
+    border:1px solid #d4d4d4;
+    font-size: 1em;
+    text-align:center;
+    padding:3px; 
+}
+div.dummy {
+    display: block;
+    padding:5px; 
+    float:left;
+}
+#footer {
+    height: 100px;
+    background-color:WhiteSmoke;
+    width: 100%;
+    color:black;
+    clear:both;
+    text-align:center;
+    overflow:scroll; height:400px;
+    padding:5px; 
+}
+div.fcpart {
+    width: 20%;
+    display: block;
+    text-align:center;
+    float: left;
+}
+div.fpart {
+    width: 40%;
+    display: block;
+    float: left;
+}
+div.td1 {
+    background-color:WhiteSmoke;
+    color: black;
+    font-size: 1em;
+    text-align:center;
+    border:1px solid #d4d4d4;
+    padding:5px; 
+}
+div.td2 {
+    text-align:right;
+    border:1px solid #d4d4d4;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right:20px;
+    padding-left:20px;
+}
+
+button.rulesubmit{
+   float:right;
+   text-align: center;
+   width:120px;
+   height:25;
+   font-size: 12px;
+}
+
+div.rwn {
+   float: left;
+   padding-left: 80px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 20px;
+   text-align: right;
+}
+
+div.rw {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 5;
+   text-align: right;
+}
+div.rwr {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 50px;
+}
+
+div.rx {
+   display: block;
+   float: left;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ru {
+   display: block;
+   float: right;
+   background-color: WhiteSmoke;
+   width: 80px;
+}
+
+div.ry {
+   float: left;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.rz {
+   float: right;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ruledisplay {
+   display: inline-block;
+   background-color: WhiteSmoke;
+   width: 100%;
+}
+
+</style>
+
+<script>
+
+var eventpath = "/eventcounters";
+var actionpath = "/actions";
+var condpath = "/conditions";
+var rulepath = "/rules";
+var ruletpath = "/templates/rule.xml";
+var tmanifestpath = "/templmanifest/rule.xml";
+var rulemanifestpath = "/rulemanifest/";
+var ruleconf = "/configure/rule";
+var ruledelete = "/delete/rule/";
+var doreboot = "/configure/reboot";
+var doreset = "/configure/basic";
+
+var eventtag = "#events";
+var condtag = "#conditions";
+var actiontag = "#actions";
+var inputbox = "#actions";
+var nofmtag = "#nofm";
+var modetag = "#rulemode";
+var cycletag = "#cycle";
+
+function makeList(path, target, mode) {
+   $.get(path, function(data, status) {
+      var xmldoc = data;
+      var pos=1;
+      var item;
+      var result = [];
+      while((pos=xmldoc.indexOf("<item>")) >0) {
+	item = "";
+        while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
+        for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
+        item = xmldoc.substring(pos+1, i);
+         
+	result.push(item);
+        xmldoc = xmldoc.slice(i);
+      }
+    var i;
+    result.sort();
+    for(i=0; i<result.length; i++) {
+	if(mode=="radio") addItemRB(result[i],target);
+	else if(mode=="listrb") {
+	  if(result[i].match("_on")) addItemActionRB(cleanPostfix(result[i]),target);
+        }
+	else addItemERB(result[i],target);
+      }
+  });
+};
+
+function cleanItem(name) {
+   var i;
+   for(i=0; i<name.length && name[i]!='_'; i++);
+   return name.substring(i+1);
+}
+
+function cleanPostfix(name) {
+   var i;
+   for(i=name.length-1; i>0&&name[i]!='_'; i--);
+   if(i == 0) return name;
+   return name.substring(0,i);
+}
+
+function addItemCB(name, target) {
+  $(target).append("<div class=\"td2\"><label><input type=\"checkbox\" class=\"inckb\" name=\"event\" value=\"" + name +"\"/>" + cleanItem(name) + "</label></div>");
+}
+
+function addItemRB(name, target) {
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"T\"/> T <input type=\"radio\" name=\""+name+"\" value=\"F\"/> F</label></div>");
+}
+
+function addItemERB(name, target) {
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"Y\"/> Y</label></div>");
+}
+
+function addItemActionRB(name, target) {
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+}
+
+function makeRuleName(path) {
+  $.get(path, function(data, status) {
+     var xmldoc = data;
+      var pos=1;
+      var item;
+      var i;
+      var result = [];
+      while((pos=xmldoc.indexOf("<item>")) >0) {
+        item = "";
+        while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
+        for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
+        item = xmldoc.substring(pos+1, i);
+        result.push(item);
+        xmldoc = xmldoc.slice(i);
+      }
+      result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
+      for(i=0; i<result.length; i++) {
+        name = "R"+i;
+	if(result[i]!=name) break;
+	name = "";
+      }
+      if(name=="") name = "R"+i;
+      $("#rname").text(name);
+  });
+}
+
+function mkRuleProto() {
+  ruleReset();
+  makeList(eventpath,eventtag,"cbox"); 
+  makeList(condpath,condtag,"radio"); 
+  makeList(actionpath,actiontag, "listrb"); 
+  makeRuleName(rulepath);
+}
+
+function setValue(manifest, value, pos) {
+   var i = manifest.indexOf("value", pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i==manifest.length) return manifest;
+   var newmanifest = manifest.substring(0,i) + value +manifest.substring(i);
+   return newmanifest;
+}
+
+function getValue(manifest, pos) {
+   var i = manifest.indexOf("value", pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i>=manifest.length) return "";
+   var value = "";
+   while(i<manifest.length && manifest[i]!='"') value += manifest[i++];
+   return value;
+}
+
+function addRule() {
+  var event="";
+  var tcondition="";
+  var fcondition="";
+  var action="";
+  var nofm="";
+  var rulemode="";
+  var cycle="";
+  var rulename=$("#rname").text();
+
+  $("#events :radio[value='Y']:checked").each(function(index,field){
+	if(event=="") event=field.name;
+	  else event = event +'+'+field.name;
+	});
+  $("#conditions :radio[value='T']:checked").each(function(index,field){
+	if(tcondition=="") tcondition=field.name;
+	  else tcondition = tcondition +'+'+field.name;
+	});
+  $("#conditions :radio[value='F']:checked").each(function(index,field){
+	if(fcondition=="") fcondition=field.name;
+	  else fcondition = fcondition +'+'+field.name;
+	});
+  $("#actions :radio[value='on']:checked").each(function(index,field){
+	if(action=="") action=field.name+"_on";
+	  else action = action +'+'+field.name+"_on";
+	});
+  $("#actions :radio[value='off']:checked").each(function(index,field){
+	if(action=="") action=field.name+"_off";
+	  else action = action +'+'+field.name+"_off";
+	});
+  $("#nofm :input").each(function(index,field){
+	if(nofm=="") nofm=field.value;
+	});
+  $("#rulemode :radio:checked").each(function(index,field){
+	if(rulemode=="") rulemode=field.value;
+	});
+  $("#cycle :input").each(function(index,field){
+	if(cycle=="") cycle=field.value;
+	});
+  $.get(tmanifestpath, function(data, status) {
+        var tmanifest;
+	try {
+	  serializer = new XMLSerializer();
+	  tmanifest = serializer.serializeToString(data);
+	}
+	catch (e) {
+		// Internet Explorer has a different approach to serializing XML
+	   tmanifest = data.xml;
+	}
+	var pos;
+	if((pos = tmanifest.indexOf("$NAME"))>0) {
+	  tmanifest = setValue(tmanifest, rulename, pos);
+        }
+        if((pos = tmanifest.indexOf("$EVENT"))>0) {
+	  tmanifest = setValue(tmanifest, event, pos);
+        }
+        if((pos = tmanifest.indexOf("$TCONDITION"))>0) {
+	  tmanifest = setValue(tmanifest, tcondition, pos);
+        }
+        if((pos = tmanifest.indexOf("$FCONDITION"))>0) {
+	  tmanifest = setValue(tmanifest, fcondition, pos);
+        }
+        if((pos = tmanifest.indexOf("$ACTION"))>0) {
+	  tmanifest = setValue(tmanifest, action, pos);
+        }
+        if((pos = tmanifest.indexOf("$MIN_EVENT"))>0) {
+	  tmanifest = setValue(tmanifest, nofm, pos);
+        }
+        if((pos = tmanifest.indexOf("$MODE"))>0) {
+	  tmanifest = setValue(tmanifest, rulemode, pos);
+        }
+        if((pos = tmanifest.indexOf("$CYCLE"))>0) {
+	  tmanifest = setValue(tmanifest, cycle, pos);
+        }
+	$.post(ruleconf, tmanifest, function(){mkRuleProto(); makeRuleList();});
+  });
+}
+
+function ruleReset() {
+  $(eventtag).html("<div class=\"td1\">Events</div>");
+  $(condtag).html("<div class=\"td1\">Enabled-if</div>");
+  $(actiontag).html("<div class=\"td1\"> Actions </div>");
+  $(nofmtag).html("N-of-M <input type=\"number\" class=\"number\" name=\"nofm\" size=\"1\" min=\"1\" max=\"16\" step=\"1\" value=\"1\">");
+  $(modetag).html("<fieldset> Prg ON <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programon\" checked=\"checked\" /> Prg OFF <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programoff\"/> Always  <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"always\"/> </fieldset>");
+  $(cycletag).html("Cycle (sec) <input type=\"number\" class=\"numberw\" name=\"cycle\" size=\"4\" min=\"0\" max=\"1440\" step=\"10\" value=\"0\">");
+}
+
+function nameNormalize(namelist) {
+   if(namelist == "") return "";
+   mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+      if(mynames != "") mynames += ", ";
+      mynames += cleanItem(mylist[i]);
+   }
+   return mynames;
+}
+
+function nameNormalizeF(namelist, filter) {
+   if(namelist == "") return "";
+   mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+     if(mylist[i].match(filter)) {
+        if(mynames != "") mynames += ", ";
+        mynames += cleanItem(cleanPostfix(mylist[i]));
+     }
+   }
+   return mynames;
+}
+
+function numberof(namelist) {
+  tmp = namelist.split(",");
+  return tmp.length;
+}
+
+function plotRule(name) {
+  manifestpath = rulemanifestpath + name + ".xml";
+  $.get(manifestpath, function(data, status) {
+     var tmanifest;
+     var name;
+     var event;
+     var tcond="";
+     var fcond="";
+     var mode="";
+     var cycle="";
+     var minevent="";
+     var action="";
+     var offaction="";
+     var onaction="";
+     try {
+        serializer = new XMLSerializer();
+        tmanifest = serializer.serializeToString(data);
+     }
+     catch (e) {
+            // Internet Explorer has a different approach to serializing XML
+        tmanifest = data.xml;
+     }
+     var pos;
+     var current_action = "";
+     if((pos = tmanifest.indexOf("$NAME")) >0) name = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$EVENT")) >0) event = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$TCONDITION")) >0) tcond = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$FCONDITION")) >0) fcond = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$MIN_EVENT")) >0) minevent = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$MODE")) >0) mode = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$CYCLE")) >0) cycle = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$ACTION")) >0) action = getValue(tmanifest, pos);
+
+     event = nameNormalize(event,"");
+     tcond = nameNormalize(tcond,"");
+     fcond = nameNormalize(fcond,"");
+     onaction = nameNormalizeF(action, "_on");
+     offaction = nameNormalizeF(action, "_off");
+     var i_mode = "";
+     var i_minevent = "";
+     if(cycle == "" || cycle == "0") {
+       if(mode == "programon") i_mode = "[Prg ON]";
+       else if(mode == "programoff") i_mode = "[Prg OFF]";
+     }
+     else {
+       if(mode == "programon") i_mode = "[Prg ON, Cycle("+ cycle + ")]";
+       else if(mode == "programoff") i_mode = "[Prg OFF, Cycle("+ cycle + ")]";
+       else if(mode == "always") i_mode = "[Cycle("+ cycle + ")]";
+     }
+     if(minevent < numberof(event)) i_minevent = "("+minevent+":"+numberof(event)+")";
+     var descriptor = "";
+     descriptor = "<div id=\"" + name + "\" class=\"ruledisplay\">";
+      descriptor += "<div id=\"antecedent\" class=\"fpart\">";
+        descriptor += ("<div class=\"rwn\">" + name + ": </div>");
+        if(event != "") descriptor += ("<div class=\"rx\">Events"+i_minevent+ ": " + event + "</div>");
+        if(tcond != "") descriptor += ("<div class=\"rx\"> T: "+tcond + "</div>");
+        if(fcond != "") descriptor += ("<div class=\"rx\"> F: "+fcond + "</div>");
+      descriptor += "</div>";
+      descriptor += "<div id=\"implication\" class=\"fcpart\">";
+        descriptor += ("<div class=\"rwr\"> <img src=\"/doc/img/arrow_right.png\" width=\"20\"></div>");
+        descriptor += ("<div class=\"rw\">" + i_mode +"</div>");
+      descriptor += "</div>";
+      descriptor += "<div id=\"consequent\" class=\"fpart\">";
+        descriptor += ("<div class=\"ru\"><button class=\"deletebtn\" onclick=\"deleteRule('" + name + "')\"><img src=\"/doc/img/cross.png\" width=\"15px\" height=\"15px\"></button> </div>");
+        if(offaction != "") descriptor += ("<div class=\"ry\"> OFF: " +offaction+"</div>");
+        if(onaction != "") descriptor += ("<div class=\"ry\"> ON: " +onaction+"</div>");
+     descriptor += "</div></div>";
+     $("#footer").append(descriptor);
+  });
+}
+
+function deleteRule(name) {
+  var cmd = ruledelete + name;
+  $.post(cmd,{}, function() {makeRuleList();});
+}
+
+
+function makeRuleList() {
+  $.get(rulemanifestpath, function(data, status) {
+   var xmldoc = data;
+   var pos=1;
+   var item;
+   var i;
+   $("#footer").text("");
+   var result = [];
+   while((pos=xmldoc.indexOf("<item>")) >0) {
+    item = "";
+    while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
+    for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
+    item = xmldoc.substring(pos+1, i);
+    result.push(item);
+    xmldoc = xmldoc.slice(i);
+   }
+   result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
+   for(i=0; i<result.length; i++) {plotRule(result[i]); sleep(100);}
+  });
+}
+
+
+function doReset() {
+  alert("reset");
+  $.post(doreset,{},function() {
+	$(document).ready(function(){
+		$(document).ready(function(){
+			doReboot();
+			setTimeout(pageReload, 5000);
+		})
+	})
+  });
+}
+
+function pageReload() {
+	window.location.reload();
+}
+
+function doReboot() {
+  $.post(doreboot, {}, {});
+}
+
+$(function() {
+  mkRuleProto();
+  makeRuleList();
+});
+
+</script>
+</head>
+
+<body>
+<script>
+</script>
+
+<div id="main">
+<div id="header">
+<div id="banner0"> Rule Configurator </div>
+<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="addRule()">Add New Rule</button> </div>
+<div id="banner2"> <button id="ruleadd" class="rulesubmit" onclick="doReboot()"> Reboot </button> </div>
+<div id="banner3"> <button id="ruleadd" class="rulesubmit" onclick="doReset()"> Reset </button> </div>
+</div>
+<div id="rule">
+  <div id="rname" class="rulename"> </div>
+  <div id="events" class="leftitem">
+	<div class="td1"> Events </div>
+  </div>
+  <div id="nofm" class="smallleftitem"> N-of-M <input type="number" class="number" name="nofm" size="1" min="1" max="16" step="1" value="1"> </div>
+  <div id="conditions" class="leftitem">
+	<div class="td1">Enabled-if</div>
+  </div>
+  <div id="rulemode" class="smallleftitem">
+      <fieldset>
+	  Prg ON <input type="radio" class="radioin" name="mode" value="programon" checked="checked" />
+	   Prg OFF <input type="radio" class="radioin" name="mode" value="programoff"/>
+	  Always  <input type="radio" class="radioin" name="mode" value="always"/>
+      </fieldset>
+  </div>
+  <div id="cycle" class="smallleftitem"> Cycle (sec) <input type="number" class="numberw" name="cycle" size="4" min="0" max="1440" step="10" value="0"> </div>
+  <div id="dummy" class="dummy"></div>
+  <div id="actions" class="rightitem">
+	<div class="td1"> Actions </div>
+  </div>
+</div>
+<div id="footer">
+</div>
+</div>
+</body>
+</html>
+

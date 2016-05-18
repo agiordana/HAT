@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="accepted_values" value="ON+1+on"/>
+<attribute name="name" value="$NAME"/>
+<attribute name="alias" value="$SOURCE"/>
+<attribute name="threshold" value="$THRESHOLD"/>
+<attribute name="increment" value="4"/>
+<attribute name="decrement" value="1"/>
+<attribute name="memory" value="30"/>
+<attribute name="delay" value="$DELAY"/>
+<attribute name="status" value="ON"/>
+</set>

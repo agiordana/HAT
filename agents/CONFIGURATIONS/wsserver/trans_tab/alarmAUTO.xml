@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<set type="alarmAUTO">
+<attribute name="prefix" value="horus-ws/$AGENT/AUTO.json"/>
+<attribute name="event" value="prgstatus"/>
+<attribute name="method" value="rpcAlarmMngPut"/>
+<attribute name="cmdname" value="setprogram"/>
+<attribute name="cmd" value="program=AUTO"/>
+<attribute name="answer" value='{"response":{"message":"ok","agent_upload_results":"$TRUEFALSE"}}'/>
+</set>

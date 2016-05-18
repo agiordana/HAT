@@ -1,0 +1,4 @@
+cp -r www /home/horus
+cp -r proxy/sites-available/* /etc/apache2/sites-available
+apache2ctl apache2 restart
+/usr/bin/mysql -u root -psatellite < proxy/horus-ws.sql

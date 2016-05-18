@@ -1,0 +1,30 @@
+[semantic_class=FSMDevice]
+<?xml version="1.0" ?>
+<device name="SO_$NAME">
+<state name="q0" start="TRUE">
+        <transition name="t0" to="q1">
+                <condition type="cmd" subtype="SO_$NAME" value="ON"/>
+                <actions>
+                        <action type="devcmd" subtype="$OUTPUT" value="ON"/>
+                        <action type="event" subtype="SO_$NAME" value="ON"/>
+                </actions>
+        </transition>
+        <transition name="t1" to="q0">
+                <condition type="cmd" subtype="SO_$NAME" value="OFF"/>
+                <actions>
+                        <action type="devcmd" subtype="$OUTPUT" value="OFF"/>
+                        <action type="event" subtype="SO_$NAME_state" value="OFF"/>
+                </actions>
+        </transition>
+</state>
+<state name="q1" start="FALSE">
+        <transition name="t2" to="q0">
+                <condition type="cmd" subtype="SO_$NAME" value="OFF"/>
+                <actions>
+                        <action type="devcmd" subtype="$OUTPUT" value="OFF"/>
+                        <action type="event" subtype="SO_$NAME_state" value="OFF"/>
+                </actions>
+        </transition>
+</state>
+</device>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="name" value="$NAME"/>
+<attribute name="control_measure" value="NO"/>
+<attribute name="status" value="ON"/>
+<attribute name="threshold" value="3000"/>
+<attribute name="latency" category="generic" value="10"/>
+</set>

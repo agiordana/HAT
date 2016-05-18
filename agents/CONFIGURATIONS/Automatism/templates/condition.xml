@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="name" value="$NAME"/>
+<attribute name="alias" value="$SOURCE"/>
+<attribute name="threshold" value="0.5"/>
+</set>

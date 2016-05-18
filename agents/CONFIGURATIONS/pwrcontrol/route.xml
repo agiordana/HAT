@@ -1,0 +1,168 @@
+<?xml version="1.0" ?>
+<routes>
+
+ <route>
+    <uri path="/DynamicPage.xml" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/DynamicPage.json" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/DynamicPage/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="css|fonts|js|img" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/doc/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/doc/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="(.)+" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/status/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/scheduler/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+  <route>
+    <uri path="/subjects/imported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/threads/:file" method="GET"/>
+    <conditions>
+	<condition param=":file" regexp="(.)+.xml" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/control/:file" method="GET"/>
+    <conditions>
+	<condition param=":file" regexp="(.)+.xml" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/sensor/:file" method="GET"/>
+    <conditions>
+	<condition param=":file" regexp="(.)+.xml" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/cmd/:device/:value" method="POST"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+" />
+    </conditions>
+    <call class="cmdroute" method="cmdExec"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/:value" method="POST"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.(.)+" />
+    </conditions>
+    <call class="cmdroute" method="webcmdExec"/>
+  </route>
+
+  <route>
+    <uri path="/:directory/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+
+  <route>
+    <uri path="/:directory/:directory1/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+        <condition param=":directory1" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+
+</routes>

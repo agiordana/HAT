@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<set type="archivethread">
+	<attribute name="status" value="ON"/>
+	<attribute category="subject" name="serversend" value="rscmd"/>
+	<attribute category="observe" name="archive" value="logcmd"/>
+	<attribute category="observe" name="archiveupd" value="trigger"/>
+	<attribute category="log" name="Alarm" value="program+alarm+cmd"/>
+	<attribute category="log" name="Automatisms" value="program+alarm"/>
+	<attribute category="log" name="Controls" value="event+cmd"/>
+	<attribute category="log" name="Video" value="video"/>
+	<attribute category="source" name="Alarm" value="Alarm"/>
+	<attribute category="source" name="Automatisms" value="Automatism"/>
+	<attribute category="proto" name="cmd" value='{"type":"$mtype","name":"$msubtype","agent":"$agentname","value":"$value","time":"$time"}'/>
+	<attribute category="proto" name="event" value='{"type":"$mtype","name":"$msubtype","agent":"$agentname","value":"$value","time":"$time"}'/>
+	<attribute category="proto" name="alarm" value='{"type":"$mtype","name":"$msubtype","agent":"$agentname","source":"$source","value":"$value","time":"$time"}'/>
+	<attribute category="proto" name="program" value='{"type":"$mtype","name":"$program","agent":"$agentname","status":"$program_active","time":"$time"}'/>
+</set>
+

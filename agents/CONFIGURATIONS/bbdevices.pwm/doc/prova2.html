@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<script>
+
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+$(document).ready(function(){
+        $.get("/DynamicPage.json", function(data, status){
+		$("#demo").text("Input:  ");
+		$("#demo").append(data.list[0].IN1+" ");
+		$("#demo").append(data.list[1].IN2+" ");
+		$("#demo").append(data.list[2].IN3+" ");
+		$("#demo").append(data.list[3].IN4+" ");
+		$("#demo").append(data.list[4].IN5+" ");
+		$("#demo").append(data.list[5].IN6+" ");
+		$("#demo").append(data.list[6].IN7+" ");
+		$("#demo").append(data.list[7].IN8)
+		$("#demo1").text("Output: ");
+		$("#demo1").append(data.list[8].OUT1+" ");
+		$("#demo1").append(data.list[9].OUT2+" ");
+		$("#demo1").append(data.list[10].OUT3+" ");
+		$("#demo1").append(data.list[11].OUT4+" ");
+		$("#demo1").append(data.list[12].OUT5+" ");
+		$("#demo1").append(data.list[13].OUT6+" ");
+		$("#demo1").append(data.list[14].OUT7+" ");
+		$("#demo1").append(data.list[15].OUT8)
+        });
+})};
+</script>
+</head>
+<p id="demo">Input:  </p>
+<br>
+<p id="demo1">Output: </p>
+<br>
+<body>
+
+
+
+</body>
+</html>
+

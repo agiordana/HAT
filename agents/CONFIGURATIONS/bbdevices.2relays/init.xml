@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<set type="init">
+<attribute category="script" name="cmd0" value="apache2ctl start"/>
+</set>

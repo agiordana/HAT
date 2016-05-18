@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="name" value="$NAME"/>
+<attribute name="cmd" value="$TARGET"/>
+<attribute name="value" value="$VALUE"/>
+<attribute name="status" value="ON"/>
+</set>

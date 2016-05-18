@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="name" value="$NAME"/>
+<attribute name="mode" value="$MODE"/>
+<attribute name="from" value="$FROM"/>
+<attribute name="to" value="$TO"/>
+<attribute name="cycle" value="$CYCLE"/>
+<attribute name="set" value="$SETACTION"/>
+<attribute name="reset" value="$RESETACTION"/>
+<attribute name="status" value="ON"/>
+</set>

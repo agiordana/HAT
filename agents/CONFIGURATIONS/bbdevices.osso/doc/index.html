@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+        
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->  
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+		<script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+			var typologies = null; //Raccolta di tutti i dati di configurazione
+			var config = null;	   //Raccoglie tutte le informazioni in json
+			
+			//Url di comunicazione all'agente
+			var device_upload 	 = "/cmd/devConfigure/";	
+			var device_installed = "/devices/";
+			var device_delete	 = "/cmd/devDelete/";
+			var device_details	 = "/devmanifest/";
+			var template_details	 = "/templmanifest/";
+			var template_tokens  =  /[_, \/\\\.-]/;
+			
+			/* Gestore messaggi */
+			function success(msg) {
+				var HtmlMsg = '<div class="alert alert-success alert-dismissable">'
+					+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+					+window.lang.translate(msg)+'</div>';
+				$("#message").html(HtmlMsg);
+			}
+			function error(msg) {
+				var HtmlMsg = '<div class="alert alert-danger alert-dismissable">'
+					+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+					+window.lang.translate(msg)+'</div>';
+				$("#message").html(HtmlMsg);
+			}
+			function info(msg) {
+				var HtmlMsg = '<div class="alert alert-info alert-dismissable">'
+					+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+					+window.lang.translate(msg)+'</div>';
+				$("#message").html(HtmlMsg);
+			}
+			
+			function parseQueryString( queryString ) {
+				var params = {}, queries, temp, i, l;
+			 
+				// Split into key/value pairs
+				queries = queryString.split("&");
+			 
+				// Convert the array of strings into an object
+				for ( i = 0, l = queries.length; i < l; i++ ) {
+					temp = queries[i].split('=');
+					params[temp[0]] = temp[1];
+				}
+			 
+				return params;
+			};
+			
+			/* In questa fase si raccolgono le informazioni sulla costante e si crea un input per il form.
+			   Ogni costante ha come caratteristica:
+			   - name=nome della costante, type=tipo di tag html, domain=dominio alla quale si vuole fare il input,
+			   - label=Etichetta applicata in alto, position = posiziona il blocco ad un certa posizione.
+			   N.B.: se position é top lo mette in cima, se position é bottom lo mette infondo; il primo della
+			   cima e il primo del fondo (in caso di piú top e piú bottom)diventano la zona di inserimento
+			   per quelli che non hanno una posizione, piú precisamente vengono messi in una posizione
+			   precedente rispetto al primo che é stato messo infondo
+			   (ES. $CONST1=down, $CONST2=down, $CONST3=null => [$CONST3, $CONST1, $CONST2 ]) 
+			 */
+			function ConstantRender(template_xml) {
+				var lastNode = null;	
+				var device_type = $(template_xml).find('field[name="value"]').attr("value");
+				
+				$(template_xml).find('field[name^="$"]').each(function(index, field) {
+					/* In questa fase si raccolgono le informazioni sulla costante e si crea un input per il form.
+					   Ogni costante ha come caratteristica:
+					   - name=nome della costante, type=tipo di tag html, domain=dominio alla quale si vuole fare il input,
+					   - label=Etichetta applicata in alto, position = posiziona il blocco ad un certa posizione.
+					   N.B.: se position é top lo mette in cima, se position é bottom lo mette infondo; il primo della
+					   cima e il primo del fondo (in caso di piú top e piú bottom)diventano la zona di inserimento
+					   per quelli che non hanno una posizione, piú precisamente vengono messi in una posizione
+					   precedente rispetto al primo che é stato messo infondo
+					   (ES. $CONST1=down, $CONST2=down, $CONST3=null => [$CONST3, $CONST1, $CONST2 ]) 
+					 */
+					$.each(config["device_constants"], function(pos, constant) {
+						if(constant["name"] == $(field).attr('name')) {
+							label = window.lang.translate(constant["label"]);
+							value = $(field).attr('value');
+							
+							var HtmlBlock = "";
+							switch(constant["type"]) {
+								case "input":
+									HtmlBlock = '<div class="input text">'
+											+'<label for="'+constant["name"]+'" class="control-label">'+label+'</label>'
+											+'<input name="'+constant["name"]+'" class="form-control" placeholder="'+label+'"'
+												+' require="" autofocus="" data-prevname="" maxlength="20"'
+												+' value="'+value+'" id="'+constant["name"]+'" type="text">'
+										+'</div><br />';
+								break;
+								case "radio":
+									HtmlBlock = '<div class="channel-params"><b>'+label+'</b><br><div>';
+									
+									//Recupero delle informazioni
+									var items, free;
+									$.ajax({url:constant["domain"]["list"] , dataType:"xml", async:false,
+										success:function(data){ items = data}});
+									$.ajax({url:constant["domain"]["free"] , dataType:"xml", async:false,
+										success:function(data){ free = data}});
+										
+									//Elaborazione delle informazioni
+									var reg = new RegExp(constant["domain"]["filter"], 'g');
+									xmlData = new XMLSerializer().serializeToString(items);
+									var items = xmlData.match(reg).sort();
+									xmlData = new XMLSerializer().serializeToString(free);
+									var free = xmlData.match(reg).sort();
+									
+									//Output in HTML
+									$.each(items, function(i, channel) { 
+										var is_free = free.indexOf(channel)>=0;
+										var checked='';
+										if(value == channel) {
+											checked = 'checked="checked"';
+											is_free = true;
+										}
+										if(!is_free) {
+											disable = "disabled"
+										} else {
+											disable = ""
+										}
+										ch_label = channel.substr(0,1).toUpperCase()+channel.substr(1).toLowerCase();
+										HtmlBlock +=
+											'<label class="radio-inline">'
+												+'<input name="'+constant["name"]+'" value="'+channel+'" type="radio"'
+											+ disable + ' '+checked +'/>'+ch_label+'</label>';
+									});
+									HtmlBlock += "</div><br />";
+								break;
+								case "select":
+									if('internal_list' in constant["domain"]) {
+										var cable_pos = $('.link-schema.active').data("cable-pos");
+										var type_pos = $('.link-schema.active').data("type-pos");
+										var list = config.cable_types[cable_pos]
+														.device_types[type_pos][device_type]
+														[constant["domain"]["internal_list"]];
+														
+										//Realizzazione HTML
+										HtmlBlock = '<div class="input select"><label for="DeviceDeviceCategoryId" class="control-label">'+label+'</label><select name="'+constant["name"]+'" class="form-control" id="DeviceDeviceCategoryId">';
+										
+										$.each(list, function(k, element) {
+											var selected='';
+											if(value == element) {
+												selected = 'selected="selected"';
+											}
+											label = window.lang.translate(config["device_categories"][element]);
+											HtmlBlock += '<option value="'+element+'" '+selected+'>'+label+'</option>';
+										});
+										HtmlBlock+="</select></div><br />";
+									}
+								break;
+							}
+							//Gestione posizionamento
+							switch(constant["position"]) {
+								case "top": $("#DeviceDeviceForm").prepend(HtmlBlock);break;
+								case "bottom":
+									$("#DeviceDeviceForm").append(HtmlBlock);
+									if(lastNode == null) {
+										lastNode = $("#DeviceDeviceForm > div:last");
+									}
+									break;
+								default:
+									if(lastNode == null) {
+										$("#DeviceDeviceForm").append(HtmlBlock);
+									} else {
+										$(lastNode).before(HtmlBlock);
+									}
+									break;
+							}
+							return false;
+						}
+					});
+				});
+			}
+
+			/* Si occupa della realizzazione delle tabs */
+			function DrawTabs(device, id_typology) {
+				var TabsBlock = "", ContentBlock = "";
+				var group = "";
+				
+				//Se é il device non é stato ancora configurato
+				var url = "";
+				if(id_typology !== undefined) {
+					//Prende il primo template disponibile
+					template = Object.keys(typologies[id_typology]["device_types"][0])[0];
+					url = template_details + template + ".xml";
+				} else {
+					url = device_details + device + ".xml";
+				}
+				
+				//Prende le informazioni del device e crea le tabelle
+				$.ajax({
+					url: url,
+					dataType:"xml",
+					success: function(device_manifest) {
+						//Estraggo il template per la creazione delle tab e cerco la tipologia
+						var templates = $(device_manifest).find("field[name='value']").attr('value');
+						
+						if(id_typology === undefined) {
+							//Cerco la typologia che racchiude il template scelto
+							$.each(config["cable_types"], function(_id_typology, cable_type) {
+								$.each(cable_type["device_types"], function(_id_template, device_type) {
+									typename = Object.keys(device_type)[0];
+									if(typename == templates) {
+										id_typology = _id_typology;
+										return false;
+									}
+								});
+								if(id_typology != null) {
+									return false;
+								}
+							});	
+						}
+						var typology = typologies[id_typology];
+						
+						//Crea le tab
+						$.each(typology["device_types"], function(key, device_type) {
+							typename = Object.keys(device_type)[0];
+							var sel = (typename==templates)?'active':'';
+							
+							//var sel = ((devtype==null&&first)||(typename==devtype)?'active':'');
+							/* Blocco Tabs */
+							//Divide i vari tipi di Device in Base al prefisso della label
+							if(group == "" || group != device_type[typename]["label"].split(" ")[0]) {
+								if(group != "") {  TabsBlock+="</ul></li>"; }
+							
+								group = device_type[typename]["label"].split(" ")[0];
+								TabsBlock +=
+									'<li role="presentation" class="dropdown '+sel+'">'
+										+'<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"'
+											+' aria-expanded="false">'+group+'<span class="caret"></span>'
+										+'</a><ul class="dropdown-menu" role="menu">';
+							}
+							TabsBlock +=
+								 '<li><a href="#'+typename+'" data-device-type="'+typename+'" data-type-pos="'+key+'" '
+									+'data-toggle="tab" data-cable-pos="'+id_typology+'"'
+									+'class="link-schema '+sel+'">'
+									+ device_type[typename]["label"].substring(group.length)
+								  +'</a></li>';
+							
+							 /* Blocco contenuto */
+							 ContentBlock += '<div class="tab-pane '+sel+'" id="'+typename+'">'
+												+ '<a href="#" class="thumbnail">'
+													+ '<img src="/doc/img/'+device_type[typename]["schema"]+'" />'
+											 +'</a></div>';
+											 
+							 first = false;
+						});
+						
+						//Fine ciclo ed ora si appende la stringa
+						TabsBlock += '</ul></li>';
+						$('#scheme_option').html(TabsBlock).after(function() {
+							$("#scheme_option .dropdown").each(function(){
+								var text, obj;
+								if($(this).find('li').length <= 1) {
+									text = $(this).find('.dropdown-toggle').find('span').remove().end().text();
+									obj = $(this).find('.link-schema:first');
+									$(this).closest('li').html(obj);
+									$(obj)
+									   .text(text+" "+$(obj).text())
+									   .on('click', function(){$(this).tab('show');});               
+								}
+							});
+							
+							//Gestione del click della voce del template
+							$('.link-schema').on('click', function() {
+								$('.link-schema').removeClass('active');
+								$(this).addClass('active');
+								
+								$.ajax({
+									url: template_details+$(this).data("device-type")+".xml",
+									dataType:"xml",
+									success: function(data) {
+										$("#DeviceDeviceForm").empty();
+										ConstantRender(data);
+									}
+								});
+							});
+						});
+						
+						$('.tab-content').html(ContentBlock).after(function() {
+							$("#DeviceDeviceForm").empty();
+							ConstantRender(device_manifest);
+						});
+					}
+				});			
+			}
+			
+            /* Imposta l'allineamento delle liste */
+            function boxAlign() {
+                $('#BoardConfig > .list-group').css('height', ($('#BoardConfig').height() - 108)+"px");
+            }
+			
+			//Inizializza tutte le risorse
+			function initDom() {
+				//Fetch delle configurazioni e creazioni in base ad essa
+				$.ajax({
+					url: '/doc/config.json',
+					dataType: 'json',
+					mimeType: 'application/json',
+					success: function(data) {
+						config = data;
+						
+						//Creazione delle tipologie
+						typologies = data["cable_types"];
+						for(var pos in typologies) {
+							if(typologies[pos]["name"] == "") {
+								continue;
+							}
+							$('.device-type').append($('<li />', {
+								class: "list-group-item ui-draggable",
+								text : window.lang.translate(typologies[pos]["name"])
+							}));
+						}
+						
+						//Link Trascinabili
+						$('.device-type li').draggable({
+							appendTo: "body",
+							helper: "clone"
+						});
+						
+						//Area di Drop
+						$('.device-installed').droppable({
+							drop: function (event, ui) {
+								var typology_name = ui.draggable.text();
+								
+								//Procedura di rendering in base alla tipologia
+								var typology = null, type_id = null;
+								for(id in typologies) {
+									if(window.lang.translate(typologies[id]["name"]) == typology_name) {
+										typology = typologies[id];
+										type_id = id;
+										break;
+									}
+								}
+								
+								var dom = $('<li></li>').addClass('list-group-item');
+								var warning_html = '<button type="button" class="btn btn-link pull-right">';
+								warning_html += '<span class="glyphicon text-warning glyphicon-warning-sign"></span></button>';
+		
+								$(dom)
+										.append('<span class="device-title device-details" data-name="-1">' + ui.draggable.text() + '</span>');
+		
+								$(dom)
+										.append(warning_html);
+								$(dom)
+										.appendTo(this);
+		
+								
+								if(typology == null) {
+									$('#DeviceDetails .modal-body').html("<span>"+
+										window.lang.translate("unknown configuration")
+									+"</span>");
+								} else {
+									DrawTabs("-1", type_id);
+									$('#DeviceDetails').modal('show');
+								}
+							}
+						});
+						
+						//Tooltip per help
+						$('.device-type li').tooltip({
+							placement: "right",
+							title: window.lang.translate("to add drag -->")
+						});
+						
+						//Quando Confermo il modale
+        				$('#DeviceDetails .confirm').click(function () {
+							dataForm = $("#DeviceDeviceForm").serialize().replace(/\%24/g,"$");
+							params = parseQueryString(dataForm);
+							delete_res = true;
+							exist = false;
+							device_name = $('.device-title.device-details').data('name');
+							if((params["$PREFIX"]+"_"+params["$NAME"]) != device_name) {
+								$.ajax({
+									url: device_installed,
+									async:false,
+									dataType:"xml",
+									success: function(data){
+										if($(data).find("item:contains("+params["$PREFIX"]+"_"+params["$NAME"]+")").length > 0) {
+											exist = true;
+										}
+									}
+								});
+								if(!exist && (device_name != -1)) {
+									delete_res = false;
+									$.ajax({
+										url: device_delete + device_name,
+										async: false,
+										type: "POST",
+										success: function (data) { delete_res = true;}
+									});
+								}
+								
+								sleep(800);
+							}
+							
+							if(!delete_res) {
+								error("Device update error");
+								return;
+							}
+							if(exist) {
+								//Pulizia
+								$("#\\$NAME")
+									.parent()
+										.find(".glyphicon, .help-block").remove();
+								
+								//Stampa messaggio
+								$("#\\$NAME").parent()
+                                            .addClass("has-error has-feedback")
+                                            .append('<span class="glyphicon glyphicon-remove form-control-feedback"></span>')
+                                            .append('<p class="help-block">Esiste gi&agrave; un device con lo stesso nome</p>');
+								return;
+							}
+							$.ajax({
+								url: device_upload + $('.link-schema.active').data("device-type"),
+								type:"POST",
+								data: dataForm,
+								dataType:"xml",
+								success: function(data) {
+									var result = $(data).find("field[name='body']").attr("value");
+									category = window.lang.translate(config["device_categories"][params["$PREFIX"]]);
+									if(result == "done") {
+										//Modifica del blocco appena creato
+										var line = $('.device-title.device-details').closest("li");
+										var typology = $(line).find('.device-title').data("typology");
+										
+										HtmlBlock = '<span class="device-category">'+category+':</span>' 
+														+'<span class="device-title" data-name="'+params["$PREFIX"]+'_'+params["$NAME"]
+														+'" data-typology="'+typology+'" data-device-type="'
+														+$('.link-schema.active').data("device-type")+'">'+params["$NAME"]+'</span>'
+														+'<button type="button" class="btn btn-link pull-right remove">'
+														+'<span class="glyphicon text-danger glyphicon-remove"></span>'
+														+'</button>'
+														+'<button type="button" class="btn btn-link pull-right">'
+														+'<span class="glyphicon glyphicon-ok text-success"></span>'
+														+'</button>';
+													
+										$(line).html(HtmlBlock);
+										
+										success("Device define correctly");
+									} else {
+										error("Problem to define Device");
+									}
+									$('#DeviceDetails').modal('hide');
+								}
+							});
+						});
+						
+						//Quando Chiudo il modale
+						$('#DeviceDetails').on('hidden.bs.modal', function (e) {
+							$(".device-installed.device-details").removeClass("device-details");
+						});
+
+						//Estrazione dei devices installati e Visualizzazione
+						$.ajax({
+							url : device_installed,
+							type:"GET",
+							dataType:"xml",
+							success: function(data) {
+								console.log(data);
+								$(data).find("item").each(function(index, element) {
+									var device_path = $(element).text().split("/");
+									var device_name = device_path[2].substring(3, device_path[2].length - 4);
+									//Recupero della categoria di device tradotta
+									var category = config["device_categories"][device_path[2].split("_")[0]];
+									category = window.lang.translate(category);
+									
+									//Recupero del tipologia di cablaggio
+									var typology = "";
+									for(var pos in config["cable_types"]) {
+										for(var j in config["cable_types"][pos]["device_types"]) {
+											if(device_path[1] in config["cable_types"][pos]["device_types"][j]) {
+												typology = pos;
+												break;
+											}
+										}
+										if(typology != "") {
+											break;
+										}
+									}
+									
+									//Creazione della Visualizzazione HTML
+									HtmlBlock = '<li class="list-group-item">'
+                                    				+'<span class="device-category">'+category+':</span>' 
+                                    				+'<span class="device-title" data-name="'+device_path[2].split(".")[0]+'">'+device_name+'</span>'
+													+'<button type="button" class="btn btn-link pull-right remove">'
+														+'<span class="glyphicon text-danger glyphicon-remove"></span>'
+											   		+'</button>'
+											   		+'<button type="button" class="btn btn-link pull-right">'
+														+'<span class="glyphicon glyphicon-ok text-success"></span>'
+											   		+'</button>'
+												+'</li>';
+											   
+                                    $('.device-installed').append(HtmlBlock);
+                                });
+								
+								$(".device-installed").on('click', ".remove", function () {
+									$("#BoardDeleting").modal("show");
+									var device_name = $(this).parent().find(".device-title").data("name");
+									var device_row = $(this).closest("li");
+									$.ajax({
+										url: device_delete + device_name,
+										type: "POST",
+										success: function (data) {
+											var result = $(data).find("field[name='body']").attr("value");
+											if(result == "done") {
+												success("Device deleted correctly");
+												$(device_row).remove();
+												$("#BoardDeleting").modal("hide");
+											} else {
+												error("Problem to delete Device");
+											}
+										}
+									});
+								});
+								
+								$(".device-installed").on('click', ".device-title", function () {
+									$(this).addClass("device-details");
+            						//Procedura di rendering in base alla tipologia
+									DrawTabs($(this).data('name'));
+									$('#DeviceDetails').modal('show');
+								});
+							}
+						});
+					}
+				});
+			}
+            
+			$(function () {
+				//Caricamento delle lingue
+				var lang = navigator.language || navigator.userLanguage; 
+				window.lang = new Lang('en', lang);
+				window.lang.dynamic(lang, '/doc/lang/'+(lang.split("-")[0])+'.json');
+				window.lang.loadPack(lang, initDom);
+            });
+            
+        </script>
+        <div class="container-fluid main" role="main">
+            <div id="content-block" class="row">
+            	<div id="message" class="row"></div>
+                <div id="BoardConfig" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" data-id="1">BBDevice</h3>
+                    </div>
+                    <div class="panel-body">
+                        In questa sezione é possibile definire vari dispositivi che sono collegati alla centralina.
+                        Per iniziare trascinare la tipologia (Pulsante, Commutazione, Comando, Sensore) verso destra, dopo di che
+                        seguire la procedura di configurazione.
+                    </div>
+		    <div class="panel-body">
+    			<iframe src="/doc/gpio.html" name="iframe_a" width="100%"></iframe>
+		    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">&nbsp;</div>
+                                        <ul class="list-group device-type"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 col-md-10">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Dispositivi Installati</div>
+                                        <ul class="list-group device-installed ui-droppable">
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gestione dei Modali -->
+        <div class="modal fade" id="DeviceDetails" tabindex="-1" role="dialog" aria-labelledby="DeviceDetails" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Caratteristiche del Dispositivo</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<ul id="scheme_option" class="nav nav-tabs" role="tablist"></ul>
+                        <div class="tab-content"></div>
+                        <div id="DeviceChannel">
+                        	<form action="/cmd/devConfigure/new"
+                            	role="form" id="DeviceDeviceForm" method="post" accept-charset="utf-8">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary confirm">Salva</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="BoardDeleting" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="BoardLoading" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel" lang="en">Deleting Device</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="loading">
+                            <span lang="en">Request Processing</span>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar"  role="progressbar" aria-valuenow="100%" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <span class="sr-only" lang="en">Loading</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,5 @@
+g++ -c -O2 -I. -I../minilibs -I../tinyxml -I../libjson -I/opt/include -g -DNDEBUG agent.cpp
+In file included from agent.cpp:12:0:
+agent.h:13:22: fatal error: agentlib.h: File o directory non esistente
+compilation terminated.
+make: *** [agent.o] Error 1

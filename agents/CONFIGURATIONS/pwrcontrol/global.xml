@@ -1,0 +1,10 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="agenttype" value="pwrcontrol"/>
+<attribute name="agentname" value="pwrcontrol"/>
+<attribute name="homedir" value="/home/horus/horus/horus_home/pwrcontrol"/>
+<attribute name="emergency_homedir" value="/home/horus/horus_home/pwrcontrol"/>
+<attribute name="logfile" value="AGENT-LOG"/>
+<attribute name="description" value="Electric Power Manager"/>
+<attribute name="timeunit" value="1"/>
+<attribute name="configurator" value="ON"/>
+</set>

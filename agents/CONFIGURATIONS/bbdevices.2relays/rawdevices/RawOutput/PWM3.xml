@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<set type="PWM3">
+<attribute category="generic" name="type" value="pwmout"/>
+<attribute category="generic" name="capename" value="PWM3"/>
+<attribute category="generic" name="gpioname" value="pwm_test_P8_13.16"/>
+<attribute category="generic" name="gpiopath" value="/sys/devices/ocp.3/pwm_test_P8_13.16"/>
+<attribute category="init" name="cmd1" value="echo am33xx_pwm > /sys/devices/bone_capemgr.9/slots"/>
+<attribute category="init" name="cmd2" value="echo bone_pwm_P8_13 > /sys/devices/bone_capemgr.9/slots"/>
+<attribute category="script" name="cmd3" value="echo 500000 > /sys/devices/ocp.3/pwm_test_P8_13.16/period"/>
+<attribute category="generic" name="onoff" value="/sys/devices/ocp.3/pwm_test_P8_13.16/run"/>
+<attribute category="generic" name="duty" value="/sys/devices/ocp.3/pwm_test_P8_13.16/duty"/>
+<attribute category="generic" name="period" value="/sys/devices/ocp.3/pwm_test_P8_13.16/period"/>
+<attribute category="generic" name="default_cycle" value="500000"/>
+<attribute category="generic" name="default_value" value="500000"/>
+<attribute category="generic" name="mode" value="OFF"/>
+</set>

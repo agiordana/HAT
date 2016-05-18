@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<set type="VrtDevices">
+	<attribute name="status" value="ON"/>
+	<attribute category="observe" name="publish" value="trigger"/>
+	<attribute category="observe" name="archiveupd" value="trigger"/>
+	<attribute category="observe" name="measure" value="trigger"/>
+	<attribute category="observe" name="*" value="local_event"/>
+	<attribute category="observe" name="reset" value="cmd"/>
+	<attribute category="observe" name="putConf" value="cmd"/>
+	<attribute category="observe" name="devConfigure" value="cmd"/>
+	<attribute category="observe" name="devDelete" value="cmd"/>
+	<attribute category="observe" name="end" value="wait"/>
+	<attribute category="subject" name="set" value="wait"/>
+	<attribute category="subject" name="reset" value="wait"/>
+</set>
