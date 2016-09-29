@@ -7,19 +7,45 @@
 	<META NAME="AUTHOR" CONTENT="pippo pluto">
 	<META NAME="CREATED" CONTENT="20160929;11471700">
 	<META NAME="CHANGEDBY" CONTENT="pippo pluto">
-	<META NAME="CHANGED" CONTENT="20160929;12153100">
+	<META NAME="CHANGED" CONTENT="20160929;13315600">
 </HEAD>
-<BODY LANG="en" DIR="LTR">
+<BODY LANG="en" BGCOLOR="#99cc99" DIR="LTR">
 <P ALIGN=CENTER STYLE="margin-top: 0.17in; page-break-after: avoid"><IMG SRC="/Applications/OpenOffice.app/Contents/share/gallery/education/GraduationCap.png" NAME="graphics1" ALIGN=RIGHT WIDTH=94 HEIGHT=67 BORDER=0><BR CLEAR=RIGHT><FONT FACE="Albany, sans-serif"><FONT SIZE=6 STYLE="font-size: 22pt"><I><B>HAT-Project</B></I></FONT></FONT></P>
 <P ALIGN=LEFT>The original purpose of the project was to provide a
 platform useful to students and teachers for  developing student labs
-in the area of IoT (Internet of Things), using low cost hardware such
-as <A HREF="https://beagleboard.org/black">Beaglebone Back</A> or
-<A HREF="https://www.raspberrypi.org/">Raspberry PI</A>. The idea was
-to provide a library, easy to install on this kind of hosts,
-supporting the quick development of simple applications in order to
-introduce students into the IoT domain. The choice was to adopt C++
-as basic programming language that is still very performant on low
-power hosts while providing a powerful object oriented paradigm.</P>
+in the area of IoT (Internet of Things) and Home Automation, using
+low cost hardware such as <A HREF="https://beagleboard.org/black">Beaglebone
+Back</A> or <A HREF="https://www.raspberrypi.org/">Raspberry PI</A>.
+The idea was to provide a library, easy to install on this kind of
+hosts, supporting the quick development of simple applications in
+order to introduce students into the IoT domain. The choice was to
+adopt C++ as basic programming language that is still very performant
+on low power hosts while providing a powerful object oriented
+paradigm.</P>
+<P ALIGN=LEFT>In order to provide an environment highly modular easy
+to modify and to encourage the student to explore network programming
+HAT supports an agent based architecture, which stay at the origin of
+the project name. In fact, HAT is the acronym of “Home Agent Team”.</P>
+<P ALIGN=LEFT>HAT agents runs as Linux processes <FONT FACE="NimbusRomNo9L"><FONT SIZE=2>distributed
+on hosts interconnected by a TCP/IP local network </FONT></FONT>and
+cooperate  <FONT FACE="NimbusRomNo9L"><FONT SIZE=2>by exchanging
+messages encoded according to a <A HREF="http://www.restapitutorial.com/">restful</A>
+protocol. Moreover, they provide a self-configuration protocol
+inspired to <A HREF="http://www.zeroconf.org/">zeroconf</A>.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="NimbusRomNo9L"><FONT SIZE=2>A comprehensive
+description of HAT architecture ca be found in the <A HREF="http://HAT-Architecture.pdf/">project
+documentation</A>.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="NimbusRomNo9L"><FONT SIZE=2>Beyond the
+initial goal, HAT is now grown up and provides not only a development
+environment but also a set of stable agents, which provide most
+functionalities, usually required in the home automation domain,
+which can be used to implment self-made smart utilities, such as
+anti-intrusion systems, energy monitoring and management, and so on.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="NimbusRomNo9L"><FONT SIZE=2>Moreover, the
+agent architecture can be easy extended in ored to integrate agent
+implemented in programming language different from C++, such as Java
+or Pyton. The interested user may find examples of this kind of
+solution in several <A HREF="https://github.com/aledani/BBAlarm">student
+lab</A>, also made publicly available.</FONT></FONT></P>
 </BODY>
 </HTML>
