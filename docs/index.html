@@ -2,21 +2,88 @@
 <HTML>
 <HEAD>
 	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
-	<TITLE></TITLE>
-	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.1  (Unix)">
-	<META NAME="AUTHOR" CONTENT="pippo pluto">
-	<META NAME="CREATED" CONTENT="20160929;11471700">
-	<META NAME="CHANGEDBY" CONTENT="pippo pluto">
-	<META NAME="CHANGED" CONTENT="20160929;14271500">
-	<META NAME="CHANGEDBY" CONTENT="pippo pluto">
-	<STYLE TYPE="text/css">
-	<!--
-		@page { size: 8.27in 11.69in; margin: 1.11in }
-	-->
+	<TITLE>hat-page</TITLE>
+        <link rel="stylesheet" type="text/css" href="http://agiordana.github.io/HAT/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="http://agiordana.github.io/HAT/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="http://agiordana.github.io/HAT/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/html5shiv.js"></script>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/bootstrap.js"></script>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/fullscreen.js"></script>
+        <script type="text/javascript" src="http://agiordana.github.io/HAT/js/jquery-cookie.js" charset="utf-8" ></script>
+        <script src="http://agiordana.github.io/HAT/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="http://agiordana.github.io/HAT/js/utility.js" charset="utf-8" type="text/javascript"></script>
+	<STYLE>
+	.btn {
+	  background-color:#909090;
+	  color:white;
+	  text-align: center;
+	  font-size:14px;
+ 	  width:120px;
+	  height:40px;
+	  border:2px solid;
+	  moz-border-radius: 6px;
+	  webkit-border-radius: 6px;
+	  border-radius: 6px;
+	}
+	div.bar {
+	  width:12%;
+	  height:100%;
+	  float:left;
+	  background-color:#cccc99;
+	  padding:25px;
+	}
+	div.doc {
+	  width:80%;
+	  height:100%;
+	  overflow:scroll;
+	  margin-left:15%;
+	  border:3px solid #a4a4a4;
+	  background-color:#00ffff;
+	  padding-left:25px;
+	  padding-right:25px;
+	}
 	</STYLE>
+	<SCRIPT>
+		
+	$(document).ready(function(){
+	    $("#show_Goal").click(function(){showOnly("goal");});
+	    $("#show_Team").click(function(){showOnly("team");});
+	    $("#show_Document").click(function(){showOnly("documentation");});
+	    $("#show_Download").click(function(){showOnly("download");});
+	    $("#show_Student").click(function(){showOnly("student");});
+
+	    showOnly(areas[0]);
+	});
+
+	function showOnly(area) {
+  	  for(i=0; i<areas.length; i++) $("#"+areas[i]).hide();
+  	  $("#"+area).show();
+	}
+
+	var areas = ["goal", "team", "documentation", "download", "student"];
+
+	</SCRIPT>
 </HEAD>
-<BODY LANG="en" BGCOLOR="#cccc99" DIR="LTR">
-<P ALIGN=CENTER STYLE="margin-top: 0.17in; page-break-after: avoid"><IMG SRC="http://agiordana.github.io/HAT/GraduationCap.png" NAME="graphics1" ALIGN=RIGHT WIDTH=94 HEIGHT=67 BORDER=0><BR CLEAR=RIGHT><FONT FACE="Albany, sans-serif"><FONT SIZE=6 STYLE="font-size: 22pt"><I><B>HAT-Project</B></I></FONT></FONT></P>
+<BODY style="background-color:#cccc99;">
+<DIV id="header" style="background-color:#cccc99;">
+<P ALIGN="center"><br><b><font size="28px">HAT Project</font></b><IMG SRC="http://agiordana.github.io/HAT/GraduationCap.png" NAME="graphics1" ALIGN=RIGHT BORDER=0 style="PADDING: 25px;width: 120px;height:100px;"><br><br></P>
+</DIV>
+<DIV style="width:100%;height:100%;background-color:#cccc99;">
+<DIV id="buttonbar" class="bar">
+<br><br>
+<button id="show_Goal" class="btn">Project goal</button><br><br>
+<button id="show_Team" class="btn"> Team </button><br><br>
+<button id="show_Document" class="btn"> Documentation</button><br><br>
+<button id="show_Download" class="btn"> Downloads</button><br><br>
+<button id="show_Student" class="btn"> Student Labs</button><br><br>
+</DIV>
+<DIV id="goal" class="doc">
+<br><b><font size=+2>Project Goal</font></b><br>
 <P ALIGN=LEFT>The original purpose of the project was to provide a
 platform useful to students and teachers for developing student labs
 in the area of IoT (Internet of Things) and Home Automation, using
@@ -54,5 +121,19 @@ implemented in programming language different from C++, such as Java
 or Pyton. The interested user may find examples of this kind of
 solution in several <A HREF="https://github.com/aledani/BBAlarm">student
 lab</A>, also made publicly available.</FONT></FONT></P>
+</DIV>
+<DIV id="team" class="doc">
+Team
+</DIV>
+<DIV id="documentation" class="doc">
+Documentation
+</DIV>
+<DIV id="download" class="doc">
+Download
+</DIV>
+<DIV id="student" class="doc">
+Student
+</DIV>
+</DIV>
 </BODY>
 </HTML>
