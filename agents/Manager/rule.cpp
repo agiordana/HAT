@@ -184,7 +184,7 @@ bool Rule::match(vector<string>& active, bool prgstatus, EventCounterSet* ec, Bo
     answer[i].add("comment", comment);
     i++;
 // add enabled actions 
-    for(j=0; j<action.size(); j++) 
+    for(j=0; j<action.size(); j++) {
 	if(!isNotMember(action[j], active)) {
 	   answer.push_back(MMessage("rlcmd","todo"));
 	   answer[i].add("action", action[j]);
@@ -193,6 +193,7 @@ bool Rule::match(vector<string>& active, bool prgstatus, EventCounterSet* ec, Bo
 	   answer[i].add("comment", comment);
 	   i++;
 	}
+    }
     
     return true;
 }
@@ -271,10 +272,13 @@ bool Rule::isRuleActive(vector<string>& active) {
 
 
 bool Rule::isNotMember(string s, vector<string>& active) {
-    for(size_t i=0; i<active.size(); i++)
+// when mode is always or programoff is always active
+  if(behavior == "always" || behavior == "programoff") return false;
+    for(size_t i=0; i<active.size(); i++) {
         if (s == active[i]||active[i]=="ALL"||active[i]=="All" || active[i]=="all") {
             return false;
         }
+    }
     return true;
 }
 
