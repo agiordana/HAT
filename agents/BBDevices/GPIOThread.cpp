@@ -19,6 +19,7 @@ GPIOThread::GPIOThread(string n) {
     string gpioin = hsrv::configdir+"/gpioin";
     FileManager::fileList(gpioin, filelist);
     for(size_t i=0; i<filelist.size(); i++) {
+	hsrv::logger->info("GPIOIN: "+FileManager::getStem(filelist[i]));
 	tmp = new Gpio("gpioin", FileManager::getStem(filelist[i]));
         gpio.push_back(tmp);
 	input.push_back(tmp);
@@ -27,6 +28,7 @@ GPIOThread::GPIOThread(string n) {
     filelist.clear();
     FileManager::fileList(gpioout, filelist);
     for(size_t i=0; i<filelist.size(); i++) {
+	hsrv::logger->info("GPIOOUT: "+FileManager::getStem(filelist[i]));
 	tmp = new Gpio("gpioout", FileManager::getStem(filelist[i]));
         gpio.push_back(tmp);
 	output.push_back(tmp);

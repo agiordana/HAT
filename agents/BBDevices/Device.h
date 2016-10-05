@@ -23,6 +23,7 @@ public:
     virtual std::string getValue(std::string);
     virtual setof<MAttribute> input();
     virtual setof<MAttribute> output();
+    virtual bool is_deadline_waiting();
     virtual bool getObservations(MParams&);
     virtual bool getSubjects(MParams&);
     std::string status;

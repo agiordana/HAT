@@ -36,6 +36,7 @@ bool Gpio::initialise() {
           if(!initDone.member(cmd)) {
              res = hsrv::cmdExec(cmd);
              initDone.add(cmd);
+	     hsrv::logger->info(cmd);
              sleep(1);
           }
        }
@@ -52,6 +53,8 @@ bool Gpio::program() {
     for(it=prg.begin(); it!=prg.end(); it++) {
         cmd = it->value;
         res = hsrv::cmdExec(cmd);
+	hsrv::logger->info("cmd: "+cmd);
+	sleep(1);
     }
     return true;
 }
