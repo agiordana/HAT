@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<set type="alarmmanager">
+<attribute name="execQcategories" category="generic" value="LI+SL+DI+RG+SH"/>
+<attribute name="alarmag" category="generic" value="Alarm"/>
+<attribute name="sendAUTOurl" category="generic" value="/programs/AUTO"/>
+<attribute name="sendZONEurl" category="generic" value="/programs/ZONE"/>
+<attribute name="zone_complain" category="generic" value='{"response":{"message":"failed", "agent_upload_results":"false"}}' />
+<attribute name="post_answer" category="generic" value='{"response":{"message":"ok", "agent_upload_results":"$TRUEFALSE"}}' />
+<attribute name="put_answer" category="generic" value='{"response":{"message":"ok"}}' />
+<attribute name="prg_answer" category="generic" value='{"response": {"message":"ok", "device":{"name":"Alarm","mode":"$PROGRAM","active":"$PROGRAM_ACTIVE"}}}'/>
+<attribute name="get_answer" category="generic" value='{"response": {"message":"ok", $BODY }}'/>
+<attribute name="get_prgstatus" category="generic" value="/DynamicPage/prgstatus.json"/>
+</set>

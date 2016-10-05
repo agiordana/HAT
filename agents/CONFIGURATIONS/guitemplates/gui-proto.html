@@ -1,0 +1,299 @@
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+#all {
+   padding:30px;
+   width:100%;
+   overflow:auto;
+}
+
+#header {
+    color:black;
+    text-align:left;
+    font-size: 1em;
+    padding:20px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+    width:100%;
+}
+
+button.switch{
+   width:100%;
+   float:left;
+   text-align: center;
+   width:150px;
+   height:40px;
+   border:2px solid;
+   background-color:#808080;
+   font-size: 16px;
+   color: white;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+.meter{
+   width:100%;
+   float:left;
+   width:165px;
+   height:40px;
+   border:2px solid;
+   background-color:#808080;
+   font-size: 16px;
+   color: white;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+   padding:5px;
+}
+
+.measure{
+   float:right;
+   text-align: center;
+   height:25px;
+   width:50%;
+   color:black;
+   background-color:white;
+}
+
+button.miniswitch{
+   width:30;
+   height:25px;
+   border:2px solid;
+   background-color:#EEE;
+   padding:0px;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+button.switch:hover{
+   background-color:#800000;
+}
+
+button.miniswitch:hover{
+   background-color:#800000;
+}
+
+img.arrow{
+   width:15px;
+   height:15px;
+}
+
+img.button{
+   float:right;
+   width:25px;
+   height:25px;
+}
+
+
+.barholder{
+   color:black;
+   float:left;
+   padding:20px;
+   background-color:WhiteSmoke;
+   border:3px solid #d4d4d4;
+   width:230px;
+   overflow:auto;
+}
+
+.bholder{
+   display:block;
+   float:left;
+   width:100%;
+}
+
+.dbholder{
+   display:block;
+   float:left;
+   text-align:center;
+   height:70px;
+   border:2px solid #d4d4d4;
+   background-color:#808080;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+   width:100%;
+}
+
+.btn {
+    display: inline-block;
+    margin-right: 2px;
+    background-color:#808080;;
+    float:right;
+}
+
+.btntext {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 20px;
+    background-color:#808080;;
+    font-size: 16px;
+    color: white;
+    float:left;
+    height:60px;
+    padding-top:20px;
+}
+
+</style>
+
+<script>
+
+var ws = new WebSocket('ws://192.168.1.196:14994');
+
+ws.onmessage = function(event) {
+  var message = event.data.split(",");
+  var todo = false;
+  var name = "";
+  var value = "false";
+  message.forEach(function(item){
+    if(item.match("event")) todo = true;
+    else if(item.match("status")) {
+      var pair = item.split(":");
+      value = cleanItem(pair[1]);
+    }
+    else if(item.match("name")) {
+      var pair = item.split(":");
+      name = cleanItem(pair[1]);
+    }
+  });
+  if(todo == true&&name.match("LI_")) updateImage(imageName(name), value);
+  if(todo == true&&name.match("SO_")) updateImage(imageName(name), value);
+  if(todo == true&&name.match("TM_")) updateMeasure(measureName(name), normalizeValue(value, 2));
+  if(todo == true&&name.match("PM_")) updateMeasure(measureName(name), normalizeValue(value,1));
+};
+
+function normalizeValue(value, digit) {
+  var res = "";
+  var n = 0;
+  var dot = false;
+  for(i=0; i<value.length && n <digit; i++) {
+    res += value[i];
+    if(dot == true) n++;
+    if(value[i] == '.') dot = true;
+  }
+  return res;
+}
+
+function cleanItem(item) {
+  var citem = "";
+  for(i=0; i<item.length; i++) if(item[i] != '"' && item[i] != '}' && item[i] != '{') citem += item[i];
+  return citem;
+}
+
+function measureName(id) {
+  return "M_"+id;
+}
+
+function imageName(id) {
+  return "I_"+id;
+}
+
+function doClick(name) {
+  sendCmd(name);
+};
+
+function sendCmd(id) {
+   var iid = imageName(id);
+   var image = document.getElementById(iid);
+   if(image.src.match("Green")) {
+      $.ajax({method:"PUT",url:"/horus-ws/Devices/"+id+"/ON.json",success:function(data){}});
+   }
+   else {
+      $.ajax({method:"PUT",url:"/horus-ws/Devices/"+id+"/OFF.json",success:function(data){}});
+   }
+};
+
+function updateImage(id, value) {
+    var image = document.getElementById(id);
+    if (value=="false" || value<1) {
+        image.src = "/doc/img/Button-Blank-Green-icon.png"
+    } else {
+        image.src = "/doc/img/Button-Blank-Red-icon.png"
+    }
+}
+
+function updateMeasure(id, value) {
+  pname = "#" + id;
+  $(pname).text(value);
+  return;
+}
+
+function doUP(id) {
+   var iid = imageName(id);
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/"+id+"/UP.json",success:function(data){}});
+}
+
+function doDOWN(id) {
+   var iid = imageName(id);
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/"+id+"/DOWN.json",success:function(data){}});
+}
+
+function doOFF(id) {
+   var iid = imageName(id);
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/"+id+"/OFF.json",success:function(data){}});
+}
+
+function statusUpdate(id) {
+   $.ajax({method:"GET",
+           url:"/horus-ws/Devices/"+id+".json",
+           success:function(data){
+		res = JSON.stringify(data);
+		if(res.match('"status":"true"')) updateImage(imageName(id),true);
+		else if(res.match('"status":"false"')) updateImage(imageName(id),false);}});
+}
+
+function updateAll() {
+  for(i=0; i<devices.length; i++) 
+	if((!devices[i].match("PM"))&& (!devices[i].match("TM")))statusUpdate(devices[i]);
+}
+
+$(document).ready(function(){
+    $SHOWFUNCTION
+    showOnly(areas[0]);
+    updateAll();
+});
+
+function showOnly(area) {
+  for(i=0; i<areas.length; i++)
+    $("#"+areas[i]).hide();
+  $("#"+area).show();
+}
+
+var devices = [$DEVLIST];
+
+var areas = [$AREALIST];
+
+</script>
+
+</head>
+<body style="overflow:auto;">
+<div id="all">
+  <div id="header">
+     $HBUTTONS
+  </div>
+  $AREAS
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<set type="automatismmanager">
+<attribute name="automatismag" category="generic" value="Automatism"/>
+<attribute name="get_answer" category="generic" value='{"response": {"message":"ok", $BODY }}'/>
+<attribute name="item_status" category="generic" value='{"name":"$ALIAS","enable_status":"$TRUEFALSE", "start":"$START", "end":"$END"}'/>
+<attribute name="rule_status_answer" category="generic" value='{"response":{"message":"ok","automatisms":[$BODY]}}'/>
+<attribute name="rule_status_req" category="generic" value="/DynamicPage.xml"/>
+<attribute name="set_rule_status" category="generic" value='<?xml version="1.0" ?><message type="cmd" subtype="setrulemode"><field name="name" value="$NAME"/><field name="status" value="$STATUS"/><field name="from" value="$FROM"/><field name="to" value="$TO"/></message>'/>
+<attribute name="set_trrule_status" category="generic" value='<?xml version="1.0" ?><message type="cmd" subtype="settrrulemode"><field name="name" value="$NAME"/><field name="status" value="$STATUS"/><field name="from" value="$FROM"/><field name="to" value="$TO"/></message>'/>
+<attribute name="set_rule_status_answer" category="generic" value='{"response":{"message":"ok", "agent_upload_results":"$TRUEFALSE"}}'/>
+</set>
