@@ -149,7 +149,7 @@ function setValue(manifest, value, pos) {
 <div id="all">
 <div id="header"> Configurazione Agenti 
 	<button id="confreboot" class="install" onclick="doreboot()">Reboot</button>
-	<button id="configure" class="install" onclick="install()">Installa</button>
+	<button id="configure" class="install" onclick="install()">Install</button>
 </div>
 <div id="board">Tipo di CAPE installato:
 <input type="radio" class="inrb" name="boardname" value="bbdevices.osso">osso
@@ -158,13 +158,14 @@ function setValue(manifest, value, pos) {
 
 </div>
 <div id="managers">
-  <div><input type="checkbox" class="inckb" value="Alarm"> Sistema Allarme</div>
-  <div><input type="checkbox" class="inckb" value="Automatism"> Controllo Azioni Automatizzate</div>
-  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Gestore Energia Elettrica</div>
+  <div><input type="checkbox" class="inckb" value="Alarm"> Security  System</div>
+  <div><input type="checkbox" class="inckb" value="Automatism"> Complex Control Manager </div>
+  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Electric Power Manager</div>
   <div><input type="checkbox" class="inckb" value="engagent"> Climatizzatore</div>
 </div>
 <div id="webservice"><div><input type="checkbox" class="inckb" value="wsserver"> REST Web Server</div></div>
-<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Logger Aggiuntivo</div></div>
+<div id="websocket"><div><input type="checkbox" class="inckb" value="websocket"> Websocket Service</div></div>
+<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> </div></div> Additional Logger
 </div>
 </body>
 </html>
