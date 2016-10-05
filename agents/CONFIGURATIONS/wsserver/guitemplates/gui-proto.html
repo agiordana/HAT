@@ -265,22 +265,12 @@ function statusUpdate(id) {
 }
 
 function updateAll() {
-   for(i=0; i<devices.length; i++) statusUpdate(devices[i]);
+  for(i=0; i<devices.length; i++) 
+	if((!devices[i].match("PM"))&& (!devices[i].match("TM")))statusUpdate(devices[i]);
 }
 
 $(document).ready(function(){
-    $("#show_stato").click(function(){
-	showOnly("stato");
-      });
-    $("#show_salone").click(function(){
-	showOnly("salone");
-      });
-    $("#show_studio").click(function(){
-	showOnly("studio");
-      });
-    $("#show_giardino").click(function(){
-	showOnly("giardino");
-      });
+    $SHOWFUNCTION
     showOnly(areas[0]);
     updateAll();
 });
@@ -291,9 +281,9 @@ function showOnly(area) {
   $("#"+area).show();
 }
 
-var devices = ["LI_Tavolino","LI_Camino","LI_Arcate","LI_Quadro","LI_SSalone","LI_SStudio","LI_SLetto","LI_Giardino","LI_Garage","SO_Pompa"];
+var devices = [$DEVLIST];
 
-var areas = ["stato","salone","studio","giardino"];
+var areas = [$AREALIST];
 
 </script>
 
@@ -301,93 +291,9 @@ var areas = ["stato","salone","studio","giardino"];
 <body style="overflow:auto;">
 <div id="all">
   <div id="header">
-    <button id="show_stato">stato</button>
-    <button id="show_salone">salone</button>
-    <button id="show_studio">studio</button>
-    <button id="show_giardino">giardino</button>
+     $HBUTTONS
   </div>
-  <div id="stato" class="barholder">
-    <p><b> Temperatura (C) </b> </p>
-    <div class="bholder">
-	<div id="TM_Terra" class="meter"> Terra: <div id="M_TM_Terra" class="measure"> 000 </div></div>
-    </div>
-    <div class="bholder">
-	<div id="TM_Studio" class="meter"> Studio: <div id="M_TM_Studio" class="measure"> 000 </div></div>
-    </div>
-    <div class="bholder">
-	<div id="TM_Esterno" class="meter"> Esterno: <div id="M_TM_Esterno" class="measure"> 000 </div></div>
-    </div>
-    <p><b> <br>Energia (W) </b> </p>
-    <div class="bholder">
-	<div id="PM_PCasa3" class="meter"> PCasa3: <div id="M_PM_PCasa3" class="measure"> 000 </div></div>
-    </div>
-    <div class="bholder">
-	<div id="PM_PCollina" class="meter"> PCollina: <div id="M_PM_PCollina" class="measure"> 000 </div></div>
-    </div>
-    <div class="bholder">
-	<div id="PM_CCasa3" class="meter"> CCasa3: <div id="M_PM_CCasa3" class="measure"> 000 </div></div>
-    </div>
-    <div class="bholder">
-	<div id="PM_CCasa2" class="meter"> CCasa2: <div id="M_PM_CCasa2" class="measure"> 000 </div></div>
-    </div>
-  </div>
-  <div id="salone" class="barholder">
-     <p><b> Piano Terra</b> </p>
-     <div class="bholder">
-         <button id="LI_SSalone" class="switch" onclick='doClick("LI_SSalone")'><img id="I_LI_SSalone" src="/doc/img/Button-Blank-Green-icon.png" class=button> SSalone </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_Camino" class="switch" onclick='doClick("LI_Camino")'><img id="I_LI_Camino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Camino </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_Arcate" class="switch" onclick='doClick("LI_Arcate")'><img id="I_LI_Arcate" src="/doc/img/Button-Blank-Green-icon.png" class=button> Arcate </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_Quadro" class="switch" onclick='doClick("LI_Quadro")'><img id="I_LI_Quadro" src="/doc/img/Button-Blank-Green-icon.png" class=button> Quadro </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_Tavolino" class="switch" onclick='doClick("LI_Tavolino")'><img id="I_LI_Tavolino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Tavolino </button>
-     </div>
-     <div id="SH_TendaS" class="dbholder">
-        <div class="btn">
-            <button id="SH_TendaS_up" class="miniswitch" onmousedown='doUP("SH_TendaS")' onmouseup='doOFF("SH_TendaS")'><img id="I_SH_TendaS" src="/doc/img/Up.png" class=arrow> </button><br>
-            <button id="SH_TendaS_down" class="miniswitch" onmousedown='doDOWN("SH_TendaS")' onmouseup='doOFF("SH_TendaS")'><img id="I_SH_TendaS" src="/doc/img/Down.png" class=arrow> </button>
-        </div>
-	<div class="btntext">
-           TendaS
-        </div>
-     </div>
-     <div id="SH_TendaD" class="dbholder">
-        <div class="btn">
-            <button id="SH_TendaD_up" class="miniswitch" onmousedown='doUP("SH_TendaD")' onmouseup='doOFF("SH_TendaD")'><img id="I_SH_TendaD" src="/doc/img/Up.png" class=arrow> </button><br>
-            <button id="SH_TendaD_down" class="miniswitch" onmousedown='doDOWN("SH_TendaD")' onmouseup='doOFF("SH_TendaD")'><img id="I_SH_TendaD" src="/doc/img/Down.png" class=arrow> </button>
-        </div>
-	<div class="btntext">
-           TendaD
-        </div>
-     </div>
-   </div>
-   <div id="studio" class="barholder">
-     <p><b> Mezzanino </b></p>
-     <div class="bholder">
-         <button id="LI_SStudio" class="switch" onclick='doClick("LI_SStudio")'><img id="I_LI_SStudio" src="/doc/img/Button-Blank-Green-icon.png" class=button> SStudio </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_SLetto" class="switch" onclick='doClick("LI_SLetto")'><img id="I_LI_SLetto" src="/doc/img/Button-Blank-Green-icon.png" class=button> SLetto </button>
-     </div>
-   </div>
-   <div id="giardino" class="barholder">
-     <p><b> Giardino </b></p>
-     <div class="bholder">
-         <button id="LI_Giardino" class="switch" onclick='doClick("LI_Giardino")'><img id="I_LI_Giardino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Giardino </button>
-     </div>
-     <div class="bholder">
-         <button id="LI_Garage" class="switch" onclick='doClick("LI_Garage")'><img id="I_LI_Garage" src="/doc/img/Button-Blank-Green-icon.png" class=button> Garage </button>
-     </div>
-     <div class="bholder">
-         <button id="SO_Pompa" class="switch" onclick='doClick("SO_Pompa")'><img id="I_SO_Pompa" src="/doc/img/Button-Blank-Green-icon.png" class=button> Pompa </button>
-     </div>
-   </div>
+  $AREAS
 </div>
 </body>
 </html>

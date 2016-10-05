@@ -1,0 +1,299 @@
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+#all {
+   padding:30px;
+   width:100%;
+}
+
+#header {
+    color:black;
+    text-align:left;
+    font-size: 1em;
+    padding:20px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+    width:100%;
+}
+
+button.switch{
+   width:100%;
+   float:left;
+   text-align: center;
+   width:150px;
+   height:40px;
+   border:2px solid;
+   background-color:#808080;
+   font-size: 16px;
+   color: white;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+button.miniswitch{
+   width:30;
+   height:25px;
+   border:2px solid;
+   background-color:#EEE;
+   padding:0px;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+button.switch:hover{
+   background-color:#800000;
+}
+
+button.miniswitch:hover{
+   background-color:#800000;
+}
+
+img.arrow{
+   width:15px;
+   height:15px;
+}
+
+img.button{
+   float:right;
+   width:25px;
+   height:25px;
+}
+
+
+.barholder{
+   color:black;
+   float:left;
+   padding:20px;
+   background-color:WhiteSmoke;
+   border:3px solid #d4d4d4;
+   width:230px;
+}
+
+.bholder{
+   display:block;
+   float:left;
+   width:100%;
+}
+
+.dbholder{
+   display:block;
+   float:left;
+   text-align:center;
+   height:70px;
+   border:2px solid #d4d4d4;
+   background-color:#808080;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+   width:100%;
+}
+
+.btn {
+    display: inline-block;
+    margin-right: 2px;
+    background-color:#808080;;
+    float:right;
+}
+
+.btntext {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 20px;
+    background-color:#808080;;
+    font-size: 16px;
+    color: white;
+    float:left;
+    height:60px;
+    padding-top:20px;
+}
+
+</style>
+
+<script>
+
+var ws = new WebSocket('ws://192.168.1.196:14994');
+console.log("websocket: open connection");
+
+ws.onmessage = function(event) {
+  var message = event.data.split(",");
+  var todo = false;
+  var name = "";
+  var value = "false";
+  message.forEach(function(item){
+    if(item.match("event")) todo = true;
+    else if(item.match("status")) {
+      var pair = item.split(":");
+      value = cleanItem(pair[1]);
+    }
+    else if(item.match("name")) {
+      var pair = item.split(":");
+      name = cleanItem(pair[1]);
+    }
+  });
+  console.log(name+"="+value);
+  if(todo == true&&name.match("LI_")) updateImage(imageName(name), value);
+  if(todo == true&&name.match("SO_")) updateImage(imageName(name), value);
+};
+
+function cleanItem(item) {
+  var citem = "";
+  for(i=0; i<item.length; i++) if(item[i] != '"' && item[i] != '}' && item[i] != '{') citem += item[i];
+  return citem;
+}
+
+function imageName(id) {
+  var pair = id.split("_");
+  return "I"+pair[1];
+}
+function doClick(name, category) {
+  sendCmd(name, category);
+};
+
+function sendCmd(id, category) {
+   var iid = "I"+id;
+   var image = document.getElementById(iid);
+   if(image.src.match("Green")) {
+      $.ajax({method:"PUT",url:"/horus-ws/Devices/"+category+"_"+id+"/ON.json",success:function(data){}});
+   }
+   else {
+      $.ajax({method:"PUT",url:"/horus-ws/Devices/"+category+"_"+id+"/OFF.json",success:function(data){}});
+   }
+};
+
+function updateImage(id, value) {
+    var image = document.getElementById(id);
+    if (value=="false" || value<1) {
+        image.src = "/doc/img/Button-Blank-Green-icon.png"
+    } else {
+        image.src = "/doc/img/Button-Blank-Red-icon.png"
+    }
+}
+
+function doUP(id) {
+   var iid = "I"+id;
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/SH_"+id+"/UP.json",success:function(data){}});
+}
+
+function doDOWN(id) {
+   var iid = "I"+id;
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/SH_"+id+"/DOWN.json",success:function(data){}});
+}
+
+function doOFF(id) {
+   var iid = "I"+id;
+   $.ajax({method:"PUT",url:"/horus-ws/Devices/SH_"+id+"/OFF.json",success:function(data){}});
+}
+
+$(document).ready(function(){
+    $("#showSalone").click(function(){
+        $("#studio").hide();
+        $("#giardino").hide();
+        $("#salone").show();
+    });
+    $("#showStudio").click(function(){
+        $("#salone").hide();
+        $("#giardino").hide();
+        $("#studio").show();
+    });
+    $("#showGiardino").click(function(){
+        $("#salone").hide();
+        $("#studio").hide();
+        $("#giardino").show();
+    });
+    $("#salone").hide();
+    $("#studio").hide();
+    $("#giardino").hide();
+});
+
+</script>
+
+</head>
+<body>
+<div id="all">
+  <div id="header">
+    <button id="showSalone">Piano Terra</button>
+    <button id="showStudio">Mezzanino</button>
+    <button id="showGiardino">Giardino</button>
+  </div>
+  <div id="salone" class="barholder">
+     <p><b> Piano Terra</b> </p>
+     <div class="bholder">
+         <button id="SSalone" class="switch" onclick='doClick("SSalone","LI")'><img id="ISSalone" src="/doc/img/Button-Blank-Green-icon.png" class=button> SSalone </button>
+     </div>
+     <div class="bholder">
+         <button id="Camino" class="switch" onclick='doClick("Camino","LI")'><img id="ICamino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Camino </button>
+     </div>
+     <div class="bholder">
+         <button id="Arcate" class="switch" onclick='doClick("Arcate","LI")'><img id="IArcate" src="/doc/img/Button-Blank-Green-icon.png" class=button> Arcate </button>
+     </div>
+     <div class="bholder">
+         <button id="Quadro" class="switch" onclick='doClick("Quadro","LI")'><img id="IQuadro" src="/doc/img/Button-Blank-Green-icon.png" class=button> Quadro </button>
+     </div>
+     <div class="bholder">
+         <button id="Tavolino" class="switch" onclick='doClick("Tavolino","LI")'><img id="ITavolino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Tavolino </button>
+     </div>
+     <div id="TendaS" class="dbholder">
+        <div class="btn">
+            <button id="TendaS_up" class="miniswitch" onmousedown='doUP("TendaS")' onmouseup='doOFF("TendaS")'><img id="ITendaS" src="/doc/img/Up.png" class=arrow> </button><br>
+            <button id="TendaS_down" class="miniswitch" onmousedown='doDOWN("TendaS")' onmouseup='doOFF("TendaS")'><img id="ITendaS" src="/doc/img/Down.png" class=arrow> </button>
+        </div>
+	<div class="btntext">
+           TendaS
+        </div>
+     </div>
+     <div id="TendaD" class="dbholder">
+        <div class="btn">
+            <button id="TendaD_up" class="miniswitch" onmousedown='doUP("TendaD")' onmouseup='doOFF("TendaD")'><img id="ITendaD" src="/doc/img/Up.png" class=arrow> </button><br>
+            <button id="TendaD_down" class="miniswitch" onmousedown='doDOWN("TendaD")' onmouseup='doOFF("TendaD")'><img id="ITendaD" src="/doc/img/Down.png" class=arrow> </button>
+        </div>
+	<div class="btntext">
+           TendaD
+        </div>
+     </div>
+   </div>
+   <div id="studio" class="barholder">
+     <p><b> Mezzanino </b></p>
+     <div class="bholder">
+         <button id="SStudio" class="switch" onclick='doClick("SStudio","LI")'><img id="ISStudio" src="/doc/img/Button-Blank-Green-icon.png" class=button> SStudio </button>
+     </div>
+     <div class="bholder">
+         <button id="SLetto" class="switch" onclick='doClick("SLetto","LI")'><img id="ISLetto" src="/doc/img/Button-Blank-Green-icon.png" class=button> SLetto </button>
+     </div>
+   </div>
+   <div id="giardino" class="barholder">
+     <p><b> Giardino </b></p>
+     <div class="bholder">
+         <button id="Giardino" class="switch" onclick='doClick("Giardino","LI")'><img id="IGiardino" src="/doc/img/Button-Blank-Green-icon.png" class=button> Giardino </button>
+     </div>
+     <div class="bholder">
+         <button id="Garage" class="switch" onclick='doClick("Garage","LI")'><img id="IGarage" src="/doc/img/Button-Blank-Green-icon.png" class=button> Garage </button>
+     </div>
+     <div class="bholder">
+         <button id="Pompa" class="switch" onclick='doClick("Pompa","SO")'><img id="IPompa" src="/doc/img/Button-Blank-Green-icon.png" class=button> Pompa </button>
+     </div>
+   </div>
+</div>
+</html>

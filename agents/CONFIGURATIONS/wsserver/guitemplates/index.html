@@ -265,35 +265,48 @@ function statusUpdate(id) {
 }
 
 function updateAll() {
-   for(i=0; i<devices.length; i++) statusUpdate(devices[i]);
+   statusUpdate("LI_Tavolino");
+   statusUpdate("LI_Camino");
+   statusUpdate("LI_Arcate");
+   statusUpdate("LI_Quadro");
+   statusUpdate("LI_SSalone");
+   statusUpdate("LI_SStudio");
+   statusUpdate("LI_SLetto");
+   statusUpdate("LI_Giardino");
+   statusUpdate("LI_Garage");
+   statusUpdate("SO_Pompa");
 }
 
 $(document).ready(function(){
-    $("#show_stato").click(function(){
-	showOnly("stato");
-      });
-    $("#show_salone").click(function(){
-	showOnly("salone");
-      });
-    $("#show_studio").click(function(){
-	showOnly("studio");
-      });
-    $("#show_giardino").click(function(){
-	showOnly("giardino");
-      });
-    showOnly(areas[0]);
+    $("#showStatus").click(function(){
+        $("#studio").hide();
+        $("#giardino").hide();
+        $("#salone").hide();
+        $("#stato").show();
+    });
+    $("#showSalone").click(function(){
+        $("#stato").hide();
+        $("#studio").hide();
+        $("#giardino").hide();
+        $("#salone").show();
+    });
+    $("#showStudio").click(function(){
+        $("#stato").hide();
+        $("#salone").hide();
+        $("#giardino").hide();
+        $("#studio").show();
+    });
+    $("#showGiardino").click(function(){
+        $("#stato").hide();
+        $("#salone").hide();
+        $("#studio").hide();
+        $("#giardino").show();
+    });
+    $("#salone").hide();
+    $("#studio").hide();
+    $("#giardino").hide();
     updateAll();
 });
-
-function showOnly(area) {
-  for(i=0; i<areas.length; i++)
-    $("#"+areas[i]).hide();
-  $("#"+area).show();
-}
-
-var devices = ["LI_Tavolino","LI_Camino","LI_Arcate","LI_Quadro","LI_SSalone","LI_SStudio","LI_SLetto","LI_Giardino","LI_Garage","SO_Pompa"];
-
-var areas = ["stato","salone","studio","giardino"];
 
 </script>
 
@@ -301,10 +314,10 @@ var areas = ["stato","salone","studio","giardino"];
 <body style="overflow:auto;">
 <div id="all">
   <div id="header">
-    <button id="show_stato">stato</button>
-    <button id="show_salone">salone</button>
-    <button id="show_studio">studio</button>
-    <button id="show_giardino">giardino</button>
+    <button id="showStatus">Stato</button>
+    <button id="showSalone">Piano Terra</button>
+    <button id="showStudio">Mezzanino</button>
+    <button id="showGiardino">Giardino</button>
   </div>
   <div id="stato" class="barholder">
     <p><b> Temperatura (C) </b> </p>
