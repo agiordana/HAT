@@ -255,7 +255,6 @@ div.ruledisplay {
 
 var eventpath = "/eventcounters";
 var actionpath = "/actions";
-var condpath = "/conditions";
 var rulepath = "/rules";
 var ruletpath = "/templates/rule.xml";
 var tmanifestpath = "/templmanifest/rule.xml";
@@ -266,7 +265,6 @@ var doreboot = "/configure/reboot";
 var doreset = "/configure/basic";
 
 var eventtag = "#events";
-var condtag = "#conditions";
 var actiontag = "#actions";
 var inputbox = "#actions";
 var nofmtag = "#nofm";
@@ -318,39 +316,20 @@ function addItemCB(name, target) {
 }
 
 function addItemRB(name, target) {
-  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"T\"/> T <input type=\"radio\" name=\""+name+"\" value=\"F\"/> F</label></div>");
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" /> N <input type=\"radio\" name=\""+name+"\" value=\"T\" checked=\"checked\"/> T <input type=\"radio\" name=\""+name+"\" value=\"F\"/> F</label></div>");
 }
 
 function addItemERB(name, target) {
-  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"Y\"/> Y</label></div>");
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" /> N <input type=\"radio\" name=\""+name+"\" value=\"Y\" checked=\"checked\" /> Y</label></div>");
 }
 
 function addItemActionRB(name, target) {
-  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\" checked=\"checked\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
 }
 
 function makeRuleName(path) {
   $.get(path, function(data, status) {
-     var xmldoc = data;
-      var pos=1;
-      var item;
-      var i;
-      var result = [];
-      while((pos=xmldoc.indexOf("<item>")) >0) {
-        item = "";
-        while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
-        for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
-        item = xmldoc.substring(pos+1, i);
-        result.push(item);
-        xmldoc = xmldoc.slice(i);
-      }
-      result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
-      for(i=0; i<result.length; i++) {
-        name = "R"+i;
-	if(result[i]!=name) break;
-	name = "";
-      }
-      if(name=="") name = "R"+i;
+      if(name=="") name = "Control";
       $("#rname").text(name);
   });
 }
@@ -358,7 +337,6 @@ function makeRuleName(path) {
 function mkRuleProto() {
   ruleReset();
   makeList(eventpath,eventtag,"cbox"); 
-  makeList(condpath,condtag,"radio"); 
   makeList(actionpath,actiontag, "listrb"); 
   makeRuleName(rulepath);
 }
@@ -394,17 +372,11 @@ function addRule() {
   var cycle="";
   var rulename=$("#rname").text();
 
+  deleteRule(rulename);
+
   $("#events :radio[value='Y']:checked").each(function(index,field){
 	if(event=="") event=field.name;
 	  else event = event +'+'+field.name;
-	});
-  $("#conditions :radio[value='T']:checked").each(function(index,field){
-	if(tcondition=="") tcondition=field.name;
-	  else tcondition = tcondition +'+'+field.name;
-	});
-  $("#conditions :radio[value='F']:checked").each(function(index,field){
-	if(fcondition=="") fcondition=field.name;
-	  else fcondition = fcondition +'+'+field.name;
 	});
   $("#actions :radio[value='on']:checked").each(function(index,field){
 	if(action=="") action=field.name+"_on";
@@ -464,7 +436,6 @@ function addRule() {
 
 function ruleReset() {
   $(eventtag).html("<div class=\"td1\">Events</div>");
-  $(condtag).html("<div class=\"td1\">Enabled-if</div>");
   $(actiontag).html("<div class=\"td1\"> Actions </div>");
   $(nofmtag).html("N-of-M <input type=\"number\" class=\"number\" name=\"nofm\" size=\"1\" min=\"1\" max=\"16\" step=\"1\" value=\"1\">");
   $(modetag).html("<fieldset> Prg ON <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programon\" checked=\"checked\" /> Prg OFF <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programoff\"/> Always  <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"always\"/> </fieldset>");
@@ -563,7 +534,6 @@ function plotRule(name) {
         descriptor += ("<div class=\"rw\">" + i_mode +"</div>");
       descriptor += "</div>";
       descriptor += "<div id=\"consequent\" class=\"fpart\">";
-        descriptor += ("<div class=\"ru\"><button class=\"deletebtn\" onclick=\"deleteRule('" + name + "')\"><img src=\"/doc/img/cross.png\" width=\"15px\" height=\"15px\"></button> </div>");
         if(offaction != "") descriptor += ("<div class=\"ry\"> OFF: " +offaction+"</div>");
         if(onaction != "") descriptor += ("<div class=\"ry\"> ON: " +onaction+"</div>");
      descriptor += "</div></div>";
@@ -634,7 +604,7 @@ $(function() {
 <div id="main">
 <div id="header">
 <div id="banner0"> Rule Configurator </div>
-<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="addRule()">Add New Rule</button> </div>
+<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="addRule()">(Re)Make Control</button> </div>
 <div id="banner2"> <button id="ruleadd" class="rulesubmit" onclick="doReboot()"> Reboot </button> </div>
 <div id="banner3"> <button id="ruleadd" class="rulesubmit" onclick="doReset()"> Reset </button> </div>
 </div>
@@ -644,17 +614,6 @@ $(function() {
 	<div class="td1"> Events </div>
   </div>
   <div id="nofm" class="smallleftitem"> N-of-M <input type="number" class="number" name="nofm" size="1" min="1" max="16" step="1" value="1"> </div>
-  <div id="conditions" class="leftitem">
-	<div class="td1">Enabled-if</div>
-  </div>
-  <div id="rulemode" class="smallleftitem">
-      <fieldset>
-	  Prg ON <input type="radio" class="radioin" name="mode" value="programon" checked="checked" />
-	   Prg OFF <input type="radio" class="radioin" name="mode" value="programoff"/>
-	  Always  <input type="radio" class="radioin" name="mode" value="always"/>
-      </fieldset>
-  </div>
-  <div id="cycle" class="smallleftitem"> Cycle (sec) <input type="number" class="numberw" name="cycle" size="4" min="0" max="1440" step="10" value="0"> </div>
   <div id="dummy" class="dummy"></div>
   <div id="actions" class="rightitem">
 	<div class="td1"> Actions </div>
