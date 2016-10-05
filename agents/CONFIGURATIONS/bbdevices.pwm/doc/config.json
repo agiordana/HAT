@@ -5,6 +5,7 @@
 		"device_types": [
 			{"PulseSwitch"	 	: {"device_categories":["LI"], "label":"PulseSingle", "schema":"PulseSwitchExt.jpg"}},
 			{"PulseSwitchLS"	: {"device_categories":["LI"], "label":"PulseMaster", "schema":"PulseSwitchExt.jpg"}},
+			{"RemoteSwitch"		: {"device_categories":["LS"], "label":"RemoteControl", "schema":"PulseSwitchExt.jpg"}},
 			{"CounterSwitch"	: {"device_categories":["SL"], "label":"PLC Cyclic",  "schema":"CounterSwitchExt.jpg"}},
 			{"BWDimmer"		: {"device_categories":["DI"], "label":"Dimmer",        "schema":"Dimmer.jpg"}},
 			{"RGBDimmer"		: {"device_categories":["DI"], "label":"RGBDimmer",        "schema":"Dimmer.jpg"}}
