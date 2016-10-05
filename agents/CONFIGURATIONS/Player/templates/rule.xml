@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set>
+<attribute name="latency" value="10"/>
+<attribute name="clause" value="$EVENT"/>
+<attribute name="min_conditions" value="$MIN_EVENT"/>
+<attribute name="enabling_true_condition" value="$TCONDITION"/>
+<attribute name="enabling_false_condition" value="$FCONDITION"/>
+<attribute name="from" value="$FROM"/>
+<attribute name="to" value="$TO"/>
+<attribute name="alarm" value="$ALARM"/>
+<attribute name="action" value="$ACTION"/>
+<attribute name="delay" value="$DELAY"/>
+<attribute name="cycle" value="$CYCLE"/>
+<attribute name="status" value="ON"/>
+</set>

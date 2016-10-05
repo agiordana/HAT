@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<set type="trigger">
+        <attribute category="trigger" name="timedruleupdate" value="5"/>
+        <attribute category="trigger" name="eventupdate" value="2"/>
+        <attribute category="trigger" name="prgupdate" value="19"/>
+</set>

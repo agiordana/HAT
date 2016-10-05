@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute name="agenttype" value="player"/>
+<attribute name="agentname" value="Player"/>
+<attribute name="homedir" value="/home/horus/horus/horus_home/Player"/>
+<attribute name="emergency_homedir" value="/home/horus/horus_home/Player"/>
+<attribute name="logfile" value="AGENT-LOG"/>
+<attribute name="startprogram" value="ON"/>
+<attribute name="timeunit" value="1"/>
+<attribute name="description" value="Player Control"/>
+<attribute name="configurator" value="ON"/>
+</set>

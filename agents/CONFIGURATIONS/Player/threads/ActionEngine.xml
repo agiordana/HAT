@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<set type="ActionEngine">
+	<attribute name="status" value="ON"/>
+	<attribute name="wait_after_on" value="120"/>
+	<attribute name="wait_forbidden" value="300"/>
+	<attribute category="observe" name="prgstatus" value="program"/>
+	<attribute category="observe" name="setactions" value="cmd"/>
+	<attribute category="observe" name="resetactions" value="cmd"/>
+	<attribute category="observe" name="*" value="rlcmd"/>
+	<attribute category="observe" name="checkcycle" value="trigger"/>
+</set>

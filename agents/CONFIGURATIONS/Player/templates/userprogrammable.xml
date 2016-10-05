@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<set type="$NAME">
+<attribute name="name" value="$NAME"/>
+<attribute name="alias" value="$ALIAS"/>
+<attribute name="mode" value="timed"/>
+<attribute name="from" value="23:59:00"/>
+<attribute name="to" value="23:59:00"/>
+<attribute name="cycle" value="0"/>
+<attribute name="set" value="$SETACTION"/>
+<attribute name="reset" value="$RESETACTION"/>
+<attribute name="status" value="OFF"/>
+</set>

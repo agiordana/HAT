@@ -1,0 +1,21 @@
+<?xml version="1.0"?><set type="archive">
+<attribute category="root" name="programs" value="*"/>
+<attribute category="root" name="status" value="*"/>
+<attribute category="root" name="subjects" value="*"/>
+<attribute category="conf" name="threads" value="*"/>
+<attribute category="conf" name="templates" value="*"/>
+<attribute category="conf" name="templmanifest" value="*"/>
+<attribute category="conf" name="rulemanifest" value="*"/>
+<attribute category="conf" name="actions" value="*"/>
+<attribute category="conf" name="tr_actions" value="*"/>
+<attribute category="conf" name="eventcounters" value="*"/>
+<attribute category="conf" name="conditions" value="*"/>
+<attribute category="conf" name="tr_conditions" value="*"/>
+<attribute category="conf" name="rules" value="*"/>
+<attribute category="conf" name="timedrules" value="*"/>
+<attribute category="conf" name="doc" value="*"/>
+<attribute category="history" name="status" value="1"/>
+<attribute category="history" name="subjects" value="-1"/>
+<attribute category="control" name="status" value="ON"/>
+</set>
+
