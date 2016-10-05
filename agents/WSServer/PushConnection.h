@@ -15,6 +15,7 @@
 class PushConnection {
 private:
     std::string logfile;
+    std::string logpush; //event to be sent to webapp via websocket
     NameList logevents;
     int connection;
     int ayaPeriod;
@@ -26,7 +27,7 @@ private:
     bool notifyProgramChange(MMessage&);
     bool notifyCmdChange(MMessage&);
     bool notifyAlarm(MMessage&);
-    int logMessage(std::string,std::string&);
+    int logMessage(std::string,std::string&, std::string&);
     bool isToLog(std::string);
 public:
     PushConnection(std::string, std::string);

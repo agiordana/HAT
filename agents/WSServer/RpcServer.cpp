@@ -61,5 +61,8 @@ MMessage RpcServer::exec(std::string uri, vector<string> params, string method, 
    else if(method == "rpcSrvMngPut") {
       answer = SrvManager::execPut(params, method, body);
    }
+   else if(method == "rpcConfMngPut") {
+      answer = ConfManager::execPut(params, method, body);
+   }
    return answer;
 }

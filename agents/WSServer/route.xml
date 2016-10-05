@@ -24,6 +24,25 @@
   </route>
 
   <route>
+    <uri path="/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="css|fonts|js|img" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/doc/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="(.)+" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+
+  <route>
     <uri path="/doc/:file" method="GET"/>
     <conditions>
         <condition param=":file" regexp="(.)+.(.)+" />
@@ -530,6 +549,14 @@
         <condition param=":mac" regexp="(.)+\.json" />
     </conditions>
     <call class="rpcserver" method="rpcSrvMngPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Configure/:target" method="PUT"/>
+    <conditions>
+        <condition param=":target" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcConfMngPut"/>
   </route>
 
 </routes>

@@ -89,6 +89,7 @@ bool Agent::install() {
     LogManager::init("logmanager");
     PwrManager::init("pwrmanager");
     SrvManager::init("srvmanager");
+    ConfManager::init("confmanager");
 
     return true;
 }

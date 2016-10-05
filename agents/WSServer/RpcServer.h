@@ -15,6 +15,7 @@
 #include "LogManager.h"
 #include "PwrManager.h"
 #include "SrvManager.h"
+#include "ConfManager.h"
 #include "AuthManager.h"
 
 class RpcServer: public RouterExec {

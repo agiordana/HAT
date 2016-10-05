@@ -17,10 +17,12 @@ PushConnection::PushConnection(int fd) {
     string msg = getJsonMessage();
     getRegistration(msg);
     logfile = "";
+    logpush = "";
 }
 
 PushConnection::PushConnection(string file, string events) {
     logfile = hsrv::homedir+"/logs/" + file;
+    logpush = hsrv::homedir+"/LOGPUSH";
     logevents.init(events,'+');
     FileManager::makeDir(logfile,true);
     logfile += "/data";
@@ -135,8 +137,9 @@ bool PushConnection::notifyProgramChange(MMessage& m) {
    program_name = m.getString("program");
    active = m.getString("program_active");
    string msg = "{\"device\": {\"name\":\"" + cname +"\",\"mode\":\""+mode+"\",\"active\":\""+active+"\"}}\n";
+   if(logpush != "") logMessage(m.getString("class"),msg,logpush);
    if(logfile!="") {
-	if(isToLog(m.getString("class"))) count = logMessage(m.getString("class"),msg);
+	if(isToLog(m.getString("class"))) count = logMessage(m.getString("class"),msg,logfile);
    }
    else if(checkRegister(cname)) {
          sprintf(buffer,"%s", msg.c_str());
@@ -190,8 +193,9 @@ bool PushConnection::notifyDeviceChange(MMessage& m) {
    string msg;
    if(color=="") msg = "{\"device\": {\"name\":\"" + cname +"\",\"status\":\""+value+"\"}}\n";
    else msg = "{\"device\": {\"name\":\"" + cname +"\",\"status\":\""+value+"\",\"color\":\""+color+"\"}}\n";
+   if(logpush != "") logMessage(m.getString("class"),msg,logpush);
    if(logfile!="") {
-      if(isToLog(cname)) count = logMessage(m.getString("class"),msg);
+      if(isToLog(cname)) count = logMessage(m.getString("class"),msg,logfile);
    }
    else if(events.count(cname)>0) {
          sprintf(buffer,"%s", msg.c_str());
@@ -229,8 +233,9 @@ bool PushConnection::notifyAlarm(MMessage& m) {
    video = m.getString("video");
    string msg = "{\"device\": {\"name\":\"" + cname +"\",\"alarm\":\""+alarm+"\",\"source\":\"" + source +"\",\"video\":\"" + video +"\"}}\n";
 
+   if(logpush != "") logMessage(m.getString("class"),msg,logpush);
    if(logfile!="") {
-         if(isToLog(m.getString("class"))) count = logMessage(m.getString("class"),msg);
+         if(isToLog(m.getString("class"))) count = logMessage(m.getString("class"),msg,logfile);
    }
    else if(checkRegister(cname)) {
       sprintf(buffer,"%s", msg.c_str());
@@ -254,8 +259,10 @@ bool PushConnection::notifyCmdChange(MMessage& m) {
         if(value == "OFF" || value == "0") value = "false";
    }
    string msg = "{\"device\": {\"name\":\"" + cname +"\",\"action\":\""+action+"\",\"value\":\"" + value +"\"}}\n";
+
+   if(logpush != "") logMessage(m.getString("class"),msg,logpush);
    if(logfile!="") {
-	if(isToLog(action)) count = logMessage(m.getString("class"),msg);
+	if(isToLog(action)) count = logMessage(m.getString("class"),msg,logfile);
    }
    else if(checkRegister(cname)) {
        sprintf(buffer,"%s", msg.c_str());
@@ -309,7 +316,7 @@ bool PushConnection::getRegistration(string msg) {
     return true;
 }
 
-int PushConnection::logMessage(string ty, string& m) {
+int PushConnection::logMessage(string ty, string& m, string& logfile) {
    ofstream out(logfile.c_str(), ofstream::app);
    string time = "20" + hsrv::getasciitimecompact();
    string tolog = m.substr(3);
