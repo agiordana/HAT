@@ -375,7 +375,12 @@ bool FSMDevice::update(string channel, string value) {
 
 bool FSMDevice::publish() {
    hsrv::publish(name, "type=\"target\" value=\""+currentValue+"\" status=\"ON\"");
-   if(alias.length()>3) hsrv::publish(alias, "type=\"source\" value=\""+currentValue+"\" status=\"ON\"");
+   if(alias.length()>3) {
+      NameList aliases;
+      aliases.init(alias,'+');
+      for(size_t j=0; j<aliases.size(); j++)
+	 hsrv::publish(aliases[j], "type=\"source\" value=\""+currentValue+"\" status=\"ON\"");
+   }
    return true;
 }
 

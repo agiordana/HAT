@@ -14,10 +14,6 @@ bool Device::setstatus(MMessage& m) {
     return false;
 }
 
-bool Device::is_deadline_waiting() {
-    return false;
-}
-
 bool Device::publish() {
     return false;
 }

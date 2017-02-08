@@ -103,7 +103,7 @@ bool BinaryInput::getSubjects(MParams& subj) {
 }
 
 string BinaryInput::remap(string& value) {
-    string tvalue = get(value);
+    string tvalue = get(value,"remap");
     if(tvalue == "") return value;
     else return tvalue;
 }

@@ -16,15 +16,12 @@ public:
        std::string getValue();
        setof<MAttribute> input();
        setof<MAttribute> output();
-       bool is_deadline_waiting();
        bool getSubjects(MParams&);
        bool getObservations(MParams&);
        BinaryOutput(std::string, std::string);
        bool publish();
 private:
         double currentTime;
-        double dDuration;;
-        double deadline;
         std::string currentValue;
         std::string duration;
 	std::string default_value;
