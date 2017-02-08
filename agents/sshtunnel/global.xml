@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<set type="global">
+<attribute name="agenttype" category="generic" value="sshtunnel"/>
+<attribute name="cmd" category="generic" value='/home/horus/bin/autossh -2 -fN  -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -R $RPORT:localhost:$LPORT $USER@$HOST'/>
+<attribute name="haltAutossh" category="generic" value="killall -9 /home/horus/bin/autossh" />
+<attribute name="haltSsh" category="generic" value="killall -9 /usr/bin/ssh" />
+<attribute name="rport" category="generic" value="14990" />
+<attribute name="host" category="generic" value="193.206.55.23" />
+<attribute name="user" category="generic" value="horus" />
+</set>
