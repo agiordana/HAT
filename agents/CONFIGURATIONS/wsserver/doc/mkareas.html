@@ -38,6 +38,16 @@
     width:100%;
 }
 
+#guilink {
+    color:black;
+    text-align:left;
+    font-size: 1em;
+    padding:10px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+    width:100%;
+}
+
 button.switch{
    width:100%;
    float:left;
@@ -234,11 +244,18 @@ function areaConfig() {
 
 function doIt() {
   var confmsg = [];
+  var confdata = '{"areas" : [';
   for(i=0; i<devices.length; i++) {
-     dev = '{"' + devices[i] + '":"' + document.querySelector('input[name="'+devices[i]+'"]:checked').value +'"}';
+     dev = '{"name":"' + devices[i] + '","area":"' + document.querySelector('input[name="'+devices[i]+'"]:checked').value +'"}';
      confmsg.push(dev);
   }
-  for(i=0; i<confmsg.length; i++) console.log(confmsg[i]);
+  for(i=0; i<confmsg.length; i++) {
+	confdata+=confmsg[i];
+	if(i<confmsg.length-1) confdata+=",";
+  }
+  confdata += ']}';
+  console.log(confdata);
+  $.ajax({method:"PUT",url:"/horus-ws/Configure/GUI.json",data:confdata,success:function(data){}});
 }
 
 </script>
@@ -246,7 +263,9 @@ function doIt() {
 </head>
 <body style="overflow:auto;">
 <div id="all">
+  <div id="guilink"> <a href="/doc/index.html"> Use current GUI </a> </div>
   <div id="header">
+    <p><b>Create a new INTERFACE</b></p>
     <button id="addArea" onclick="addArea()"> New Area </button>
     <button id="confArea" onclick="areaConfig()"> Area Conf </button>
     <button id="clearAreas" onclick="clearAreas()"> Clear </button>
