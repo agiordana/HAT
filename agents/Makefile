@@ -4,9 +4,12 @@ all:
 	cd minilibs; make
 	cd BBDevices; make
 	cd Manager; make
+	cd Player; make
 	cd PwrControl; make
 	cd WSServer; make
 	cd MiniWWW; make
+	cd websocket; make
+	cd sshtunnel; make
 	cd logger; make
 	cd utils; make
 
@@ -17,9 +20,12 @@ clean:
 	cd minilibs; make clean
 	cd BBDevices; make clean
 	cd Manager; make clean
+	cd Player; make clean
 	cd PwrControl; make clean
 	cd WSServer; make clean
 	cd MiniWWW; make clean
+	cd websocket; make clean
+	cd sshtunnel; make clean
 	cd logger; make clean
 	cd utils; make clean
 
@@ -30,8 +36,11 @@ install:
 	cd minilibs; make
 	cd BBDevices; make install
 	cd Manager; make install
+	cd Player; make install
 	cd PwrControl; make install
 	cd WSServer; make install
 	cd MiniWWW; make install
+	cd websocket; make install
+	cd sshtunnel; make install
 	cd logger; make install
 	cd utils; make install
