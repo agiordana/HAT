@@ -88,7 +88,7 @@ bool TriStateOutput::getObservations(MParams& obs) {
 }
 
 string TriStateOutput::remap(string& value) {
-    string tvalue = get(value);
+    string tvalue = get(value,"remap");
     if(tvalue == "") return value;
     else return tvalue;
 }

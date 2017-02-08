@@ -37,7 +37,6 @@ public:
     bool doReset(MMessage&);
     bool doReset(std::string);
     bool execcmd(MMessage&);
-    bool exectrigger(MMessage&);
     bool setstatus(MMessage&);
     bool execLocalEvent(MMessage&);
     bool execwait(MMessage&);

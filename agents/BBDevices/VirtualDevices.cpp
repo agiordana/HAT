@@ -40,7 +40,6 @@ void VrtDevices::do_work(VrtDevices* obj) {
 	else if(msg.mtype == "trigger" && msg.msubtype == "publish") publish();
 	else if(msg.mtype == "trigger" && msg.msubtype == "measure") doMeasure();
 	else if(msg.mtype == "trigger" && msg.msubtype == "archiveupd") doArchiveUpdate();
-	else if(msg.mtype == "trigger" && msg.msubtype == "poll") exectrigger(msg);
 	else if(msg.mtype == "cmd" && msg.msubtype == "putConf" && hsrv::checkConfigureEnabled()) doReboot(msg);
 	else if(msg.mtype == "cmd" && msg.msubtype == "devConfigure" && hsrv::checkConfigureEnabled()) devConfigure(msg);
 	else if(msg.mtype == "cmd" && msg.msubtype == "devDelete" && hsrv::checkConfigureEnabled()) devDelete(msg);
@@ -226,15 +225,6 @@ void VrtDevices::doReboot(MMessage& m) {
    }
 }
   
-bool VrtDevices::exectrigger(MMessage& msg) {
-    map<string, Device*>::iterator it;
-    for(it = dev_by_name.begin(); it!=dev_by_name.end(); it++)
-       if(it->second->is_deadline_waiting()) {
-	 it->second->execcmd(msg);
-       }
-    return true;
-}
-
 bool VrtDevices::execcmd(MMessage& msg) {
     if(dev_by_name.count(msg.msubtype)==0) return false;
     return dev_by_name[msg.msubtype]->execcmd(msg); 
