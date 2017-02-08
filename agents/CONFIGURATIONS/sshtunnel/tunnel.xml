@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<set type="tunnel">
+<attribute name="rport" category="generic" value="14990" />
+<attribute name="host" category="generic" value="193.206.55.23" />
+<attribute name="user" category="generic" value="horus" />
+<attribute name="status" category="generic" value="OFF" />
+</set>
