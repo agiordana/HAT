@@ -304,6 +304,14 @@
   </route>
 
  <route>
+    <uri path="/horus-ws/Termometer/:device/" method="POST"></uri>
+    <conditions>
+        <condition param=":device" regexp="TM_(.)+.json"></condition>
+    </conditions>
+    <call class="logroute" method="getPMLog"></call>
+  </route>
+
+ <route>
     <uri path="/log/:device/" method="POST"></uri>
     <conditions>
         <condition param=":device" regexp="PM_(.)+.json"></condition>
@@ -549,6 +557,14 @@
         <condition param=":mac" regexp="(.)+\.json" />
     </conditions>
     <call class="rpcserver" method="rpcSrvMngPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Configure/:target" method="GET"/>
+    <conditions>
+        <condition param=":target" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcConfMngGet"/>
   </route>
 
   <route>

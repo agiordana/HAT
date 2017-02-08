@@ -1,4 +1,9 @@
 <?xml version="1.0" ?>
 <set type="srvmanager">
-<attribute name="mkgui_answer" category="generic" value='{"response":{"message":"ok"}}'/>
+<attribute name="mkok_answer" category="generic" value='{"response":{"message":"ok"}}'/>
+<attribute name="fail_answer" category="generic" value='{"response":{"message":"failed"}}'/>
+<attribute name="tunnelhalt" category="generic" value="/home/horus/bin/sshtunnel /home/horus/CONFIG/sshtunnel halt"/>
+<attribute name="tunnelenable" category="generic" value="/home/horus/bin/sshtunnel /home/horus/CONFIG/sshtunnel start"/>
+<attribute name="tunnelstart" category="generic" value="/home/horus/bin/sshtunnel /home/horus/CONFIG/sshtunnel"/>
+<attribute name="tunnel_answer" category="generic" value='{"response":{"message":"ok","rport":"$RPORT","host":"$HOST","user":"$USER","status":"$STATUS"}}'/>
 </set>

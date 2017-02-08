@@ -6,5 +6,6 @@
 <attribute name="emergency_homedir" category="generic" value="/home/horus/horus_home/wsserver"/>
 <attribute name="logfile" category="generic" value="AGENT-LOG"/>
 <attribute name="behaviour" category="generic" value="active"/>
+<attribute name="description" category="generic" value="GUI Manager"/>
 <attribute name="timeunit" category="generic" value="1"/>
 </set>
