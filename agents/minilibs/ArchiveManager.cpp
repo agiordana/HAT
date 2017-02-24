@@ -1293,13 +1293,13 @@ std::string ArchiveManager::getEnergyData(MMessage req) {
  
     std::string line;
     while (std::getline(input, line)) {	
-        float apower, ipower, energy;
+        float apower, ipower, energy, value;
         string time;
         stringstream ts,ss;
 	std::string timestamp;   
         timeval t1, t2;
 
-        scanLine(line, apower, ipower, energy, time);
+        scanLine(line, apower, ipower, energy, time, value);
  
         timestamp = ArchiveManager::normalizeDateTime(time);
         if (timestamp >= start and timestamp <= end) {
@@ -1397,18 +1397,18 @@ string ArchiveManager::getPMDaily(MMessage req) {
     std::vector<PMStat> stat;
 
     while (std::getline(input, line)) {	
-        float apower, ipower, energy;
+        float apower, ipower, energy, value;
         string time;
         stringstream ts,ss;
         string hs;
         int h; 
 
-        scanLine(line, apower, ipower, energy, time);
+        scanLine(line, apower, ipower, energy, time, value);
     
         hs = time;
 //        hs = hs.substr(6,2);
 //        h = atoi(hs.c_str());
-        stat.push_back(PMStat(energy, hs));
+        stat.push_back(PMStat(energy, hs, value));
     }
 
     for (size_t i=0; i<stat.size(); i++) {
@@ -1624,13 +1624,13 @@ string ArchiveManager::getPMDaySummary(std::string datafile) {
     }
 
     while (std::getline(input, line)) {	
-        float apower, ipower, energy;
+        float apower, ipower, energy, value;
         string time;
         stringstream ts,ss;
         string hs;
         int h; 
 
-	scanLine(line, apower, ipower, energy, time);
+	scanLine(line, apower, ipower, energy, time, value);
     
         stat.update(energy,day.c_str());
     }
@@ -1835,39 +1835,59 @@ std::string ArchiveManager::getFile(MMessage req) {
     return string(buffer.begin(), buffer.end());
 }
 
-bool ArchiveManager::scanLine(string& line, float& apower, float& ipower, float& energy, string& time) {
+bool ArchiveManager::scanLine(string& line, float& apower, float& ipower, float& energy, string& time, float& value) {
   size_t pos;
   string match1 = "Apower\":\"";
   string match2 = "Ipower\":\"";
   string match3 = "energy\":\"";
   string match4 = "timeofday\":\"";
+  string match5 = "value\":\"";
   string number;
 
   pos = line.find(match1,0);
-  if(pos == string::npos) return false;
-  pos+= match1.size();
-  number = "";
-  while(pos <line.size() && line[pos]!='"') number+=line[pos++];
-  apower = (float) hsrv::a2double(number);
-
+  if(pos != string::npos) {
+     pos+= match1.size();
+     number = "";
+     while(pos <line.size() && line[pos]!='"') number+=line[pos++];
+     apower = (float) hsrv::a2double(number);
+  }
+  else apower = 0;
+  pos = 0;
   pos = line.find(match2,pos);
-  if(pos == string::npos) return false;
-  pos+= match2.size();
-  number = "";
-  while(pos <line.size() && line[pos]!='"') number+=line[pos++];
-  ipower = (float) hsrv::a2double(number);
- 
+  if(pos != string::npos) {
+     pos+= match2.size();
+     number = "";
+     while(pos <line.size() && line[pos]!='"') number+=line[pos++];
+     ipower = (float) hsrv::a2double(number);
+  }
+  else ipower = 0;
+  pos = 0;
   pos = line.find(match3,pos);
-  if(pos == string::npos) return false;
-  pos+= match3.size();
-  number = "";
-  while(pos <line.size() && line[pos]!='"') number+=line[pos++];
-  energy = (float) hsrv::a2double(number);
+  if(pos != string::npos) {
+     pos+= match3.size();
+     number = "";
+     while(pos <line.size() && line[pos]!='"') number+=line[pos++];
+     energy = (float) hsrv::a2double(number);
+  }
+  else energy = 0;
 
+  pos = 0;
   pos = line.find(match4,pos);
-  if(pos == string::npos) return false;
-  pos+= match4.size();
-  while(pos <line.size() && line[pos]!='"') time+=line[pos++];
+  if(pos != string::npos) {
+     pos+= match4.size();
+     while(pos <line.size() && line[pos]!='"') time+=line[pos++];
+  }
+  else time="";
+
+  pos = 0;
+  pos = line.find(match5,pos);
+  if(pos != string::npos) {
+     pos+= match5.size();
+     number = "";
+     while(pos <line.size() && line[pos]!='"') number+=line[pos++];
+     value = (float) hsrv::a2double(number);
+  }
+  else value = 0;
 
   return true;
 }

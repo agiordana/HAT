@@ -99,7 +99,7 @@ public:
     
     string getEnergyData(MMessage req);
 
-    static bool scanLine(string&, float&, float&, float&, string&);
+    static bool scanLine(string&, float&, float&, float&, string&, float&);
   
   bool addResource(std::string pathname, std::string src="", bool overwrite=true);
   
