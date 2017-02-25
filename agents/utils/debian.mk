@@ -3,7 +3,7 @@ FLAGS = -O2 -I. -I../minilibs -I../tinyxml -I../libjson -I/opt/include -g -DNDEB
 LIB = -lstdc++ -lpthread -lssl -lcrypto -lhttpserver -lmicrohttpd
 OPTLIB = -L/opt/lib -L../libjson -ljson -lboost_system -lboost_thread -lboost_system -lboost_date_time -lboost_program_options -lboost_thread -lboost_regex -lboost_random -lboost_filesystem
 AGENTLIB = ../minilibs/*.o
-BIN = /home/horus/bin
+BIN = ../bin
 OBJ = agent.o 
 
 XML = ../tinyxml/*.o

@@ -23,7 +23,7 @@ bool Action::setStatus(string value) {
 }
 
 bool Action::exec(string d) {
-   delay = d;
+   string delay = d;
    if(this->get("status") != "ON") return false;
    MMessage out_mess;
    out_mess.mtype = "cmd";

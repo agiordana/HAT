@@ -18,7 +18,7 @@ public:
   int waiting();
   bool reset();
 private:
-  std::<MMessage> mlist;
+  std::vector<MMessage> mlist;
   boost::mutex mut;
   int waiting_threads;
 };
