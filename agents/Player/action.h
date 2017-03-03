@@ -10,6 +10,15 @@
 #define mngagent_action_h
 #include "agentlib.h"
 
+class ThreadEntry {
+public:
+  double deadline;
+  boost::thread* th;
+  ThreadEntry(double a, boost::thread* b){deadline = a; th = b; };
+  ~ThreadEntry() {};
+};
+  
+
 class Action: public MParams {
 public:
     std::string name;
@@ -19,6 +28,11 @@ public:
     bool observations(MParams& obs);
     bool subjects(MParams& subj);
     int member(std::string);
+    std::string delay;
+    bool purge_expired(double);
+private:
+    void do_work(Action* obj);
+    std::vector<ThreadEntry> ths;
 };
 
 

@@ -11,19 +11,6 @@
 #include "agentlib.h"
 #include "action.h"
 
-class MMessageTable {
-public:
-  bool schedule(MMessage&, double);
-  MMessage get();
-  int waiting();
-  bool reset();
-private:
-  std::vector<MMessage> mlist;
-  boost::mutex mut;
-  int waiting_threads;
-};
-
-
 class ActionSet: public setof<Action> {
 public:
     ActionSet(std::string);
@@ -32,10 +19,7 @@ public:
     bool subjects(MParams& subj);
     bool observations(MParams& obs);
     bool isActive(std::string);
-protected:
-    MMessageTable todo;
-    std::vector<Thread*> ths;
-    
+    bool purge_expired();
 };
 
 
