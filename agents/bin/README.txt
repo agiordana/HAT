@@ -1,2 +1,2 @@
 Binary files.
-To be installed in /homr/horus/bin
+To be installed in /home/horus/bin
