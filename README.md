@@ -1,5 +1,6 @@
 # HAT
-A C++ platform for home automation
+A C++ platform for home automation.
+
 The original purpose of the project was to provide a platform useful to students and teachers for developing student labs in the area of IoT (Internet of Things) and Home Automation, using low cost hardware such as Beaglebone Back or Raspberry PI. The idea was to provide a library, easy to install on this kind of hosts, supporting the quick development of simple applications in order to introduce students into the IoT domain. The choice was to adopt C++ as basic programming language that is still very performant on low power hosts while providing a powerful object oriented paradigm.
 
 In order to provide an environment highly modular easy to modify and to encourage the student to explore network programming HAT supports an agent based architecture, which stay at the origin of the project name. In fact, HAT is the acronym of “Home Agent Team”.
