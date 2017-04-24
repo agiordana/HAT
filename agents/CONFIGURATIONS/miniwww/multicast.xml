@@ -1,0 +1,4 @@
+<?xml version="1.0" ?><set type="multicast">
+<attribute category="generic" name="mport" value="54321"/>
+<attribute category="generic" name="mgroup" value="226.0.0.2"/>
+</set>

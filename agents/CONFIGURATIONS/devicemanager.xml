@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<set type="devicemanager">
-<attribute name="cat_status_answer" category="generic" value='{"response": {"message":"ok","devices":  [ $BODY ]}}' />
-<attribute name="set_device_status" category="generic" value="/setw/$NAME/$STATUS"/>
-<attribute name="dev_status_proto" category="generic" value='{"name":"$NAME","enable_status":"$STATUS"}'/>
-<attribute name="set" category="generic" value="set"/>
-<attribute name="set_device_cat_answer" category="generic" value='{"response": {"message":"ok", "agent_upload_results":"$TRUEFALSE"}}'/>
-</set>
