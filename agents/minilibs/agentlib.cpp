@@ -482,7 +482,7 @@ bool AgentConf::install() {
 	  else cpath = hsrv::homedir;
 	  for(size_t j=0; j<path.size(); j++) {
 	     cpath += "/";
-	     cpath += path[i];
+	     cpath += path[j];
 	     if(!FileManager::makeDir(cpath, true)) return false;
 	  }
        }
