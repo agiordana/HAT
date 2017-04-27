@@ -673,6 +673,14 @@ protected:
      @see chdir()
      */
 	int sethomedir();
+   /**
+     * Controlla se è presente la directory home dell'agente e in caso la crea
+     * Quindi crea tutte le directory di lavoro
+     * @return true se tuute le directory sono state create (o esisistono). In caso di
+     *         errore termina l'esecuzione del programma
+     */
+        bool install();
+
     
     /**
      * Istanzia un oggeto di tipo HttpServer per la gestione delle richieste HTTP

@@ -6,4 +6,6 @@
 <attribute name="logfile" value="AGENT-LOG"/>
 <attribute name="timeunit" value="1"/>
 <attribute name="configurator" value="ON"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
 </set>

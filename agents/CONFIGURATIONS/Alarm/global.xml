@@ -6,6 +6,26 @@
 <attribute name="logfile" value="AGENT-LOG"/>
 <attribute name="startprogram" value="ON"/>
 <attribute name="timeunit" value="1"/>
-<attribute name="description" value="Intrusion Detection Agent"/>
+<attribute name="description" value="Alarm Control"/>
 <attribute name="configurator" value="ON"/>
+<attribute category="configdir" name="actions" value="actions"/>
+<attribute category="configdir" name="tr_actions" value="tr_actions"/>
+<attribute category="configdir" name="conditions" value="conditions"/>
+<attribute category="configdir" name="tr_conditions" value="tr_conditions"/>
+<attribute category="configdir" name="rulemanifest" value="rulemanifest"/>
+<attribute category="configdir" name="rules" value="rules"/>
+<attribute category="configdir" name="eventcounters" value="eventcounters"/>
+<attribute category="configdir" name="timedrules" value="timedrules"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
+<attribute category="homedir" name="exported" value="subjects/exported"/>
+<attribute category="homedir" name="imported" value="subjects/imported"/>
+<attribute category="homedir" name="threads" value="threads"/>
+<attribute category="homedir" name="actions" value="actions"/>
+<attribute category="homedir" name="tr_actions" value="tr_actions"/>
+<attribute category="homedir" name="conditions" value="conditions"/>
+<attribute category="homedir" name="tr_conditions" value="tr_conditions"/>
+<attribute category="homedir" name="eventcounters" value="eventcounters"/>
+<attribute category="homedir" name="rules" value="rules"/>
+<attribute category="homedir" name="timedrules" value="timedrules"/>
 </set>

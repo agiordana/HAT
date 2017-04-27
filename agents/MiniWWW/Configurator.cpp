@@ -59,6 +59,9 @@ bool Configurator::installer(MMessage& m) {
    string pathsrc;
    string pathdst;
    conf = FileManager::getRoot(hsrv::configdir);
+   if(!FileManager::isDir(configuration)) configuration = CONFIGURATIONS1;
+   if(!FileManager::isDir(configuration)) configuration = CONFIGURATIONS2;
+   if(!FileManager::isDir(configuration)) return false;
    FileManager::dirList(conf, oldagent);
    for(size_t i=0; i<oldagent.size(); i++)
       if(oldagent[i] != "miniwww") {
@@ -71,6 +74,16 @@ bool Configurator::installer(MMessage& m) {
 	pathdst = conf + "/" +FileManager::getStem(agent[i]);
         cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
         hsrv::cmdExec(cmd);
+	if(agent[i] == "wsserver") {
+	    pathsrc = configuration+"/websocket";
+	    pathdst = conf + "/websocket";
+	    cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
+	    hsrv::cmdExec(cmd);
+	    pathsrc = configuration+"/sshtunnel";
+	    pathdst = conf + "/sshtunnel";
+	    cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
+	    hsrv::cmdExec(cmd);
+	}
    } 
    return true;
 }

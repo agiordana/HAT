@@ -25,6 +25,8 @@ MParams NetSubjects::exportedSubjects;
 
 std::map<std::string, ObserverTCP*> AgentNet::tcp_observers;
 MParams* AgentNet::netpar;
+std::string AgentNet::mport;
+std::string AgentNet::mgroup;
 std::string AgentNet::public_key;
 std::string AgentNet::private_key;
 int AgentNet::validityTime;
@@ -111,6 +113,17 @@ bool AgentNet::init(string n) {
     setof<MAttribute> obs;
     netpar = new MParams(n);
     netpar->load();
+
+// initialize the multicast port and group;
+    MParams multicast;
+    string path = FileManager::getRoot(hsrv::configdir) +"/miniwww/multicast.xml";
+    if(FileManager::isFile(path)) multicast.xmlLoad(path);
+    if(multicast.get("mport") != "") mport = multicast.get("mport");
+	else mport = MULTICAST_PORT;
+    if(multicast.get("mgroup") != "") mgroup = multicast.get("mgroup");
+	else mgroup = MULTICAST_GROUP;
+// now multicast port and group have been set!
+
     private_key = hsrv::configdir + "/" +netpar->get("private_key","generic");
     public_key = hsrv::configdir + "/" +netpar->get("public_key","generic");
     crypt = netpar->get("crypt","mode");
@@ -400,7 +413,7 @@ void *AgentNet::send_status() {
     int r=1;
 
     //attiva porta UDP
-    UDPClient client(MULTICAST_GROUP, MULTICAST_PORT);
+    UDPClient client(mgroup, mport);
     if(crypt=="ON") Cipher::init(private_key, public_key);
     r = client.start(crypt);
     if (r!=1) { //socket fallita, esce con errore, segnalare!
@@ -461,7 +474,7 @@ void *AgentNet::send_status() {
 void *AgentNet::recv_status() {	
     int r;
 	//creazione connessione	
-	UDPServer server(MULTICAST_GROUP, MULTICAST_PORT);	
+	UDPServer server(mgroup, mport);	
 	if (!server.start(crypt)) {
 		string info = "Recv_status: inizializzazione fallita, impossibile ricevere lo stato degli altri agenti";
 		hsrv::logger->info(info, __FILE__, __FUNCTION__, __LINE__);

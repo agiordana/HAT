@@ -7,4 +7,6 @@
 <attribute name="logfile" category="generic" value="AGENT-LOG"/>
 <attribute name="behaviour" category="generic" value="active"/>
 <attribute name="timeunit" category="generic" value="1"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
 </set>

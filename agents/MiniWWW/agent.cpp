@@ -16,7 +16,15 @@ using namespace std;
 Agent::Agent() {
     NameList pp;
     if(!install()) exit(-1);
+
     sethomedir();
+
+    hsrv::archive = new ArchiveManager("archive");
+    if (!hsrv::archive->init()) {
+        exit(-1);
+    }
+
+    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
     
     if(mklock()<0) {
         cout << "a copy of this iopwragent is already running! abort!" << endl; 
@@ -44,26 +52,6 @@ bool Agent::mkHomePage() {
     if(agl.size() == 1 && agl[0] == "miniwww") return mkInstallPage();
     if(agl.size() > 1) return mkIndexPage();
     return false;
-}
-
-bool Agent::install() {
-    string obs = hsrv::homedir+"/observers";
-    
-    if(!FileManager::makeDir(hsrv::homedir, true)) {
-	exit(-1);
-    }
-    if(!FileManager::makeDir(obs, true)) {
-	exit(-1);
-    }
-
-    hsrv::archive = new ArchiveManager("archive");
-    if (!hsrv::archive->init()) {
-        exit(-1);
-    }
-
-    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
-
-    return true;
 }
 
 bool Agent::mkInstallPage() {
@@ -120,7 +108,8 @@ bool Agent::getAgentList(NameList& ag, bool all) {
    FileManager::dirList(conf, tmp);
    for(i=0; i<tmp.size(); i++)
      if(all) ag.push_back(tmp[i]);
-     else if(tmp[i] != "miniwww" && tmp[i] != "wsserver" && tmp[i] != "logger") ag.push_back(tmp[i]);
+     else if(tmp[i] != "miniwww" && tmp[i] != "logger" && 
+			tmp[i]!="sshtunnel" && tmp[i]!="websocket") ag.push_back(tmp[i]);
    return true;
 }
 

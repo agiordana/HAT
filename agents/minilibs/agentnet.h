@@ -43,6 +43,8 @@ private:
     static std::map<std::string, ObserverTCP*> tcp_observers;
     static int novelty;
     static MParams* netpar;
+    static std::string mport;
+    static std::string mgroup;
     static std::string public_key;
     static std::string private_key;
     static time_t last_subject_update;

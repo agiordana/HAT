@@ -17,6 +17,13 @@ Agent::Agent() {
     NameList pp;
     if(!install()) exit(-1);
     sethomedir();
+
+    hsrv::archive = new ArchiveManager("archive");
+    if (!hsrv::archive->init()) {
+        exit(-1);
+    }
+
+    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
     
     if(mklock()<0) {
         cout << "a copy of this iopwragent is already running! abort!" << endl; 

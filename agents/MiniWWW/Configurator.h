@@ -17,7 +17,9 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#define  CONFIGURATIONS "/home/horus/agents/CONFIGURATIONS"
+#define  CONFIGURATIONS "/home/horus/HAT/agents/CONFIGURATIONS"
+#define  CONFIGURATIONS1 "/home/horus/CONFIGURATIONS"
+#define  CONFIGURATIONS2 "/home/horus/agents/CONFIGURATIONS"
 
 
 class Configurator: public RouterExec {

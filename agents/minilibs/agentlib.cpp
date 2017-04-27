@@ -469,3 +469,23 @@ string AgentConf::hex2ascii(string str) {
     return tmp;
 }
 
+bool AgentConf::install() {
+   if(!FileManager::makeDir(hsrv::homedir, true)) return false;
+   MParams global("global");
+   global.load();
+   for(size_t i = 0; i< global.size(); i++) {
+      if(global[i].category == "configdir"||global[i].category == "homedir") {
+	  NameList path;
+	  path.init(global[i].value,'/');
+          string cpath;
+	  if(global[i].category == "configdir") cpath = hsrv::configdir;
+	  else cpath = hsrv::homedir;
+	  for(size_t j=0; j<path.size(); j++) {
+	     cpath += "/";
+	     cpath += path[i];
+	     if(!FileManager::makeDir(cpath, true)) return false;
+	  }
+       }
+   }
+   return true;
+}

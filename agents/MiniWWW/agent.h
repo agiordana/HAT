@@ -26,12 +26,6 @@ protected:
      *      messaggi di tipo poll e update 
      */
     
-    /**
-     * Controlla se è presente la directory home dell'agente e in caso la crea
-     * @return true se la directory è stata creata o se esiste già. In caso di 
-     *         errore termina l'esecuzione del programma
-     */
-	bool install();
 	bool mkHomePage();
 	bool mkInstallPage();
 	bool mkIndexPage();

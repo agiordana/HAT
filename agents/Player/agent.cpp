@@ -18,6 +18,13 @@ Agent::Agent() {
     if(!install()) exit(-1);
     sethomedir();
     
+    hsrv::archive = new ArchiveManager("archive");
+    if (!hsrv::archive->init()) {
+        exit(-1);
+    }
+
+    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
+
     if(mklock()<0) {
         cout << "a copy of this iopwragent is already running! abort!" << endl; 
         exit(-1);
@@ -52,50 +59,3 @@ Agent::Agent() {
     }
 }
 
-
-
-bool Agent::install() {
-    string obs = hsrv::homedir+"/observers";
-    string actions = hsrv::homedir+"/actions";
-    string tr_actions = hsrv::homedir+"/tr_actions";
-    string eventcounters = hsrv::homedir+"/eventcounters";
-    string rules = hsrv::homedir+"/rules";
-    string conditions = hsrv::homedir+"/conditions";
-    string tr_conditions = hsrv::homedir+"/tr_conditions";
-    if(!FileManager::makeDir(hsrv::homedir, true)) {
-    	exit(-1);
-    }
-    if(!FileManager::makeDir(obs, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(actions, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(tr_actions, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(eventcounters, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(eventcounters, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(rules, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(conditions, true)) {
-		exit(-1);
-    }
-    if(!FileManager::makeDir(tr_conditions, true)) {
-		exit(-1);
-    }
-
-    hsrv::archive = new ArchiveManager("archive");
-    if (!hsrv::archive->init()) {
-        exit(-1);
-    }
-
-    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
-
-	return true;
-}

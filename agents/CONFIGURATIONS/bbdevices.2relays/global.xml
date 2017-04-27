@@ -1,10 +1,48 @@
 <?xml version="1.0" ?><set type="pathnames">
-<attribute name="agenttype" value="bbdevices"/>
-<attribute name="agentname" value="bbdevices_$HOST"/>
-<attribute name="homedir" value="/home/horus/horus/horus_home/bbdevices"/>
-<attribute name="emergency_homedir" value="/home/horus/horus_home/bbdevices"/>
-<attribute name="logfile" value="AGENT-LOG"/>
-<attribute name="timeunit" value="1"/>
-<attribute name="description" value="Local I/O Devices"/>
-<attribute name="configurator" value="ON"/>
+<attribute category="generic" name="agenttype" value="bbdevices"/>
+<attribute category="generic" name="agentname" value="bbdevices_$HOST"/>
+<attribute category="generic" name="homedir" value="/home/horus/horus/horus_home/bbdevices"/>
+<attribute category="generic" name="emergency_homedir" value="/home/horus/horus_home/bbdevices"/>
+<attribute category="generic" name="logfile" value="AGENT-LOG"/>
+<attribute category="generic" name="description" value="Local I/O Devices"/>
+<attribute category="generic" name="url" value="/doc/index.html"/>
+<attribute category="generic" name="timeunit" value="1"/>
+<attribute category="generic" name="configurator" value="ON"/>
+<attribute category="configdir" name="devmanifest" value="devmanifest"/>
+<attribute category="configdir" name="devices" value="devices"/>
+<attribute category="configdir" name="AnalogInput" value="devices/AnalogInput"/>
+<attribute category="configdir" name="BinaryInput" value="devices/BinaryInput"/>
+<attribute category="configdir" name="BinaryOutput" value="devices/BinaryOutput"/>
+<attribute category="configdir" name="ElectricMeter" value="devices/ElectricMeter"/>
+<attribute category="configdir" name="FSMDevice" value="devices/FSMDevice"/>
+<attribute category="configdir" name="Pwm" value="devices/Pwm"/>
+<attribute category="configdir" name="RGBPwm" value="devices/RGBPwm"/>
+<attribute category="configdir" name="TriStateOutput" value="devices/TriStateOutput"/>
+<attribute category="configdir" name="gpio" value="gpio"/>
+<attribute category="configdir" name="gpioin" value="gpioin"/>
+<attribute category="configdir" name="gpioout" value="gpioout"/>
+<attribute category="configdir" name="pwmout" value="pwmout"/>
+<attribute category="configdir" name="gpioactive" value="gpioactive"/>
+<attribute category="configdir" name="status" value="status"/>
+<attribute category="configdir" name="archive" value="archive"/>
+<attribute category="configdir" name="onewire" value="onewire"/>
+<attribute category="configdir" name="subjects" value="subjects"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
+<attribute category="homedir" name="gpio" value="gpio"/>
+<attribute category="homedir" name="gpiofree" value="gpiofree"/>
+<attribute category="homedir" name="gpioafree" value="gpioafree"/>
+<attribute category="homedir" name="pwmout" value="pwmout"/>
+<attribute category="homedir" name="exported" value="subjects/exported"/>
+<attribute category="homedir" name="imported" value="subjects/imported"/>
+<attribute category="homedir" name="threads" value="threads"/>
+<attribute category="homedir" name="devices" value="devices"/>
+<attribute category="homedir" name="AnalogInput" value="devices/AnalogInput"/>
+<attribute category="homedir" name="BinaryInput" value="devices/BinaryInput"/>
+<attribute category="homedir" name="BinaryOutput" value="devices/BinaryOutput"/>
+<attribute category="homedir" name="ElectricMeter" value="devices/ElectricMeter"/>
+<attribute category="homedir" name="FSMDevice" value="devices/FSMDevice"/>
+<attribute category="homedir" name="Pwm" value="devices/Pwm"/>
+<attribute category="homedir" name="RGBPwm" value="devices/RGBPwm"/>
+<attribute category="homedir" name="TriStateOutput" value="devices/TriStateOutput"/>
 </set>
