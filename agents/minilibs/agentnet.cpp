@@ -253,7 +253,6 @@ AgentInfo *AgentNet::retrieveInfo(string agent) {
 AgentInfo *AgentNet::retrieveInfo() {
 	AgentInfo* mydata;
     vector<string> events;
-
    for(size_t i=0; i<externsubjects.size(); i++)
        events.push_back(externsubjects[i]);
     
@@ -279,7 +278,7 @@ string AgentNet::retrieve_my_ip() {
 
     //scorro la lista alla ricerca dell'interfaccia NET_TYPE con indirizzo IPv4
     for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
-        if (ifa ->ifa_addr->sa_family==AF_INET && strncmp(ifa->ifa_name,NET_TYPE,5)==0) { 
+        if (ifa->ifa_addr != NULL && ifa ->ifa_addr->sa_family==AF_INET && strncmp(ifa->ifa_name,NET_TYPE,5)==0) { 
             //recupero e restituisco una stringa contenente l'indirizzo IP
             tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
             char addressBuffer[INET_ADDRSTRLEN];
@@ -289,7 +288,7 @@ string AgentNet::retrieve_my_ip() {
     }
     //scorro la lista alla ricerca dell'interfaccia NET_TYPE1 con indirizzo IPv4
     for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
-        if (ifa ->ifa_addr->sa_family==AF_INET && strncmp(ifa->ifa_name,NET_TYPE1,5)==0) { 
+        if (ifa->ifa_addr != NULL && ifa ->ifa_addr->sa_family==AF_INET && strncmp(ifa->ifa_name,NET_TYPE1,5)==0) { 
             //recupero e restituisco una stringa contenente l'indirizzo IP
             tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
             char addressBuffer[INET_ADDRSTRLEN];

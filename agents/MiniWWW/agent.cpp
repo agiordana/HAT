@@ -15,7 +15,9 @@ using namespace std;
 
 Agent::Agent() {
     NameList pp;
-    if(!install()) exit(-1);
+    bool flag;
+    flag = install();
+    if(!flag) exit(-1);
 
     sethomedir();
 
@@ -27,7 +29,7 @@ Agent::Agent() {
     hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
     
     if(mklock()<0) {
-        cout << "a copy of this iopwragent is already running! abort!" << endl; 
+        cout << "a copy of this agent is already running! abort!" << endl; 
         exit(-1);
     };
 	
@@ -143,6 +145,13 @@ string Agent::getBBlist() {
    string choice = "";
    NameList bbl;
    string configuration = CONFIGURATIONS;
+   string conf;
+   string pathsrc;
+   string pathdst;
+   conf = FileManager::getRoot(hsrv::configdir);
+   if(!FileManager::isDir(configuration)) configuration = CONFIGURATIONS1;
+   if(!FileManager::isDir(configuration)) configuration = CONFIGURATIONS2;
+
    FileManager::dirList(configuration, bbl);
    for(size_t i=0; i<bbl.size(); i++) {
       if(FileManager::getStem(bbl[i]) == "bbdevices") {

@@ -376,6 +376,7 @@ MMessage AgentConf::postExecM(MMessage* m) {
 
 bool AgentConf::start_rest_server() {
     rest_server = new RestService();
+
     rest_server->start();
     return true;
 }
@@ -482,7 +483,7 @@ bool AgentConf::install() {
 	  else cpath = hsrv::homedir;
 	  for(size_t j=0; j<path.size(); j++) {
 	     cpath += "/";
-	     cpath += path[i];
+	     cpath += path[j];
 	     if(!FileManager::makeDir(cpath, true)) return false;
 	  }
        }

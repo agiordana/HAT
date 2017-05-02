@@ -585,7 +585,6 @@ bool FileManager::isImageFile(string path) {
 		
 		for(int i = 0; i < image_ext.size(); ++i) {
 			hsrv::upcase(fname);
-			cout << fname << endl;
 			if (hsrv::matchfile(fname, image_ext.at(i))) {
 				return true;
 			}
