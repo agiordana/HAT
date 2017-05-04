@@ -11,6 +11,7 @@ all:
 	cd sshtunnel; make
 	cd logger; make
 	cd utils; make
+	cd starter; make
 
 clean:
 
@@ -26,6 +27,7 @@ clean:
 	cd sshtunnel; make clean
 	cd logger; make clean
 	cd utils; make clean
+	cd starter; make clean
 
 install:
 
@@ -41,3 +43,4 @@ install:
 	cd sshtunnel; make install
 	cd logger; make install
 	cd utils; make install
+	cd starter; make install

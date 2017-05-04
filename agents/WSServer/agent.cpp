@@ -18,6 +18,21 @@ Agent::Agent() {
     if(!install()) exit(-1);
     sethomedir();
     
+    hsrv::archive = new ArchiveManager("archive");
+    if (!hsrv::archive->init()) {
+        exit(-1);
+    }
+
+    hsrv::router = new RpcRoutingMap(hsrv::configdir+"/route.xml");
+    DeviceManager::init("devicemanager");
+    AlarmManager::init("alarmmanager");
+    AutomatismManager::init("automatismmanager");
+    AuthManager::init("authmanager");
+    LogManager::init("logmanager");
+    PwrManager::init("pwrmanager");
+    SrvManager::init("srvmanager");
+    ConfManager::init("confmanager");
+
     if(mklock()<0) {
         cout << "a copy of this iopwragent is already running! abort!" << endl; 
         exit(-1);
@@ -63,33 +78,3 @@ Agent::Agent() {
 
 }
 
-
-
-bool Agent::install() {
-    string obs = hsrv::homedir+"/observers";
-    if(!FileManager::makeDir(hsrv::homedir, true)) {
-	exit(-1);
-    }
-    
-    if(!FileManager::makeDir(obs, true)) {
-       exit(-1);
-    }
-
-    hsrv::archive = new ArchiveManager("archive");
-
-    if (!hsrv::archive->init()) {
-        exit(-1);
-    }
-    
-    hsrv::router = new RpcRoutingMap(hsrv::configdir+"/route.xml");  
-    DeviceManager::init("devicemanager");
-    AlarmManager::init("alarmmanager");
-    AutomatismManager::init("automatismmanager");
-    AuthManager::init("authmanager");
-    LogManager::init("logmanager");
-    PwrManager::init("pwrmanager");
-    SrvManager::init("srvmanager");
-    ConfManager::init("confmanager");
-
-    return true;
-}
