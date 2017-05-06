@@ -40,6 +40,7 @@ PushThread::PushThread(string name) {
     string httpport = nparams.get("port");
     int ipushport = hsrv::a2int(httpport);
     ipushport++;
+    ipushport++;
     port = hsrv::int2a(ipushport);
     rvport = 0;
     mkStatusPage(port);
@@ -59,7 +60,7 @@ void PushThread::do_register(PushThread* obj) {
     int counter = 0;
     int fd;
     while(!setup()&&counter<MAXTRY) {
-        hsrv::logger->info("rvport activation failed: "+hsrv::int2a(counter), __FILE__, __FUNCTION__, __LINE__);
+        hsrv::logger->info("rvport "+port+" activation failed: "+hsrv::int2a(counter), __FILE__, __FUNCTION__, __LINE__);
         sleep(5);
 	counter++;
     }
