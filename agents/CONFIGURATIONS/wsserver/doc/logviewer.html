@@ -396,6 +396,16 @@ function showOnly(area) {
   $("#"+area).show();
 }
 
+function setHeaderTime() {
+  var dd = new Date();
+  var dyear = dd.getFullYear().toString(), dmonth = (dd.getMonth()+1).toString(), dday = dd.getDate().toString();
+
+  document.getElementById("year").value = dyear;
+  document.getElementById("month").value = dmonth;
+  document.getElementById("day").value = dday;
+}
+
+
 var opencanvas = [];
 var devices = [];
 var areas = ["Energy", "Temperature"];
@@ -405,6 +415,7 @@ var areas = ["Energy", "Temperature"];
 </head>
 
 <body style="overflow:auto;">
+
 <div id="all">
   <div id="header">
      <button id="show_Energy">Energy</button><button id="show_Temperature">Temperature</button> <br><br>
@@ -421,6 +432,8 @@ var areas = ["Energy", "Temperature"];
      <div class="bholder" id="temperature_bar"> nothing </div> 
   </div>
 </div>
+
+<script> setHeaderTime(); </script>
 
 </body>
 </html5>
