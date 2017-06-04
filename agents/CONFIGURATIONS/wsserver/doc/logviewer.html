@@ -30,7 +30,7 @@ function getPureName(name) {
    if(name.length >3 && name[2] == '_') return name.slice(3);
 }
 
-function plotAxes(ctx, xB, xE, yB, yE, dX, dY, uX, uY, label) {
+function plotAxes(ctx, xB, xE, yB, yE, dX, dY, uX, uY, label, period) {
    ctx.beginPath();
    ctx.moveTo(xB,yB);
    ctx.lineTo(xB, yE);
@@ -44,7 +44,7 @@ function plotAxes(ctx, xB, xE, yB, yE, dX, dY, uX, uY, label) {
    }
    i = 0;
    for(y=yB; y>=yE-1; y-=dY) {
-        plotTicY(ctx, xB, y, dtic, uY*i);
+        plotTicY(ctx, xB, y, dtic, uY*i, period);
         i++;
    }
    ctx.fillText(label,xE*0.65,yE+yB*0.05);
@@ -68,12 +68,12 @@ function plotAxesT(ctx, xB, xE, yB, yE, yG0, dX, dY, uX, uY, label) {
    }
    i = 0;
    for(y=yG0; y>=yE-1; y-=dY) {
-        plotTicY(ctx, xB, y, dtic, (uY*i));
+        plotTicY(ctx, xB, y, dtic, (uY*i), "DAILY");
         i++;
    }
    i = 0;
    for(y=yG0; y<=yB-1; y+=dY) {
-        plotTicY(ctx, xB, y, dtic, (uY*i));
+        plotTicY(ctx, xB, y, dtic, (uY*i), "DAILY");
         i--;
    }
    ctx.fillText(label,xE*0.60,yE+yB*0.05);
@@ -88,23 +88,47 @@ function plotTicX(ctx, x, y, d, lb) {
     ctx.fillText(lb,x-d/4,y+1.5*d);
 }
 
-function plotTicY(ctx, x, y, d, lb) {
+function plotTicY(ctx, x, y, d, lb, period) {
     ctx.moveTo(x-d/2, y);
     ctx.lineTo(x+d/2, y);
-    ctx.fillText(lb.toFixed(1),x-3*d,y);
+    var ticpos = x-4.0*d;
+    if(lb<100) ticpos = x - 3.5*d;
+    if(lb<10) ticpos = x - 3.0*d;
+    if(period=="DAILY") ctx.fillText(lb.toFixed(1),ticpos,y);
+    else ctx.fillText(lb.toFixed(0),ticpos,y);
 }
 
-function plot(ctx, width, height, range, data, tt, lb) {
-    var ystep = 500;
+function computeYstep(range) {
+   var ystep = Math.round((range[3]-range[2])/10);
+   var qq = 1;
+   var i = 0;
+   while(qq<=ystep) {
+      qq = qq*10;
+      i++;
+  }
+   if(Math.abs(qq-ystep) > Math.abs(4*ystep)) qq = qq/10;
+   if(Math.abs(ystep - qq) > Math.abs((qq/2) - ystep)) qq = qq/2;
+   return qq;
+}
+
+function computeXscale(scale, p) {
+   if(p == "DAILY") return scale/24;
+   if(p == "MONTHLY") return scale/31;
+   return scale / 12;
+}
+
+function plot(ctx, width, height, range, data, tt, lb, period) {
+    var ystep = computeYstep(range);
     var widthScale = range[1] - range[0],
         heightScale = range[3] - range[2],
         first = true;
     var oX = width/10, oY = height - height/15;
     var eX = width - width/40, eY = height/40;
-    var xScale = (eX - oX)/24, yScale = (oY - eY) / ((range[3] - range[2])/ystep);
+    var xScale = computeXscale(eX - oX, period), yScale = (oY - eY) / ((range[3] - range[2])/ystep);
 
     ctx.beginPath();
-    for (var i = 0; i < tt.length; i++) {
+    if(period=="DAILY") {
+      for (var i = 0; i < tt.length; i++) {
          var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
              yGVal = (data[i]/heightScale) * (oY - eY)+height-oY;
 
@@ -117,12 +141,28 @@ function plot(ctx, width, height, range, data, tt, lb) {
          else {
              ctx.lineTo(xGVal, yGVal);
          }
+       }
+
+       ctx.strokeStyle = "red";
+       ctx.lineWidth = 2;
+       ctx.stroke();
+     }
+     else {
+       for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = (data[i]/heightScale) * (oY - eY)+height-oY;
+
+         yGVal = height - yGVal; // 0,0 is top-left
+	 ctx.moveTo(xGVal,oY);
+	 ctx.lineTo(xGVal, yGVal);
+         ctx.strokeStyle = "red";
+	 if(period=="MONTHLY") ctx.lineWidth = (eX-oX)/50;
+	 else ctx.lineWidth = (eX-oX)/20;
+	 ctx.stroke();
+       }
      }
 
-     ctx.strokeStyle = "red";
-     ctx.lineWidth = 2;
-     ctx.stroke();
-     plotAxes(ctx, oX, eX, oY, eY, xScale, yScale, 1, ystep/1000, lb);
+     plotAxes(ctx, oX, eX, oY, eY, xScale, yScale, 1, ystep/1000, lb, period);
 };
 
 
@@ -156,7 +196,7 @@ function plotT(ctx, width, height, range, data, tt, lb) {
      ctx.strokeStyle = "red";
      ctx.lineWidth = 2;
      ctx.stroke();
-     plotAxesT(ctx, oX, eX, oY, eY, yG0, xScale, yScale, 1, ystep, lb);
+     plotAxesT(ctx, oX, eX, oY, eY, yG0, xScale, yScale, 1, ystep, lb, "DAILY");
 };
 
 function evalTime(asciitime) {
@@ -164,10 +204,20 @@ function evalTime(asciitime) {
    return time;
 }
 
+function getTotalEnergy(par, p) {
+   if(p=="DAILY") return par[par.length-1].energy/1000.0;
+   var res = 0;
+   for(i=0; i<par.length; i++) res+=Number(par[i].energy);
+   return res/1000.0;
+} 
+
+
 function plotMeter(meter, myday, mode) {
-    var canvas, ctx, width, height, id;
+    var canvas, ctx, width, height, id, period;
     id = "CANVAS_"+meter;
     canvas = document.getElementById(id);
+    period = document.getElementById("period").value;
+    if(period=="") period = "DAILY";
     if(canvas != null) {
         document.body.removeChild(canvas);
         }
@@ -196,7 +246,7 @@ function plotMeter(meter, myday, mode) {
     else ymd = myday;
 
     $.ajax({url:"/horus-ws/EnergyMeter/"+meter+".json",
-            data:'{"report":"DAILY","date":"'+ymd+'"}',
+            data:'{"report":"'+period+'","date":"'+getYMD(ymd,period)+'"}',
             type:"POST",
             dataType:"json",
             success: function(data) {
@@ -207,14 +257,16 @@ function plotMeter(meter, myday, mode) {
                 var previous=0, current;
 		var j = 0;
 		if(params.length<3) return;
-		for(i=0; i<params.length-1; i++) {
+		if(period=="DAILY") 
+		   for(i=0; i<params.length-1; i++) {
 			if(Number(params[i].energy) > Number(params[i+1].energy)) j=i+1;
-		}
+		   }
                 for(i=j; i<params.length; i++) {
-                        cTime = evalTime(params[i].time);
+                        if(period=="DAILY") cTime = evalTime(params[i].time);
+			else cTime = Number(params[i].time);
                         if(i>0) deltaT = cTime - pTime;
                         tt.push(cTime);
-                        if(mode=="derivative") {
+                        if(period=="DAILY") {
                            current = params[i].energy;
                            current = ((current - previous) / deltaT) * 3600;
                            dd.push(current);
@@ -227,19 +279,31 @@ function plotMeter(meter, myday, mode) {
                         }
                         pTime = cTime;
                 }
+
                 range.push(0);
-                range.push(24*3600);
+                if(period=="DAILY") range.push(24*3600);
+                else if(period=="MONTHLY") range.push(31);
+                else range.push(12);
                 range.push(0);
                 range.push((Math.round(maxEnergy/1000)+1)*1000);
-		if(dd.length<3) return;
-                for(i=1; i<dd.length-1; i++) dd[i] = (dd[i-1]+dd[i]+dd[i+1])/3;
 
-		var lb = getPureName(meter) + ": energy = "+params[params.length-1].energy+" Wh";
-                plot(ctx, width, height, range, dd, tt, lb);
+		if(dd.length<3) return;
+                if(period=="DAILY") for(i=1; i<dd.length-1; i++) dd[i] = (dd[i-1]+dd[i]+dd[i+1])/3;
+
+		var lb = getPureName(meter) + ": eng = "+getTotalEnergy(params,period)+" kWh";
+                plot(ctx, width, height, range, dd, tt, lb, period);
             }
     });
     document.body.appendChild(canvas);
 }
+
+function getYMD(dd, period) {
+  var res;
+  if(period=="MONTHLY") res = dd.slice(0,6);
+  else if(period=="ANNUAL") res = dd.slice(0,4);
+  else res = dd;
+  return res;
+} 
 
 
 function plotTemperature(meter, myday, mode) {
@@ -272,7 +336,6 @@ function plotTemperature(meter, myday, mode) {
     if(myday=="today") ymd = year+month+day;
     else if(myday=="chosenday") ymd = getmydate(year,month,day);
     else ymd = myday;
-
     $.ajax({url:"/horus-ws/Termometer/"+meter+".json",
             data:'{"report":"DAILY","date":"'+ymd+'"}',
             type:"POST",
@@ -412,16 +475,37 @@ var areas = ["Energy", "Temperature"];
 
 </script>
 
+<style>
+
+.chs {
+  padding:5px;
+  border:2px solid #d4d4d4;
+  background-color:White;
+}
+</style>
+
 </head>
 
 <body style="overflow:auto;">
 
 <div id="all">
   <div id="header">
-     <button id="show_Energy">Energy</button><button id="show_Temperature">Temperature</button> <br><br>
-     Year: <input type="number" id="year" min="2015" max="2020" value="2017" style="width: 4em"/>
-     Month: <input type="number" id="month" min="1" max="12" value="1" style="width: 3em"/>
-     Day:<input type="number" id="day" min="1" max="31" value="1" style="width: 3em"/>
+     <div class="chs">
+       <button id="show_Energy">Energy</button><button id="show_Temperature">Temperature</button>
+     </div>
+     <div class="chs">
+       Period:
+       <select id="period">
+         <option value="DAILY"> Day </option>
+         <option value="MONTHLY"> Month </option>
+         <option value="ANNUAL"> Year </option>
+       </select>
+     </div>
+     <div class="chs">
+       Year: <input type="number" id="year" min="2015" max="2020" value="2017" style="width: 4em"/>
+       Month: <input type="number" id="month" min="1" max="12" value="1" style="width: 3em"/>
+       Day:<input type="number" id="day" min="1" max="31" value="1" style="width: 3em"/>
+     </div>
   </div>
   <div id="Energy" class="barholder">
      <p><b> Energy </b> </p>
