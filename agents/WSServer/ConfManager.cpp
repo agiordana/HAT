@@ -27,11 +27,12 @@ cout<<"CONFIGURING "<<target<<endl;
      ss<<body;
      read_json(ss,rpt);
      pt = rpt.get_child("areas");
-     BOOST_FOREACH(boost::property_tree::ptree::value_type &v, pt) {
-      string dev = v.second.get<string>("name");
-      string area = v.second.get<string>("area");
-      if(barholder.count(area) == 0) barholder[area] = new BarHolder(area);
-      barholder[area]->add(dev);
+     JParser tree_parse("name", "area", pt);
+     for(size_t i; i<tree_parse.size(); i++) {
+       string dev = tree_parse[i].first;
+       string area = tree_parse[i].second;
+       if(barholder.count(area) == 0) barholder[area] = new BarHolder(area);
+       barholder[area]->add(dev);
      }
      string description = "";
      map<string, BarHolder*>::iterator it;

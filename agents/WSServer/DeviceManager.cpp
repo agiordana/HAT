@@ -86,7 +86,7 @@ MMessage DeviceManager::execPost(std::vector<std::string>& params, std::string& 
 
 MMessage DeviceManager::execPostSet(std::vector<std::string>& params, std::string& method, std::string body) {
    boost::unique_lock<boost::mutex> lock(mutexclusion);
-   boost::property_tree::ptree pt;
+   boost::property_tree::ptree pt, ptdev;
    string url;
    int done = 0;
    int success = 0;
@@ -102,9 +102,11 @@ MMessage DeviceManager::execPostSet(std::vector<std::string>& params, std::strin
    MMessage msg;
    msg.mtype = "cmd";
 
-   BOOST_FOREACH(boost::property_tree::ptree::value_type &v, pt.get_child("devices")) {
-      string status = v.second.get<string>("enable_status");
-      string name = v.second.get<string>("name");
+   ptdev = pt.get_child("devices");
+   JParser tree_parse("enable_status", "name", ptdev);
+   for(size_t i=0; i<tree_parse.size(); i++) {
+      string status = tree_parse[i].first;
+      string name = tree_parse[i].second;
       string body, itembody;
       msg.msubtype = name;
       url = par.get("set_device_status");

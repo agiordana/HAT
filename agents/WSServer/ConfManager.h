@@ -11,6 +11,7 @@
 #include "NameTable.h"
 #include "Translator.h"
 #include "GuiLib.h"
+#include "JParser.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>

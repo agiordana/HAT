@@ -9,6 +9,7 @@
 #define	AUTHMANAGER_H
 #include "agentlib.h"
 #include "NameTable.h"
+#include "JParser.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>

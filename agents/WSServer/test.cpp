@@ -22,6 +22,7 @@ int main (int argc, char * const argv[]) {
   hsrv::homedir = "/home/horus/horus/horus_home/wsserver";
   hsrv::configdir = "/home/horus/CONFIG/wsserver";
   read_json(ss, pt);
+  Translator translator("transtab");
   
   BOOST_FOREACH(boost::property_tree::ptree::value_type &v, pt) {
      string body=translator.log2text(v);

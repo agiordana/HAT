@@ -9,6 +9,7 @@
 #define	DEVICEMANAGER_H
 #include "agentlib.h"
 #include "NameTable.h"
+#include "JParser.h"
 #include "TransTab.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
