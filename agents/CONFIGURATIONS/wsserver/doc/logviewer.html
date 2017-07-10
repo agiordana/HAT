@@ -292,9 +292,18 @@ function plotMeter(meter, myday, mode) {
 
 		var lb = getPureName(meter) + ": eng = "+getTotalEnergy(params,period)+" kWh";
                 plot(ctx, width, height, range, dd, tt, lb, period);
+	        download(j2csv(dd), mkFileName(getPureName(meter)), 'text/csv');
             }
     });
     document.body.appendChild(canvas);
+}
+
+function j2csv(dd) {
+  var csv ="";
+  for(i=0; i<dd.length; i++) {
+    csv+=(i+';'+(Math.round(dd[i]*1000)/1000)+'\n');
+  }
+  return csv;
 }
 
 function getYMD(dd, period) {
@@ -457,6 +466,7 @@ function showOnly(area) {
   for(i=0; i<areas.length; i++)
     $("#"+areas[i]).hide();
   $("#"+area).show();
+  document.getElementById("a").style.visibility="hidden";
 }
 
 function setHeaderTime() {
@@ -468,6 +478,29 @@ function setHeaderTime() {
   document.getElementById("day").value = dday;
 }
 
+function download(text, name, type) {
+  var a = document.getElementById("a");
+  var file = new Blob([text], {type: type});
+  a.href = URL.createObjectURL(file);
+  a.download = name;
+  document.getElementById("a").style.visibility="visible";
+}
+
+function mkFileName(name) {
+  var file = name+'-'+document.getElementById("year").value;
+  if(document.getElementById("period").value == "DAILY") {
+     file +="-";
+     file += document.getElementById("month").value;
+     file +="-";
+     file += document.getElementById("day").value;
+  }
+  else if(document.getElementById("period").value == "MONTHLY") {
+     file +="-";
+     file += document.getElementById("month").value;
+  }
+  file += ".csv";
+  return file;
+}
 
 var opencanvas = [];
 var devices = [];
@@ -482,6 +515,15 @@ var areas = ["Energy", "Temperature"];
   border:2px solid #d4d4d4;
   background-color:White;
 }
+.save {
+  float:right;
+  width:60;
+  height:25px
+  padding:5px;
+  border:2px;
+  visibility:hidden;
+}
+
 </style>
 
 </head>
@@ -492,6 +534,9 @@ var areas = ["Energy", "Temperature"];
   <div id="header">
      <div class="chs">
        <button id="show_Energy">Energy</button><button id="show_Temperature">Temperature</button>
+       <div class="save">
+       <a href="" id="a"><img src="/doc/img/save.png" height="25px" width="25px"></a>
+       </div>
      </div>
      <div class="chs">
        Period:
