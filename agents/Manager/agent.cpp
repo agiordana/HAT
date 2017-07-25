@@ -24,7 +24,7 @@ Agent::Agent() {
         exit(-1);
     }
 
-    hsrv::router = new RoutingMap(hsrv::configdir+"/route.xml");
+    hsrv::router = new ConfRoutingMap(hsrv::configdir+"/route.xml");
 
     
     if(mklock()<0) {
