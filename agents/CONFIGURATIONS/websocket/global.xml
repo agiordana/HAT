@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
 <set type="global">
 <attribute name="agenttype" category="generic" value="websocket"/>
-<attribute name="cmd" category="generic" value="/home/horus/bin/websocketd --port=$PORT --loglevel=fatal /home/horus/bin/pusher /home/horus/horus/horus_home/wsserver/LOGPUSH"/>
+<attribute name="cmd" category="generic" value="/home/horus/bin/websocketd --port=$PORT --loglevel=fatal /home/horus/bin/pusher $HOME/LOGPUSH"/>
 </set>

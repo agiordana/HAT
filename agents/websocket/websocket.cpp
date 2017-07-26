@@ -14,16 +14,24 @@ int main() {
    string cmd;
    string port;
    string wsport;
+   string home1;
+   string home2;
    MParams global;
    MParams wsglobal;
+   MParams wsnet;
    string path = conf + "/websocket/global.xml";
-   string wsserverpath = conf + "/wsserver/agentnet.xml";
+   string wsservernet = conf + "/wsserver/agentnet.xml";
+   string wsserverglobal = conf + "/wsserver/global.xml";
    global.xmlLoad(path);
-   wsglobal.xmlLoad(wsserverpath);
+   wsnet.xmlLoad(wsservernet);
+   wsglobal.xmlLoad(wsserverglobal);
    cmd = global.get("cmd") + "&";
-   wsport = mkPort(wsglobal.get("port"));
+   home1 = wsglobal.get("homedir");
+   home2 = wsglobal.get("emergency_homedir");
+   if(FileManager::isDir(home1)) hsrv::strReplace(cmd,"$HOME",home1);
+     else hsrv::strReplace(cmd,"$HOME",home2);
+   wsport = mkPort(wsnet.get("port"));
    hsrv::strReplace(cmd, "$PORT", wsport);
-cout<<cmd<<endl;
    system(cmd.c_str());
    return 0;
  }
