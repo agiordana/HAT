@@ -27,16 +27,49 @@
     align: justify;
 }
 #header {
-    background-color:white;
+    width:100%;
     color:black;
+    display:inline-block;
     text-align:left;
     font-size: 2em;
     padding-left:30px;
     padding-right:30px;
-    padding-top:10px;
+    padding-top:15px;
     color:black;
     background-color:WhiteSmoke;
     border:3px solid #d4d4d4;
+}
+#banner0 {
+    display:block;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+}
+#banner1 {
+    display:block;
+    font-size: 1em;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+    font
+}
+#banner2 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:left;
+}
+#banner3 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:right;
 }
 #rule {
     display: inline-block;
@@ -53,7 +86,17 @@ div.rulename {
 }
 
 input.number {
+  height:27px;
   width:40px;
+}
+
+input.radioin {
+  height:20px;
+}
+
+input.numberw {
+  height:27px;
+  width:70px;
 }
 
 input.inrb {
@@ -72,7 +115,7 @@ div.leftitem {
 }
 div.rightitem {
     display: block;
-    width:250px;
+    width:350px;
     float:right;
     border:1px solid #d4d4d4;
 }
@@ -83,7 +126,7 @@ div.smallleftitem {
     border:1px solid #d4d4d4;
     font-size: 1em;
     text-align:center;
-    padding:5px; 
+    padding:3px; 
 }
 div.dummy {
     display: block;
@@ -131,18 +174,36 @@ div.td2 {
 button.rulesubmit{
    float:right;
    text-align: center;
-   width:50px;
-   height:25px;
-   font-size: 14px;
+   width:120px;
+   height:25;
+   font-size: 12px;
 }
 
-div.rw {
+div.rwn {
    float: left;
-   padding-left: 150px;
+   padding-left: 80px;
    background-color: WhiteSmoke;
    border: 2px solid WhiteSmoke;
    padding-right: 20px;
-   text-align: center;
+   text-align: right;
+}
+
+div.rw {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 5;
+   text-align: right;
+}
+div.rwr {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 50px;
 }
 
 div.rx {
@@ -159,11 +220,11 @@ div.ru {
    display: block;
    float: right;
    background-color: WhiteSmoke;
-   width: 100px;
+   width: 80px;
 }
 
 div.ry {
-   float: right;
+   float: left;
    display: block;
    padding-left: 20px;
    background-color: White;
@@ -200,6 +261,9 @@ var ruletpath = "/templates/rule.xml";
 var tmanifestpath = "/templmanifest/rule.xml";
 var rulemanifestpath = "/rulemanifest/";
 var ruleconf = "/configure/rule";
+var ruledelete = "/delete/rule/";
+var doreboot = "/configure/reboot";
+var doreset = "/configure/basic";
 
 var eventtag = "#events";
 var condtag = "#conditions";
@@ -207,6 +271,7 @@ var actiontag = "#actions";
 var inputbox = "#actions";
 var nofmtag = "#nofm";
 var modetag = "#rulemode";
+var cycletag = "#cycle";
 
 function makeList(path, target, mode) {
    $.get(path, function(data, status) {
@@ -244,8 +309,17 @@ function cleanItem(name) {
 function cleanPostfix(name) {
    var i;
    for(i=name.length-1; i>0&&name[i]!='_'; i--);
+   if(i == 0) return name;
    return name.substring(0,i);
 }
+
+function getCategory(name) {
+   var i;
+   for(i=0; i<name.length&&name[i]!='_'; i++);
+   if(i == 0) return "";
+   return name.substring(0,i);
+}
+
 
 function addItemCB(name, target) {
   $(target).append("<div class=\"td2\"><label><input type=\"checkbox\" class=\"inckb\" name=\"event\" value=\"" + name +"\"/>" + cleanItem(name) + "</label></div>");
@@ -260,7 +334,9 @@ function addItemERB(name, target) {
 }
 
 function addItemActionRB(name, target) {
-  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+ if(getCategory(name) == "LI")
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"sw\" /> SW <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+  else $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
 }
 
 function makeRuleName(path) {
@@ -278,8 +354,8 @@ function makeRuleName(path) {
         result.push(item);
         xmldoc = xmldoc.slice(i);
       }
-      result.sort();
-      for(i=0; i<=result.length; i++) {
+      result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
+      for(i=0; i<result.length; i++) {
         name = "R"+i;
 	if(result[i]!=name) break;
 	name = "";
@@ -325,6 +401,7 @@ function addRule() {
   var action="";
   var nofm="";
   var rulemode="";
+  var cycle="";
   var rulename=$("#rname").text();
 
   $("#events :radio[value='Y']:checked").each(function(index,field){
@@ -343,6 +420,10 @@ function addRule() {
 	if(action=="") action=field.name+"_on";
 	  else action = action +'+'+field.name+"_on";
 	});
+  $("#actions :radio[value='sw']:checked").each(function(index,field){
+	if(action=="") action=field.name+"_switch";
+	  else action = action +'+'+field.name+"_switch";
+	});
   $("#actions :radio[value='off']:checked").each(function(index,field){
 	if(action=="") action=field.name+"_off";
 	  else action = action +'+'+field.name+"_off";
@@ -352,6 +433,9 @@ function addRule() {
 	});
   $("#rulemode :radio:checked").each(function(index,field){
 	if(rulemode=="") rulemode=field.value;
+	});
+  $("#cycle :input").each(function(index,field){
+	if(cycle=="") cycle=field.value;
 	});
   $.get(tmanifestpath, function(data, status) {
         var tmanifest;
@@ -385,6 +469,9 @@ function addRule() {
         if((pos = tmanifest.indexOf("$MODE"))>0) {
 	  tmanifest = setValue(tmanifest, rulemode, pos);
         }
+        if((pos = tmanifest.indexOf("$CYCLE"))>0) {
+	  tmanifest = setValue(tmanifest, cycle, pos);
+        }
 	$.post(ruleconf, tmanifest, function(){mkRuleProto(); makeRuleList();});
   });
 }
@@ -394,7 +481,37 @@ function ruleReset() {
   $(condtag).html("<div class=\"td1\">Enabled-if</div>");
   $(actiontag).html("<div class=\"td1\"> Actions </div>");
   $(nofmtag).html("N-of-M <input type=\"number\" class=\"number\" name=\"nofm\" size=\"1\" min=\"1\" max=\"16\" step=\"1\" value=\"1\">");
-  $(modetag).html("<fieldset> Program <input type=\"radio\" name=\"mode\" value=\"program\" checked=\"checked\" /> Allways  <input type=\"radio\" name=\"mode\" value=\"always\"/> </fieldset>");
+  $(modetag).html("<fieldset> Prg ON <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programon\" checked=\"checked\" /> Prg OFF <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"programoff\"/> Always  <input type=\"radio\" class=\"radioin\" name=\"mode\" value=\"always\"/> </fieldset>");
+  $(cycletag).html("Cycle (sec) <input type=\"number\" class=\"numberw\" name=\"cycle\" size=\"4\" min=\"0\" max=\"1440\" step=\"10\" value=\"0\">");
+}
+
+function nameNormalize(namelist) {
+   if(namelist == "") return "";
+   mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+      if(mynames != "") mynames += ", ";
+      mynames += cleanItem(mylist[i]);
+   }
+   return mynames;
+}
+
+function nameNormalizeF(namelist, filter) {
+   if(namelist == "") return "";
+   mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+     if(mylist[i].match(filter)) {
+        if(mynames != "") mynames += ", ";
+        mynames += cleanItem(cleanPostfix(mylist[i]));
+     }
+   }
+   return mynames;
+}
+
+function numberof(namelist) {
+  tmp = namelist.split(",");
+  return tmp.length;
 }
 
 function plotRule(name) {
@@ -406,6 +523,7 @@ function plotRule(name) {
      var tcond="";
      var fcond="";
      var mode="";
+     var cycle="";
      var minevent="";
      var action="";
      var offaction="";
@@ -419,28 +537,61 @@ function plotRule(name) {
         tmanifest = data.xml;
      }
      var pos;
+     var current_action = "";
      if((pos = tmanifest.indexOf("$NAME")) >0) name = getValue(tmanifest, pos);
      if((pos = tmanifest.indexOf("$EVENT")) >0) event = getValue(tmanifest, pos);
-     if((pos = tmanifest.indexOf("$TCONDITION")) >0) tcnod = getValue(tmanifest, pos);
-     if((pos = tmanifest.indexOf("$FCONDITION")) >0) fcnod = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$TCONDITION")) >0) tcond = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$FCONDITION")) >0) fcond = getValue(tmanifest, pos);
      if((pos = tmanifest.indexOf("$MIN_EVENT")) >0) minevent = getValue(tmanifest, pos);
      if((pos = tmanifest.indexOf("$MODE")) >0) mode = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$CYCLE")) >0) cycle = getValue(tmanifest, pos);
      if((pos = tmanifest.indexOf("$ACTION")) >0) action = getValue(tmanifest, pos);
-     $("#footer").append("<div id=\"" + name + "\" class=\"ruledisplay\">");
-     $("#footer").append("<div id=\"antecedent\" class=\"fpart\">");
-     $("#footer").append("<div class=\"rw\">" + name + ": </div>");
-     $("#footer").append("<div class=\"rx\">Events: " + event + "</div>");
-     if(tcond != "") $("#footer").append("<div class=\"rx\"> T:"+tcond + "</div>");
-     if(fcond != "") $("#footer").append("<div class=\"rx\"> F:"+fcond + "</div>");
-     $("#footer").append("</div><div id=\"implication\" class=\"fcpart\">");
-     $("#footer").append("<div class=\"rw\"> ====> </div>");
-     $("#footer").append("</div><div id=\"consequent\" class=\"fpart\">");
-     $("#footer").append("<div class=\"ru\"><button></button> </div>");
-     if(offaction != "") $("#footer").append("<div class=\"ry\"> OFF:" +offaction+"</div>");
-     if(onaction != "") $("#footer").append("<div class=\"ry\"> ON:" +onaction+"</div>");
-     $("#footer").append("</div></div>");
+
+     event = nameNormalize(event,"");
+     tcond = nameNormalize(tcond,"");
+     fcond = nameNormalize(fcond,"");
+     onaction = nameNormalizeF(action, "_on");
+     offaction = nameNormalizeF(action, "_off");
+     switchaction = nameNormalizeF(action, "_switch");
+     var i_mode = "";
+     var i_minevent = "";
+     if(cycle == "" || cycle == "0") {
+       if(mode == "programon") i_mode = "[Prg ON]";
+       else if(mode == "programoff") i_mode = "[Prg OFF]";
+     }
+     else {
+       if(mode == "programon") i_mode = "[Prg ON, Cycle("+ cycle + ")]";
+       else if(mode == "programoff") i_mode = "[Prg OFF, Cycle("+ cycle + ")]";
+       else if(mode == "always") i_mode = "[Cycle("+ cycle + ")]";
+     }
+     if(minevent < numberof(event)) i_minevent = "("+minevent+":"+numberof(event)+")";
+     var descriptor = "";
+     descriptor = "<div id=\"" + name + "\" class=\"ruledisplay\">";
+      descriptor += "<div id=\"antecedent\" class=\"fpart\">";
+        descriptor += ("<div class=\"rwn\">" + name + ": </div>");
+        if(event != "") descriptor += ("<div class=\"rx\">Events"+i_minevent+ ": " + event + "</div>");
+        if(tcond != "") descriptor += ("<div class=\"rx\"> T: "+tcond + "</div>");
+        if(fcond != "") descriptor += ("<div class=\"rx\"> F: "+fcond + "</div>");
+      descriptor += "</div>";
+      descriptor += "<div id=\"implication\" class=\"fcpart\">";
+        descriptor += ("<div class=\"rwr\"> <img src=\"/doc/img/arrow_right.png\" width=\"20\"></div>");
+        descriptor += ("<div class=\"rw\">" + i_mode +"</div>");
+      descriptor += "</div>";
+      descriptor += "<div id=\"consequent\" class=\"fpart\">";
+        descriptor += ("<div class=\"ru\"><button class=\"deletebtn\" onclick=\"deleteRule('" + name + "')\"><img src=\"/doc/img/cross.png\" width=\"15px\" height=\"15px\"></button> </div>");
+        if(offaction != "") descriptor += ("<div class=\"ry\"> OFF: " +offaction+"</div>");
+        if(switchaction != "") descriptor += ("<div class=\"ry\"> SW: " +switchaction+"</div>");
+        if(onaction != "") descriptor += ("<div class=\"ry\"> ON: " +onaction+"</div>");
+     descriptor += "</div></div>";
+     $("#footer").append(descriptor);
   });
 }
+
+function deleteRule(name) {
+  var cmd = ruledelete + name;
+  $.post(cmd,{}, function() {makeRuleList();});
+}
+
 
 function makeRuleList() {
   $.get(rulemanifestpath, function(data, status) {
@@ -448,6 +599,7 @@ function makeRuleList() {
    var pos=1;
    var item;
    var i;
+   $("#footer").text("");
    var result = [];
    while((pos=xmldoc.indexOf("<item>")) >0) {
     item = "";
@@ -457,11 +609,31 @@ function makeRuleList() {
     result.push(item);
     xmldoc = xmldoc.slice(i);
    }
-   result.sort();
-   for(i=0; i<result.length; i++) plotRule(result[i])
+   result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
+   for(i=0; i<result.length; i++) {plotRule(result[i]); sleep(100);}
   });
 }
-  
+
+
+function doReset() {
+  alert("reset");
+  $.post(doreset,{},function() {
+	$(document).ready(function(){
+		$(document).ready(function(){
+			doReboot();
+			setTimeout(pageReload, 5000);
+		})
+	})
+  });
+}
+
+function pageReload() {
+	window.location.reload();
+}
+
+function doReboot() {
+  $.post(doreboot, {}, {});
+}
 
 $(function() {
   mkRuleProto();
@@ -477,7 +649,10 @@ $(function() {
 
 <div id="main">
 <div id="header">
-New Rule <button id="ruleadd" class="rulesubmit" onclick="addRule()">Add</button>
+<div id="banner0"> Rule Configurator </div>
+<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="addRule()">Add New Rule</button> </div>
+<div id="banner2"> <button id="ruleadd" class="rulesubmit" onclick="doReboot()"> Reboot </button> </div>
+<div id="banner3"> <button id="ruleadd" class="rulesubmit" onclick="doReset()"> Reset </button> </div>
 </div>
 <div id="rule">
   <div id="rname" class="rulename"> </div>
@@ -490,32 +665,18 @@ New Rule <button id="ruleadd" class="rulesubmit" onclick="addRule()">Add</button
   </div>
   <div id="rulemode" class="smallleftitem">
       <fieldset>
-	  Program <input type="radio" name="mode" value="program" checked="checked" />
-	  Allways  <input type="radio" name="mode" value="always"/>
+	  Prg ON <input type="radio" class="radioin" name="mode" value="programon" checked="checked" />
+	   Prg OFF <input type="radio" class="radioin" name="mode" value="programoff"/>
+	  Always  <input type="radio" class="radioin" name="mode" value="always"/>
       </fieldset>
   </div>
+  <div id="cycle" class="smallleftitem"> Cycle (sec) <input type="number" class="numberw" name="cycle" size="4" min="0" max="1440" step="10" value="0"> </div>
   <div id="dummy" class="dummy"></div>
   <div id="actions" class="rightitem">
 	<div class="td1"> Actions </div>
   </div>
 </div>
 <div id="footer">
-  <div id="R1" class="ruledisplay">
-    <div id="antecedent" class="fpart">
-	<div class="rw">R1:</div>
-	<div class="rx">Events: PirA,PirB,Tetto</div>
-	<div class="rx"> T: Crepuscolare</div>
-    </div>
-    <div id="implication" class="fcpart">
-	<div class="rw"> ====> </div>
-    </div>
-    <div id="consequent" class="fpart">
-	<div class="ru"><button></button> </div>
-	<div class="ry"> OFF: Luce2</div>
-	<div class="rz"> ON: Sirena</div>
-    </div>
-  </div>
-</div>
 </div>
 </div>
 </body>

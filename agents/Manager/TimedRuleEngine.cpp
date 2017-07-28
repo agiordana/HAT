@@ -101,7 +101,7 @@ bool TimedRuleEngine::makeTimedRulePage(TimedRuleSet& tr)  {
 
     for(size_t i=0; i<tr.size(); i++) {
         pair<string, string> p(tr[i].name, tr[i].get("status"));
-	hsrv::publish(tr[i].name,"alias=\""+tr[i].alias+"\" status=\""+tr[i].get("status")+"\" from=\""+tr[i].get("from")+"\" to=\""+tr[i].get("to")+"\"");
+	hsrv::publish(tr[i].name,"alias=\""+tr[i].alias+"\" status=\""+tr[i].get("status")+"\" from=\""+tr[i].get("from")+"\" to=\""+tr[i].get("to")+"\" cycle=\""+tr[i].get("cycle")+"\"");
         page.push_back(p);
     }
     hsrv::saveItemList("timedrules", "status", page);

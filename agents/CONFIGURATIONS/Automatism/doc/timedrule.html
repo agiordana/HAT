@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+        <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+#main {
+    width: 100%;
+    align: justify;
+}
+#header {
+    width:100%;
+    color:black;
+    display:inline-block;
+    text-align:left;
+    font-size: 2em;
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:15px;
+    color:black;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+}
+#banner0 {
+    display:block;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    font-size: 1em;
+    float:left;
+}
+#banner1 {
+    display:block;
+    font-size: 1em;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:right;
+}
+
+
+input.number {
+//  height:20px;
+  width:40px;
+}
+
+input.radioin {
+//  height:20px;
+}
+
+input.numberw {
+  width:70px;
+}
+
+div.leftiteminv {
+    display: block;
+    width:120px;
+    float:left;
+    padding:3px; 
+    overflow:hidden;
+}
+
+div.leftitem {
+    display: block;
+    border:1px solid #d4d4d4;
+    float:left;
+    padding:3px; 
+    overflow:hidden;
+}
+
+div.rightitem {
+    display: block;
+    float:right;
+    padding:3px; 
+    border:1px solid #d4d4d4;
+}
+
+#footer {
+    background-color:WhiteSmoke;
+    width: 100%;
+    color:black;
+    clear:both;
+    text-align:center;
+    overflow:scroll; height:400px;
+    padding:5px; 
+}
+
+button.rulesubmit{
+   float:right;
+   text-align: center;
+   width:120px;
+   height:25;
+   font-size: 12px;
+}
+
+div.rwn {
+   float: left;
+   padding-left: 80px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 20px;
+   text-align: right;
+}
+
+div.rw {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 5;
+   text-align: right;
+}
+div.rwr {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 50px;
+}
+
+div.rx {
+   display: block;
+   float: left;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ru {
+   display: block;
+   float: right;
+   background-color: WhiteSmoke;
+   width: 80px;
+}
+
+div.ry {
+   float: left;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.rz {
+   float: right;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ruledisplay {
+   background-color: WhiteSmoke;
+   padding: 3px;
+   width: 100%;
+   border: 2px solid #d4d4d4;
+   overflow:hidden;
+}
+
+</style>
+
+<script>
+
+var tproto = "/templmanifest/timedrule.xml";
+var posturi = "/";
+var timedrules = "/timedrules";
+var dynamicpage = "/DynamicPage"
+var rules = [];
+
+function makeList(path) {
+   $.get(path, function(data, status) {
+      var xmldoc = data;
+      var pos=1;
+      var item;
+      var result = [];
+      while((pos=xmldoc.indexOf("<item>")) >0) {
+	item = "";
+        while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
+        for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
+        item = xmldoc.substring(pos+1, i);
+         
+	result.push(item);
+        xmldoc = xmldoc.slice(i);
+      }
+    var i;
+    result.sort();
+    for(i=0; i<result.length; i++) {
+        rules.push(new timedRule(result[i]));
+        
+    }
+  });
+};
+
+function cleanItem(name) {
+   var i;
+   for(i=0; i<name.length && name[i]!='_'; i++);
+   return name.substring(i+1);
+}
+
+function cleanPostfix(name) {
+   var i;
+   for(i=name.length-1; i>0&&name[i]!='_'; i--);
+   if(i == 0) return name;
+   return name.substring(0,i);
+}
+
+function getCategory(name) {
+   var i;
+   for(i=0; i<name.length&&name[i]!='_'; i++);
+   if(i == 0) return "";
+   return name.substring(0,i);
+}
+
+
+function setValue(manifest, value, pos) {
+   var i = manifest.indexOf("value", pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i==manifest.length) return manifest;
+   var newmanifest = manifest.substring(0,i) + value +manifest.substring(i);
+   return newmanifest;
+}
+
+function getValue(manifest, item, pos) {
+   var i = manifest.indexOf(item, pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i>=manifest.length) return "";
+   var value = "";
+   while(i<manifest.length && manifest[i]!='"') value += manifest[i++];
+   return value;
+}
+
+function pageReload() {
+	window.location.reload();
+}
+
+function ruleUpdate() {
+  for(i=0; i<rules.length; i++) rules[i].update();
+}
+
+function getHour(tt) {
+  var res = "";
+  for(i=0; i<tt.length && tt[i] != ':'; i++) res += tt[i];
+  if(res.length == 1) res = "0"+res;
+  return res;
+}
+
+function getMin(tt) {
+  var res = "";
+  var i;
+  for(i=0; i<tt.length && tt[i] != ':'; i++);
+  i++;
+  for(; i<tt.length && tt[i] != ':'; i++) res += tt[i];
+  if(res.length == 1) res = "0"+res;
+  return res;
+}
+
+function timedRule(name) {
+  this.name = name;
+  this.status = "OFF";
+  this.from = "0";
+  this.to = "0";
+  this.cycle = "0";
+  var path = dynamicpage+"/"+name+".xml";
+  var obj = this;
+  $.get(path, function(data, stat) {
+      var xmldoc = data;
+      var pos=1;
+      var desc = (new XMLSerializer()).serializeToString(xmldoc);
+      obj.status = getValue(desc,"status",pos);
+      obj.from = getValue(desc,"from",pos);
+      obj.to = getValue(desc,"to",pos);
+      obj.cycle = getValue(desc,"cycle",pos);
+      var desc = '<div id="R'+name+'" class="ruledisplay">';
+	  desc += '<div class="leftiteminv">'+cleanItem(name)+': </div>';
+          desc += '<div class="leftitem"> from: ';
+	  desc += '<input type="number" class="number" name="hfrom" size="2" min="0" max="23" step="1" value="'+getHour(obj.from)+'"</input>';
+	  desc += '<input type="number" class="number" name="mfrom" size="2" min="0" max="59" step="1" value="'+getMin(obj.from)+'"</input>';
+          desc += '</div>';
+	  desc += '<div class="leftitem"> to: ';
+	  desc += '<input type="number" class="number" name="hto" size="2" min="0" max="23" step="1" value="'+getHour(obj.to)+'"</input>';
+	  desc += '<input type="number" class="number" name="mto" size="2" min="0" max="59" step="1" value="'+getMin(obj.to)+'"</input>';
+	  desc += '</div>';
+	  desc += '<div class="leftitem"> Cyc. (s): ';
+          desc += '<input type="number" class="numberw" name="mcycle" size="4" min="0" max="1440" step="10" value="'+obj.cycle+'"</input>';
+	  desc += '</div>';
+	  desc += '<div class="rightitem"> ';
+	  desc += '<fieldset> On <input type="radio" class="radioin" name="'+name+'" value="ON" '+(obj.status=="ON"?'checked="checked"':"")+' />';
+	  desc += 'Off <input type="radio" class="radioin" name="'+name+'" value="OFF" '+ (obj.status=="OFF"?'checked="checked"':"")+'/></fieldset>';
+	  desc += '</div>';
+	  desc += '</div>';
+      $("#footer").append(desc);
+  });
+  this.update = function() {
+    var obj = this;
+    $("#R"+name+" :input[name='hfrom']").each(function(index,field){obj.from = field.value;});
+    $("#R"+name+" :input[name='mfrom']").each(function(index,field){obj.from += ":"+field.value+":00";});
+    $("#R"+name+" :input[name='hto']").each(function(index,field){obj.to = field.value;});
+    $("#R"+name+" :input[name='mto']").each(function(index,field){obj.to += ":"+field.value+":00";});
+    $("#R"+name+" :input[name='mcycle']").each(function(index,field){obj.cycle = field.value;});
+    $("#R"+name +" :radio[value='ON']:checked").each(function(index,field){obj.status = "ON";});
+    $("#R"+name +" :radio[value='OFF']:checked").each(function(index,field){obj.status = "OFF";});
+    $.get(tproto, function(data, stat) {
+        var serializer = new XMLSerializer();
+        var msg = serializer.serializeToString(data);
+	msg = msg.replace("$NAME", obj.name);
+	msg = msg.replace("$FROM", obj.from);
+	msg = msg.replace("$TO", obj.to);
+	msg = msg.replace("$CYCLE", obj.cycle);
+	msg = msg.replace("$STATUS", obj.status);
+	$.post(posturi, msg, function(){});
+    });
+  }
+}
+ 
+
+</script>
+</head>
+
+<body>
+
+<script>
+
+makeList(timedrules);
+
+</script>
+
+<div id="main">
+<div id="header">
+	<div id="banner0"> Timed Rules </div>
+<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="ruleUpdate()"> Update </button> </div>
+</div>
+<div id="footer">
+</div>
+</div>
+</body>
+</html>
+

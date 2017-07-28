@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="settrrulemode"> 
+<field name="name" value="$NAME"/>
+<field name="from" value="$FROM"/>
+<field name="to" value="$TO"/>
+<field name="cycle" value="$CYCLE"/>
+<field name="status" value="$STATUS"/>
+</message>
