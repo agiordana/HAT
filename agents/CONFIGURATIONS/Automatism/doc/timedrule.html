@@ -300,8 +300,15 @@ function timedRule(name) {
       obj.from = getValue(desc,"from",pos);
       obj.to = getValue(desc,"to",pos);
       obj.cycle = getValue(desc,"cycle",pos);
+      var icon="";
+      if(getCategory(cleanItem(name))=="LI") {
+	 icon = "lightbulb.png";
+      }
+      else if(getCategory(cleanItem(name))=="SO") {
+        icon = "socket.png";
+      }
       var desc = '<div id="R'+name+'" class="ruledisplay">';
-	  desc += '<div class="leftiteminv">'+cleanItem(name)+': </div>';
+	  desc += '<div class="leftiteminv"><img src="/doc/img/'+icon+'" width="15" height="18"> '+cleanItem(cleanItem(name))+': </div>';
           desc += '<div class="leftitem"> from: ';
 	  desc += '<input type="number" class="number" name="hfrom" size="2" min="0" max="23" step="1" value="'+getHour(obj.from)+'"</input>';
 	  desc += '<input type="number" class="number" name="mfrom" size="2" min="0" max="59" step="1" value="'+getMin(obj.from)+'"</input>';
