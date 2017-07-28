@@ -7,7 +7,7 @@ OBJ = agent.o Controller.o Scheduler.o Control.o ControlSet.o Sensor.o SensorSet
 BIN = ../bin
 XML = ../tinyxml/*.o
 
-all:	$(OBJ) main.cpp agent.h 
+pwrcontrol:	$(OBJ) main.cpp agent.h 
 	$(CC) $(FLAGS) $(OPTLIB) -o pwrcontrol main.cpp $(AGENTLIB) $(OBJ) $(XML) $(LIB)
 
 %.o:	%.cpp
@@ -16,7 +16,7 @@ all:	$(OBJ) main.cpp agent.h
 openssl/%.o : openssl/%.c
 	$(CC) -c $<
 	
-install:	all
+install:	pwrcontrol
 	cp pwrcontrol $(BIN)/pwrcontrol
 
 clean:	

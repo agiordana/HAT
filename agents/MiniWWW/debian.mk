@@ -9,7 +9,7 @@ OBJ = agent.o Configurator.o ConfRoutingMap.o
 XML = ../tinyxml/*.o
 JSON = ../libjson/Objects_static/*.o
 
-all:	$(OBJ) main.cpp agent.h 
+miniwww:	$(OBJ) main.cpp agent.h 
 	$(CC) $(FLAGS) $(OPTLIB) -o miniwww main.cpp $(OBJ) $(AGENTLIB) $(XML) $(LIB) $(JSON)
 
 %.o:	%.cpp
@@ -18,7 +18,7 @@ all:	$(OBJ) main.cpp agent.h
 openssl/%.o :	openssl/%.c
 	$(CC) -c $<
 
-install:	all
+install:	miniwww
 	cp miniwww $(BIN)/miniwww
 
 clean:

@@ -8,7 +8,7 @@ OBJ = agent.o ProgramEngine.o TimedRuleEngine.o eventcounter.o ruleset.o timedru
 BIN = ../bin
 XML = ../tinyxml/*.o
 
-all:	$(OBJ) main.cpp agent.h 
+manager:	$(OBJ) main.cpp agent.h 
 	$(CC) $(FLAGS) $(OPTLIB) -o manager main.cpp $(AGENTLIB) $(OBJ) $(XML) $(LIB)
 
 %.o:	%.cpp
@@ -17,7 +17,7 @@ all:	$(OBJ) main.cpp agent.h
 openssl/%.o : openssl/%.c
 	$(CC) -c $<
 	
-install:	all
+install:	manager
 	cp manager $(BIN)/manager
 
 clean:	

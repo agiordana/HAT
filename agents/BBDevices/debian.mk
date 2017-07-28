@@ -9,7 +9,7 @@ OBJ = agent.o Timer.o GPIOThread.o Gpio.o VirtualDevices.o Device.o ElectricMete
 XML = ../tinyxml/*.o
 JSON = ../libjson/Objects_static/*.o
 
-all:	$(OBJ) main.cpp agent.h Timer.h GPIOThread.h VirtualDevices.h Device.h ElectricMeter.h FSMDevice.h BinaryInput.h BinaryOutput.h Pwm.h RGBPwm.h
+bbdevices:	$(OBJ) main.cpp agent.h Timer.h GPIOThread.h VirtualDevices.h Device.h ElectricMeter.h FSMDevice.h BinaryInput.h BinaryOutput.h Pwm.h RGBPwm.h
 	$(CC) $(FLAGS) $(OPTLIB) -o bbdevices main.cpp $(OBJ) $(AGENTLIB) $(XML) $(LIB) $(JSON)
 
 %.o:	%.cpp
@@ -18,7 +18,7 @@ all:	$(OBJ) main.cpp agent.h Timer.h GPIOThread.h VirtualDevices.h Device.h Elec
 openssl/%.o :	openssl/%.c
 	$(CC) -c $<
 
-install:	all
+install:	bbdevices
 	cp bbdevices $(BIN)/bbdevices
 
 clean:

@@ -8,7 +8,7 @@ BIN = ../bin
 XML = ../tinyxml/*.o
 JSON = ../libjson/Objects_static/*.o
 
-all:	$(OBJ) main.cpp agent.h JParser.h AgentInterface.h NameTable.h  RpcServer.h TransTab.h Receiver.h ArchiveThread.h PushThread.h RemoteServerThread.h PushConnection.h DeviceManager.h AlarmManager.h AuthManager.h AutomatismManager.h UserLog.h Translator.h LogManager.h PwrManager.h SrvManager.h ConfManager.h
+wsserver:	$(OBJ) main.cpp agent.h JParser.h AgentInterface.h NameTable.h  RpcServer.h TransTab.h Receiver.h ArchiveThread.h PushThread.h RemoteServerThread.h PushConnection.h DeviceManager.h AlarmManager.h AuthManager.h AutomatismManager.h UserLog.h Translator.h LogManager.h PwrManager.h SrvManager.h ConfManager.h
 	$(CC) $(FLAGS) $(OPTLIB) -o wsserver main.cpp $(AGENTLIB) $(OBJ) $(XML) $(LIB) $(JSON)
 
 %.o:	%.cpp
@@ -17,7 +17,7 @@ all:	$(OBJ) main.cpp agent.h JParser.h AgentInterface.h NameTable.h  RpcServer.h
 openssl/%.o : openssl/%.c
 	$(CC) -c $<
 	
-install:	all
+install:	wsserver
 	cp wsserver $(BIN)/wsserver
 
 clean:	
