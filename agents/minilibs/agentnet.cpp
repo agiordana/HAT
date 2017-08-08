@@ -118,11 +118,15 @@ bool AgentNet::init(string n) {
     MParams multicast;
     string path = FileManager::getRoot(hsrv::configdir) +"/miniwww/multicast.xml";
     if(FileManager::isFile(path)) multicast.xmlLoad(path);
+    else hsrv::logger->info(path+" not found! using default address");
     if(multicast.get("mport") != "") mport = multicast.get("mport");
 	else mport = MULTICAST_PORT;
     if(multicast.get("mgroup") != "") mgroup = multicast.get("mgroup");
 	else mgroup = MULTICAST_GROUP;
 // now multicast port and group have been set!
+    string info = "MPORT = "+mport+", MGROUP = "+mgroup;
+    hsrv::logger->info(info);
+
 
     private_key = hsrv::configdir + "/" +netpar->get("private_key","generic");
     public_key = hsrv::configdir + "/" +netpar->get("public_key","generic");
@@ -321,7 +325,7 @@ bool AgentNet::mkTcpObserverXML(MMessage &m) {
     desc.add("port", m.getString("port"));
     desc.add("language", "xml");
     desc.add("status", "ON");
-    for (unsigned i=0; i<events.size(); i++) {
+    for (size_t i=0; i<events.size(); i++) {
         split(events[i],ty,subty);
         desc.add(subty,"observe",ty);
     }
@@ -686,6 +690,23 @@ std::string AgentNet::getWSServer() {
     }
     return "";
 }
+
+std::string AgentNet::getAgentOf(string device) {
+    boost::unique_lock<boost::mutex> lock(mutexclusion);
+    map<string,AgentInfo>::iterator it;
+    for (it=foreign_agents.begin(); it!=foreign_agents.end(); it++) {
+       string ty;
+       string subty;
+       vector<string> events = it->second.getList("observe");
+       for(size_t i=0; i<events.size(); i++) {
+	  split(events[i],ty,subty);
+	  if(ty=="cmd" && subty==device) return it->second.getString("ip")+":"+it->second.getString("port");
+       }
+    }
+    return "none";
+} 
+	  
+    
 
 bool AgentNet::setNovelty(int n) {
     boost::unique_lock<boost::mutex> lock(mutexclusion);

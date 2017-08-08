@@ -264,7 +264,11 @@ public:
     static bool SubjectsUpdate();
     static bool SubjectDateUpdate();
     static bool SubjectRegister();
+
+    /* Returns the ip:port of the WSServer, if it exists */
     static std::string getWSServer();
+    /* Returns the ip:port of the agent that handle a specific command (cmd) */
+    static std::string getAgentOf(std::string);
     static bool setNovelty(int n=2);
     static bool testNovelty();
     

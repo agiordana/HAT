@@ -1,4 +1,0 @@
-<?xml version="1.0" ?>
-<set type="srvmanager">
-<attribute name="mkgui_answer" category="generic" value='{"response":{"message":"ok"}}'/>
-</set>
