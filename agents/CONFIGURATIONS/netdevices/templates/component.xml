@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<set type="$NAME">
+<attribute name="name" category="generic" value="$NAME"/>
+<attribute name="eventname" category="generic" value="$NAME_state"/>
+<attribute name="status" category="generic" value="OFF"/>
+<attribute name="active" category="generic" value="ON"/>
+<attribute name="order" category="generic" value="$ORDER"/>
+<attribute name="ON" category="cmd" value="/cmdw/$NAME/ON"/>
+<attribute name="OFF" category="cmd" value="/cmdw/$NAME/OFF"/>
+<attribute name="ON" category="answer" value="done:value=ON"/>
+<attribute name="OFF" category="answer" value="done:value=OFF"/>
+<attribute name="status" category="answer" value="value"/>
+<attribute name="active" category="answer" value="status"/>
+</set>

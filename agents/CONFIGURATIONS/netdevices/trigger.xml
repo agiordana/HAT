@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<set type="trigger">
+        <attribute category="trigger" name="sync" value="30"/>
+	<attribute category="trigger" name="check_rpc_timeout" value="10"/>
+</set>

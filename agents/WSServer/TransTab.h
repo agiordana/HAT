@@ -33,6 +33,8 @@ protected:
     std::string getValue(std::vector<std::string>& params);
     std::string nv2av(std::vector<std::string>& params, std::string);
     std::string extractValue(std::string&, std::string);
+    std::string convertValue(std::string&);
+    std::string replaceSpaces(std::string&);
 };
 
 class TransTab: public std::vector<TransEntry> {

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<set type="Configurator">
+	<attribute name="status" value="ON"/>
+	<attribute category="generic" name="sensor_category" value="LS"/>
+	<attribute category="generic" name="cmd_category" value="SO"/>
+	<attribute category="observe" name="configure" value="cmd"/>
+	<attribute category="observe" name="mkdevice" value="cmd"/>
+	<attribute category="observe" name="reboot" value="cmd"/>
+</set>

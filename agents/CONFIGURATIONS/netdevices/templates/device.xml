@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<set type="$PREFIX_$NAME">
+<attribute name="name" category="generic" value="$PREFIX_$NAME"/>
+<attribute name="active" category="generic" value="ON"/>
+<attribute name="type" category="generic" value="$TYPE"/>
+<attribute name="eventname" category="generic" value="$PREFIX_$NAME_state"/>
+</set>

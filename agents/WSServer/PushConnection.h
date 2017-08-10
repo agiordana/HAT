@@ -29,6 +29,7 @@ private:
     bool notifyAlarm(MMessage&);
     int logMessage(std::string,std::string&, std::string&);
     bool isToLog(std::string);
+    std::string convertValue(std::string&);
 public:
     PushConnection(std::string, std::string);
     PushConnection(int fd);

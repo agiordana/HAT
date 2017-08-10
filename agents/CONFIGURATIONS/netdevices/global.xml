@@ -1,0 +1,16 @@
+<?xml version="1.0" ?><set type="pathnames">
+<attribute category="generic" name="agenttype" value="netdevices"/>
+<attribute category="generic" name="agentname" value="netdevices_$HOST"/>
+<attribute category="generic" name="homedir" value="/home/horus/horus/horus_home/netdevices"/>
+<attribute category="generic" name="emergency_homedir" value="/home/horus/horus_home/netdevices"/>
+<attribute category="generic" name="logfile" value="AGENT-LOG"/>
+<attribute category="generic" name="description" value="Network Devices"/>
+<attribute category="generic" name="url" value="/doc/index.html"/>
+<attribute category="generic" name="timeunit" value="1"/>
+<attribute category="generic" name="configurator" value="ON"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
+<attribute category="homedir" name="exported" value="subjects/exported"/>
+<attribute category="homedir" name="imported" value="subjects/imported"/>
+<attribute category="homedir" name="devices" value="devices"/>
+</set>

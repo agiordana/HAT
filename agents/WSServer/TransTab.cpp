@@ -49,10 +49,32 @@ string TransEntry::getValue(vector<string>& params) {
    if(params.size() > valueindex && valueindex >0) {
         string val = "";
         for(size_t i=0; i<params[valueindex][i] && params[valueindex][i] != '.'; i++) val += params[valueindex][i];
-        return val;
+        return replaceSpaces(val);
    }
    else return "";
 }
+
+string TransEntry::replaceSpaces(string& v) {
+   string res = "";
+   for(size_t i=0; i<v.length(); i++) 
+      if(v[i] == ' ') res += '+';
+        else res += v[i];
+   return res;
+}
+
+string TransEntry::convertValue(string& v) {
+   NameList value;
+   string res;
+   value.init(v,'+');
+   for(size_t i=0; i<value.size(); i++) {
+      if(res != "") res+= '+';
+      if(value[i] == "ON" || value[i] == "1") res+="true";
+      else if(value[i] == "OFF" || value[i] == "0") res+="false";
+      else res+=value[i];
+   }
+   return res;
+}
+
 
 string TransEntry::getEvent(vector<string>& params) {
    if(params.size() <= nameindex) return ""; 
@@ -107,8 +129,8 @@ string TransEntry::xml2jsonStatus(string& msg) {
    string value = extractValue(msg,"value");
    string category = get("class");
    if(category != "SH" && category != "DI" && category != "RG") {
-      if(value=="ON") hsrv::strReplace(body,"$TRUEFALSE","true");
-	else hsrv::strReplace(body,"$TRUEFALSE","false");
+      string newval = convertValue(value);
+      hsrv::strReplace(body,"$TRUEFALSE",newval);
    }
    else {
       if(category == "SH") {

@@ -1,0 +1,16 @@
+<?xml version="1.0"?><set type="archive">
+<attribute category="root" name="archive" value="*"/>
+<attribute category="root" name="status" value="status"/>
+<attribute category="root" name="subjects" value="*"/>
+<attribute category="conf" name="threads" value="*"/>
+<attribute category="conf" name="devices" value="*"/>
+<attribute category="conf" name="templates" value="*"/>
+<attribute category="conf" name="templmanifest" value="*"/>
+<attribute category="conf" name="devicemanifest" value="*"/>
+<attribute category="conf" name="doc" value="*"/>
+<attribute category="history" name="archive" value="15"/>
+<attribute category="history" name="status" value="1"/>
+<attribute category="history" name="subjects" value="-1"/>
+<attribute category="control" name="status" value="ON"/>
+</set>
+

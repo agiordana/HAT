@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="adddevice">
+<field name="$INPUT" value=""/>
+<field name="$COMPONENT" value=""/>
+<field name="$NAME" value=""/>
+<field name="$PREFIX" value=""/>
+<field name="$TYPE" value=""/>
+</message>

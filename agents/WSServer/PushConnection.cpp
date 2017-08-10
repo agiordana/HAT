@@ -180,8 +180,7 @@ bool PushConnection::notifyDeviceChange(MMessage& m) {
 		break;
 	  case 3:
 		if(namefull[2]!="state") return false;
-                if((device=="LI"||device=="SO"||device=="SA"||device=="GA"||device=="GV" ||device=="IR") && (value == "1"||value == "ON")) value = "true";
-                else if((device=="LI"||device=="SO"||device=="SA"||device=="GA"||device=="GV" ||device=="IR") && (value == "0"||value == "OFF")) value = "false";
+                if((device=="LI"||device=="SO"||device=="SA"||device=="GA"||device=="GV" ||device=="IR")) value = convertValue(value);
 		else if(device=="DI") value = remapDimmer(value);
 		else if(device=="SH" && value == "UP") value = "up";
 		else if(device=="SH" && value=="DOWN") value = "down";
@@ -331,4 +330,17 @@ bool PushConnection::isToLog(string event) {
   if(logevents.member("all") || logevents.member(event))
 	return true;
   else return false;
+}
+
+string PushConnection::convertValue(string& v) {
+   NameList value;
+   string res;
+   value.init(v,'+');
+   for(size_t i=0; i<value.size(); i++) {
+      if(res != "") res+= '+';
+      if(value[i] == "ON" || value[i] == "1") res+="true";
+      else if(value[i] == "OFF" || value[i] == "0") res+="false";
+      else res+=value[i];
+   }
+   return res;
 }

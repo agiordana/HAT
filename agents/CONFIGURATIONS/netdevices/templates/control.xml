@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<set type="control">
+<attribute name="cmd" category="trigger" value="$PREFIX_$NAME"/>
+<attribute name="event" category="trigger" value="$INPUT"/>
+$CONTROL
+</set>

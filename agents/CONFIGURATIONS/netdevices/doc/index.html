@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+#main {
+    width: 100%;
+    align: justify;
+}
+#header {
+    width:100%;
+    color:black;
+    display:inline-block;
+    text-align:left;
+    font-size: 2em;
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:15px;
+    color:black;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+}
+#banner0 {
+    display:block;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+}
+#banner1 {
+    display:block;
+    font-size: 1em;
+    padding-left:30px;
+    padding-right:30px;
+    background-color:WhiteSmoke;
+    float:left;
+    font
+}
+#banner2 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:left;
+}
+#banner3 {
+    display:block;
+    background-color:WhiteSmoke;
+    padding-left:30px;
+    padding-right:30px;
+    font-size: 1em;
+    float:right;
+}
+#rule {
+    display: inline-block;
+    width:100%;
+    padding:5px;
+    border:3px solid #d4d4d4;
+}
+div.rulename {
+    display: block;
+    text-align:center;
+    font-weight:bold;
+    float:left;
+    padding: 10px;
+}
+
+input.number {
+  height:27px;
+  width:40px;
+}
+
+input.radioin {
+  height:20px;
+}
+
+input.numberw {
+  height:27px;
+  width:70px;
+}
+
+input.inrb {
+  margin-left: 20px;
+}
+
+input.inckb {
+  margin-right: 20px;
+}
+
+div.leftitem {
+    display: block;
+    width:250px;
+    border:1px solid #d4d4d4;
+    float:left;
+}
+div.rightitem {
+    display: block;
+    width:350px;
+    float:right;
+    border:1px solid #d4d4d4;
+}
+div.smallleftitem {
+    display: block;
+    float:left;
+    background-color:WhiteSmoke;
+    border:1px solid #d4d4d4;
+    font-size: 1em;
+    text-align:center;
+    padding:3px; 
+}
+div.dummy {
+    display: block;
+    padding:5px; 
+    float:left;
+}
+#footer {
+    height: 100px;
+    background-color:WhiteSmoke;
+    width: 100%;
+    color:black;
+    clear:both;
+    text-align:center;
+    overflow:scroll; height:400px;
+    padding:5px; 
+}
+div.fcpart {
+    width: 20%;
+    display: block;
+    text-align:center;
+    float: left;
+}
+div.fpart {
+    width: 40%;
+    display: block;
+    float: left;
+}
+div.td1 {
+    background-color:WhiteSmoke;
+    color: black;
+    font-size: 1em;
+    text-align:center;
+    border:1px solid #d4d4d4;
+    padding:5px; 
+}
+
+div.td2 {
+    text-align:right;
+    border:1px solid #d4d4d4;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right:20px;
+    padding-left:20px;
+}
+
+div.td2c {
+    text-align:right;
+    border:1px solid #d4d4d4;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right:20px;
+    padding-left:20px;
+    background-color:Gainsboro;
+}
+
+button.rulesubmit{
+   float:right;
+   text-align: center;
+   width:120px;
+   height:25;
+   font-size: 12px;
+}
+
+div.rwn {
+   float: left;
+   padding-left: 80px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 20px;
+   text-align: right;
+   font: bold;
+}
+
+div.rw {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 5;
+   text-align: right;
+}
+div.rwr {
+   display: block;
+   float: right;
+   padding-left: 5px;
+   background-color: WhiteSmoke;
+   border: 2px solid WhiteSmoke;
+   padding-right: 50px;
+}
+
+div.rx {
+   display: block;
+   float: left;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ru {
+   display: block;
+   float: right;
+   background-color: WhiteSmoke;
+   width: 80px;
+}
+
+div.ry {
+   float: left;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.rz {
+   float: right;
+   display: block;
+   padding-left: 20px;
+   background-color: White;
+   border: 2px solid #d4d4d4;
+   padding-right: 20px;
+   text-align: center;
+}
+
+div.ruledisplay {
+   display: inline-block;
+   background-color: WhiteSmoke;
+   width: 100%;
+   color: black;
+   font-size: 1em;
+}
+
+</style>
+
+<script>
+
+var eventpath = "/configure/list/inputlist";
+var actionpath = "/configure/list/componentlist";
+var devicepath = "/configure/list/devicelist";
+var devicetpath = "/templates/device.xml";
+var tmanifestpath = "/templmanifest/device.xml";
+var devicemanifestpath = "/devicemanifest/";
+var deviceconf = "/configure/adddevice";
+var devicedelete = "/configure/delete/";
+var doreboot = "/configure/reboot";
+
+var eventtag = "#events";
+var actiontag = "#actions";
+var inputbox = "#actions";
+var newdevtag = "#devname";
+
+function makeList(path, target, mode) {
+   $.get(path, function(data, status) {
+      var xmldoc = data;
+      var result = xmldoc.split('+');
+      var i;
+      result.sort();
+      for(i=0; i<result.length; i++) {
+	if(mode=="radio") addItemRB(result[i],target);
+	else if(mode=="listrb") {
+	  if(result[i].match("_on")) addItemActionRB(cleanPostfix(result[i]),target);
+        }
+	else addItemERB(result[i],target);
+      }
+  });
+};
+
+function cleanItem(name) {
+   var i;
+   for(i=0; i<name.length && name[i]!='_'; i++);
+   return name.substring(i+1);
+}
+
+function cleanPostfix(name) {
+   var i;
+   for(i=name.length-1; i>0&&name[i]!='_'; i--);
+   if(i == 0) return name;
+   return name.substring(0,i);
+}
+
+function getCategory(name) {
+   var i;
+   for(i=0; i<name.length&&name[i]!='_'; i++);
+   if(i == 0) return "";
+   return name.substring(0,i);
+}
+
+
+function addItemCB(name, target) {
+  $(target).append("<div id=\"div_"+name+"\" class=\"td2\"><label><input type=\"checkbox\" class=\"inckb\" name=\"event\" value=\"" + name +"\"/>" + cleanItem(name) + "</label></div>");
+}
+
+function addItemRB(name, target) {
+  $(target).append("<div id=\"div_"+name+"\" class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"T\"/> T <input type=\"radio\" name=\""+name+"\" value=\"F\"/> F</label></div>");
+}
+
+function addItemERB(name, target) {
+  $(target).append("<div id=\"div_"+name+"\" class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"Y\"/> Y</label></div>");
+}
+
+function addItemActionRB(name, target) {
+ if(getCategory(name) == "LI")
+  $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"sw\" /> SW <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+  else $(target).append("<div class=\"td2\"><label>" + cleanItem(name) + "<input type=\"radio\" class=\"inrb\" name=\""+name+"\" value=\"N\" checked=\"checked\" /> N <input type=\"radio\" name=\""+name+"\" value=\"on\"/> ON <input type=\"radio\" name=\""+name+"\" value=\"off\"/> OFF</label></div>");
+}
+
+function makeDeviceName(tag) {
+  $(tag).append('<div id="ndev" class="td1"> <input type="text" id="ndevname" value="dev0"></div>');
+  $(tag).append('<div id="ndevtype" class="td1"> <input type=\"radio\" class=\"inrb\" name=\"OnOff\" value=\"ONOFF\" checked=\"checked\" /> On/Off <input type=\"radio\" name=\"OnOff\" value=\"cyclic\"/> Cyclic</div>');
+   
+}
+
+function mkDeviceProto() {
+  deviceReset();
+  makeList(eventpath,eventtag,"cbox"); 
+  makeList(actionpath,actiontag,"cbox"); 
+  makeDeviceName(newdevtag);
+}
+
+function setValue(manifest, value, pos) {
+   var i = manifest.indexOf("value", pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i==manifest.length) return manifest;
+   var newmanifest = manifest.substring(0,i) + value +manifest.substring(i);
+   return newmanifest;
+}
+
+function getValue(manifest, pos) {
+   var i = manifest.indexOf("value", pos);
+   if(i<0) return manifest;
+   while(i<manifest.length && manifest[i]!='"') i++;
+   i++;
+   if(i>=manifest.length) return "";
+   var value = "";
+   while(i<manifest.length && manifest[i]!='"') value += manifest[i++];
+   return value;
+}
+
+function addDevice() {
+  var event="";
+  var action="";
+  var devicetype="onoff";
+  var category="LI";
+  var devicename=document.getElementById("ndevname").value;
+
+  $("#ndevtype :radio[value='cyclic']:checked").each(function(index,field){
+	devicetype="cyclic";
+	});
+  $("#events :radio[value='Y']:checked").each(function(index,field){
+	if(event=="") event=field.name;
+	  else event = event +'+'+field.name;
+	});
+  $("#actions :radio[value='Y']:checked").each(function(index,field){
+	if(action=="") action=field.name;
+	  else action = action +'+'+field.name;
+	});
+  $.get(tmanifestpath, function(data, status) {
+        var tmanifest;
+	try {
+	  serializer = new XMLSerializer();
+	  tmanifest = serializer.serializeToString(data);
+	}
+	catch (e) {
+		// Internet Explorer has a different approach to serializing XML
+	   tmanifest = data.xml;
+	}
+	var pos;
+	if((pos = tmanifest.indexOf("$NAME"))>0) {
+	  tmanifest = setValue(tmanifest, devicename, pos);
+        }
+        if((pos = tmanifest.indexOf("$INPUT"))>0) {
+	  tmanifest = setValue(tmanifest, event, pos);
+        }
+        if((pos = tmanifest.indexOf("$COMPONENT"))>0) {
+	  tmanifest = setValue(tmanifest, action, pos);
+        }
+        if((pos = tmanifest.indexOf("$TYPE"))>0) {
+	  tmanifest = setValue(tmanifest, devicetype, pos);
+        }
+        if((pos = tmanifest.indexOf("$PREFIX"))>0) {
+	  tmanifest = setValue(tmanifest, category, pos);
+        }
+	$.post(deviceconf, tmanifest, function(){mkDeviceProto(); makeDeviceList("LI");});
+  });
+}
+
+function deviceReset() {
+  $(newdevtag).html('<div class="td1">Device</div>');
+  $(eventtag).html('<div class="td1">Events</div>');
+  $(actiontag).html('<div class="td1"> Components  </div>');
+}
+
+function nameNormalize(namelist) {
+   if(namelist == "") return "";
+   var mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+      if(mynames != "") mynames += ", ";
+      mynames += cleanItem(mylist[i]);
+   }
+   return mynames;
+}
+
+function nameNormalizeF(namelist, filter) {
+   if(namelist == "") return "";
+   mylist = namelist.split("+");
+   var mynames = "";
+   for(i=0; i<mylist.length; i++) {
+     if(mylist[i].match(filter)) {
+        if(mynames != "") mynames += ", ";
+        mynames += cleanItem(cleanPostfix(mylist[i]));
+     }
+   }
+   return mynames;
+}
+
+function numberof(namelist) {
+  tmp = namelist.split(",");
+  return tmp.length;
+}
+
+function markUsed(namelist) {
+   var name = namelist.split('+');
+   for(i=0; i<name.length; i++) document.getElementById("div_"+name[i]).className="td2c";
+}
+
+function markFree(namelist) {
+   var name = namelist.split('+');
+   for(i=0; i<name.length; i++) document.getElementById("div_"+name[i]).className="td2";
+}
+
+function plotDevice(name,category) {
+  manifestpath = devicemanifestpath + name + ".xml";
+  $.get(manifestpath, function(data, status) {
+     var tmanifest;
+     var name;
+     var event;
+     var action="";
+     var devicetype="On/Off";
+     try {
+        serializer = new XMLSerializer();
+        tmanifest = serializer.serializeToString(data);
+     }
+     catch (e) {
+            // Internet Explorer has a different approach to serializing XML
+        tmanifest = data.xml;
+     }
+     var pos;
+     var current_action = "";
+     if((pos = tmanifest.indexOf("$NAME")) >0) name = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$INPUT")) >0) event = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$COMPONENT")) >0) action = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$TYPE")) >0) devicetype = getValue(tmanifest, pos);
+     markUsed(event);
+     markUsed(action);
+     event = nameNormalize(event,"");
+     action = nameNormalize(action, "");
+     if(devicetype!="cyclic") devicetype = "On/Off";
+     var descriptor = "";
+     descriptor = "<div id=\"" + name + "\" class=\"ruledisplay\">";
+      descriptor += "<div id=\"antecedent\" class=\"fpart\">";
+        descriptor += ("<div class=\"rwn\"><b>" + name + "</b> ("+devicetype+"): </div>");
+        if(event != "") descriptor += ("<div class=\"rx\"><b>Input:</b> " + event + "</div>");
+      descriptor += "</div>";
+      descriptor += "<div id=\"consequent\" class=\"fpart\">";
+        descriptor += ("<div class=\"ru\"><button class=\"deletebtn\" onclick=\"deleteDevice('" + category+"_"+name + "')\"><img src=\"/doc/img/cross.png\" width=\"15px\" height=\"15px\"></button> </div>");
+        if(action != "") descriptor += ("<div class=\"ry\"> <b>Component:</b> " +action+"</div>");
+     descriptor += "</div></div>";
+     $("#footer").append(descriptor);
+  });
+}
+
+function deleteDevice(name) {
+  var cmd = devicedelete + name;
+  var manifestpath = devicemanifestpath + name + ".xml";
+  $.get(manifestpath, function(data, status) {
+     var tmanifest;
+     var event;
+     var action="";
+     try {
+        serializer = new XMLSerializer();
+        tmanifest = serializer.serializeToString(data);
+     }
+     catch (e) {
+            // Internet Explorer has a different approach to serializing XML
+        tmanifest = data.xml;
+     }
+     var pos;
+     if((pos = tmanifest.indexOf("$INPUT")) >0) event = getValue(tmanifest, pos);
+     if((pos = tmanifest.indexOf("$COMPONENT")) >0) action = getValue(tmanifest, pos);
+     markFree(event);
+     markFree(action);
+     $.post(cmd,{}, function() {makeDeviceList("LI");});
+  })
+}
+
+
+function makeDeviceList(category) {
+  $.get(devicemanifestpath, function(data, status) {
+   var xmldoc = data;
+   var pos=1;
+   var item;
+   var i;
+   $("#footer").text("");
+   var result = [];
+   while((pos=xmldoc.indexOf("<item>")) >0) {
+    item = "";
+    while(pos <xmldoc.length && xmldoc[pos] != '/') pos++;
+    for(i=pos+1; i<xmldoc.length && xmldoc[i] != '.'; i++);
+    item = xmldoc.substring(pos+1, i);
+    result.push(item);
+    xmldoc = xmldoc.slice(i);
+   }
+   result.sort(function(a, b) {return Number(a.slice(1)) - Number(b.slice(1));});
+   for(i=0; i<result.length; i++) {plotDevice(result[i], category); sleep(100);}
+  });
+}
+
+
+function pageReload() {
+	window.location.reload();
+}
+
+function doReboot() {
+  $.post(doreboot, {}, {});
+}
+
+$(function() {
+  mkDeviceProto();
+  makeDeviceList("LI");
+});
+
+</script>
+</head>
+
+<body>
+<script>
+</script>
+
+<div id="main">
+<div id="header">
+<div id="banner0"> Virtual Devices </div>
+<div id="banner1"> <button id="ruleadd" class="rulesubmit" onclick="addDevice()"> New Device</button> </div>
+<div id="banner2"> <button id="ruleadd" class="rulesubmit" onclick="doReboot()"> Reboot </button> </div>
+</div>
+<div id="rule">
+  <div id="devname" class="rulename"> </div>
+  <div id="events" class="leftitem">
+	<div class="td1"> Events </div>
+  </div>
+  <div id="actions" class="leftitem">
+	<div class="td1"> Target </div>
+  </div>
+</div>
+<div id="footer">
+</div>
+</div>
+</body>
+</html>
+
