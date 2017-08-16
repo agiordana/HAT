@@ -147,24 +147,25 @@ function setValue(manifest, value, pos) {
 </head>
 <body>
 <div id="all">
-<div id="header"> Configurazione Agenti 
+<div id="header"> Agent Configurator 
 	<button id="confreboot" class="install" onclick="doreboot()">Reboot</button>
-	<button id="configure" class="install" onclick="install()">Installa</button>
+	<button id="configure" class="install" onclick="install()">Install</button>
 </div>
-<div id="board">Tipo di CAPE installato:
+<div id="board"> CAPE  Install :
 <input type="radio" class="inrb" name="boardname" value="bbdevices.osso">osso
 <input type="radio" class="inrb" name="boardname" value="bbdevices.pwm">pwm
 <input type="radio" class="inrb" name="boardname" value="bbdevices.2relays">2relays
 
 </div>
 <div id="managers">
-  <div><input type="checkbox" class="inckb" value="Alarm"> Sistema Allarme</div>
-  <div><input type="checkbox" class="inckb" value="Automatism"> Controllo Azioni Automatizzate</div>
-  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Gestore Energia Elettrica</div>
-  <div><input type="checkbox" class="inckb" value="engagent"> Climatizzatore</div>
+  <div><input type="checkbox" class="inckb" value="netdevices"> Network Devices </div>
+  <div><input type="checkbox" class="inckb" value="Alarm"> Alarm System</div>
+  <div><input type="checkbox" class="inckb" value="Automatism"> Control Rules </div>
+  <div><input type="checkbox" class="inckb" value="pwrcontrol"> Energy Management </div>
+  <div><input type="checkbox" class="inckb" value="engagent"> Air Conditioning </div>
 </div>
 <div id="webservice"><div><input type="checkbox" class="inckb" value="wsserver"> REST Web Server</div></div>
-<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Logger Aggiuntivo</div></div>
+<div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Additional Logger</div></div>
 </div>
 </body>
 </html>

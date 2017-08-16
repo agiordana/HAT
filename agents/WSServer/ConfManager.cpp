@@ -14,8 +14,6 @@ bool ConfManager::init(string file) {
 MMessage ConfManager::execPut(vector<string>& params, string& method, string body) {
    string target = FileManager::getStem(params.back());
    boost::unique_lock<boost::mutex> lock(mutexclusion);
-cout<<"CONFIGURING "<<target<<endl;
-// cout<<body<<endl;
    MMessage answer;
    if(target == "GUI") {
      map< string, BarHolder* > barholder;
@@ -43,7 +41,7 @@ cout<<"CONFIGURING "<<target<<endl;
      description = mkShowfun(barholder);
      hsrv::strReplace(gui, "$SHOWFUNCTION", description);
      description = mkDevList(barholder);
-     hsrv::strReplace(gui, "$DEVLIST", description);
+     hsrv::strReplace(gui, "$DEVDESCRIPTION", description);
      description = mkAreaList(barholder);
      hsrv::strReplace(gui, "$AREALIST", description);
      string destination = hsrv::configdir + "/doc/gui.html";
@@ -98,11 +96,31 @@ string ConfManager::mkAreaList(map<string, BarHolder*>& areas) {
 
 string ConfManager::mkDevList(map<string, BarHolder*>& areas) {
   string devlist = "";
+  string devDescription;
+  string components = "";
   map<string, BarHolder*>::iterator it;
   size_t i;
-  for(it = areas.begin(); it!=areas.end(); it++)
-    for(i=0; i<it->second->size(); i++)
-       if(devlist == "") devlist += ("\""+(*it->second)[i].device+"\"");
-          else devlist += (",\""+(*it->second)[i].device+"\"");
+  for(it = areas.begin(); it!=areas.end(); it++) 
+    for(i=0; i<it->second->size(); i++) {
+       components = getComponentOf((*it->second)[i].device);
+       devDescription = it->first+"."+(*it->second)[i].device;
+       if(components != "") devDescription += ("+"+components);
+       if(devlist == "") devlist += ("\""+devDescription+"\"");
+          else devlist += (",\""+devDescription+"\"");
+    }
   return devlist;
+}
+
+string ConfManager::getComponentOf(string name) {
+   string res = "";
+   size_t pos;
+   string url = "/devicemanifest/"+name+".xml";
+   string request = "GET " + url + " HTTP/1.1\r\n\r\n\r\n";
+   string answer = NameTable::forward(request, "netdevices");
+   if((pos = answer.find("$COMPONENT"))== string::npos) return res;
+   pos = answer.find("value", pos);
+   while(answer[pos] != '"') pos++;
+   pos++;
+   while(answer[pos] != '"') res+=answer[pos++];
+   return res;
 }

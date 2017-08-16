@@ -178,7 +178,7 @@ img.button{
 <script>
 
 var area_num = 0;
-var arealist = ["A0"];
+var arealist = ["not_used","A0"];
 var devices = [];
 var categories = ["LI","SO","SH","TM","PM"];
 
@@ -200,13 +200,13 @@ function clearAreas() {
    $("#areas").html('<div id="A0" class="area"> <input type="text" id="A0name" value="A0">');
    $("#partitions").html("");
    area_num = 0;
-   arealist = ["A0"];
+   arealist = ["not_used","A0"];
    devices = [];
 }
 
 function areaChoice(name) {
   res = '<div id="'+name+'H" class="formholder">'+getName(name)+'<form>';
-  for(i=0; i<area_num+1; i++)
+  for(i=0; i<area_num+2; i++)
     if(i==0) res+= '<input type="radio" id="'+name+'R'+i+'" name="'+name+'" value="'+document.getElementById(arealist[i]+"name").value+'" checked>'+document.getElementById(arealist[i]+"name").value +'<br>';
        else  res+= '<input type="radio" id="'+name+'R'+i+'" name="'+name+'" value="'+document.getElementById(arealist[i]+"name").value+'">'+document.getElementById(arealist[i]+"name").value +'<br>';
   res += '</form></div>';
@@ -245,9 +245,13 @@ function areaConfig() {
 function doIt() {
   var confmsg = [];
   var confdata = '{"areas" : [';
+  var tarea = "";
   for(i=0; i<devices.length; i++) {
-     dev = '{"name":"' + devices[i] + '","area":"' + document.querySelector('input[name="'+devices[i]+'"]:checked').value +'"}';
-     confmsg.push(dev);
+     tarea = document.querySelector('input[name="'+devices[i]+'"]:checked').value;
+     if(tarea!="not_used") {
+	 dev = '{"name":"' + devices[i] + '","area":"' + tarea +'"}';
+         confmsg.push(dev);
+     }
   }
   for(i=0; i<confmsg.length; i++) {
 	confdata+=confmsg[i];
@@ -273,6 +277,7 @@ function doIt() {
   </div>
   <div id="areas" class="barholder">
      <p><b>Areas</b></p>
+     <div id="not_used" class="area" style="visibility: hidden; display:inline;"> <input type="text" id="not_usedname" value="not_used"> </div>
      <div id="A0" class="area"> <input type="text" id="A0name" value="A0"> </div>
   </div>
   <div id="partitions" class="barholder">

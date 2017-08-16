@@ -30,6 +30,7 @@ protected:
    static std::string mkShowfun(std::map<std::string, BarHolder*>&);
    static std::string mkAreaList(std::map<std::string, BarHolder*>&);
    static std::string mkDevList(std::map<std::string, BarHolder*>&);
+   static std::string getComponentOf(std::string);
 };
 
 #endif	/* CONFMANAGER_H */
