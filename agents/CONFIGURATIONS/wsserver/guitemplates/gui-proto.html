@@ -63,6 +63,19 @@ function cleanItem(item) {
   return citem;
 }
 
+function normalizeValue(value, digit) {
+  var res = "";
+  var n = 0;
+  var dot = false;
+  for(i=0; i<value.length && n <digit; i++) {
+    res += value[i];
+    if(dot == true) n++;
+    if(value[i] == '.') dot = true;
+  }
+  return res;
+}
+
+
 function doClick(name) {
   var dev = name.split('.');
   devices[dev[0]].doClick(name);
@@ -73,11 +86,10 @@ function categoryOf(devdesc) {
   var desc = devdesc.split('.');
   var name = desc[1].split('_');
   if(name[0] == "LI"||name[0] == "SO") cat = "LISO";
-  else if(name[0] == "TM"||name[0] == "PM") cat = "TMPM";
+  else if(name[0] == "TM"||name[0] == "PM") cat = "PMTM";
   else if(name[0] == "SH") cat = "UPDOWN";
   return cat;
 }
-
 
 $(document).ready(function(){
    for(j = 0; j<devdescription.length; j++) {
@@ -120,6 +132,7 @@ function deviceUPDOWN(areaName) {
   this.statusuri = "/horus-ws/Devices/"+this.name+".json";
   this.cmduri = "/horus-ws/Devices/"+this.name+"/";
   this.status = "off";
+  var obj = this;
 
   this.imageUpdate = function(previous, current) {
      var id ="";
@@ -156,7 +169,7 @@ function deviceUPDOWN(areaName) {
         id = "I_"+this.name+".UP";
         imguri = "/doc/img/UpRed.png";
         image = document.getElementById(id);
-        img.src = imguri;
+        image.src = imguri;
      }
      else if(current == "down" && previous == "up") {
         id = "I_"+this.name+".DOWN";
@@ -166,7 +179,7 @@ function deviceUPDOWN(areaName) {
         id = "I_"+this.name+".UP";
         imguri = "/doc/img/UpBlack.png";
         image = document.getElementById(id);
-        img.src = imguri;
+        image.src = imguri;
      }
   }
   $.get(this.statusuri, function(data, stat) {
@@ -177,7 +190,7 @@ function deviceUPDOWN(areaName) {
      htmldesc += ('<button id="'+obj.name+'.UP" class="miniswitch" onclick=\'doClick("'+obj.name+'.UP")\'>');
      htmldesc += ('<img id="I_'+obj.name+'.UP" src="/doc/img/UpBlack.png" class=arrow> </button><br>');
      htmldesc += ('<button id="'+obj.name+'.DOWN" class="miniswitch" onclick=\'doClick("'+obj.name+'.DOWN")\'>');
-     htmldesc += ('<img id="I_'+obj.name+'.DOWN" src="/doc/img/UpRed.png" class=arrow> </button><br>');
+     htmldesc += ('<img id="I_'+obj.name+'.DOWN" src="/doc/img/DownBlack.png" class=arrow> </button><br>');
      htmldesc += '</div>';
      htmldesc += ('<div class="btntext"> '+getPureName(obj.name)+' </div>');
      htmldesc += '</div>';
@@ -192,19 +205,19 @@ function deviceUPDOWN(areaName) {
   this.doClick = function(dev) {
     var target = dev.split('.');
     var cmd = "";
-    if(status != "up" && target[1] == "UP") {
+    if(this.status != "up" && target[1] == "UP") {
         cmd = "UP";
         $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
     }
-    if(status != "down" && target[1] == "DOWN") {
+    if(this.status != "down" && target[1] == "DOWN") {
         cmd = "DOWN";
         $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
     }
-    if(status == "up" && target[1] == "UP") {
+    if(this.status == "up" && target[1] == "UP") {
         cmd = "OFF";
         $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
     }
-    if(status == "down" && target[1] == "DOWN") {
+    if(this.status == "down" && target[1] == "DOWN") {
         cmd = "OFF";
         $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
     }
