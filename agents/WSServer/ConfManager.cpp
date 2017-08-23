@@ -48,6 +48,42 @@ MMessage ConfManager::execPut(vector<string>& params, string& method, string bod
      FileManager::saveFile(destination, gui);
      answer.add("body", par.get("mkgui_answer"));
    }
+   else if(target=="TunnelSTART") {
+     // the ssh tunnel starts
+     // first the tunnel is halted if active
+     string cmd = par.get("tunnelhalt");
+     hsrv::cmdExec(cmd);
+     // then is enabled again
+     cmd = par.get("tunnelenable");
+     hsrv::cmdExec(cmd);
+     sleep(3);
+     // finally it is started with the new parameters
+     boost::property_tree::ptree pt;
+     std::stringstream ss;
+     ss<<body;
+     read_json(ss,pt);
+     cmd = par.get("tunnelstart");
+     string port = pt.get<string>("rport");
+     string host = pt.get<string>("host");
+     string user = pt.get<string>("user");
+     if(port != "") {
+        cmd += (" "+port);
+        if(host != "") {
+           cmd += (" "+host);
+           if(user != "") cmd+= (" "+user);
+         }
+     }
+     hsrv::cmdExec(cmd);
+     answer.add("body", par.get("mkok_answer"));
+     answer.add("content", "application/json");
+   }
+   else if(target=="TunnelHALT") {
+     // the ssh tunnel stops
+     string cmd = par.get("tunnelhalt");
+     hsrv::cmdExec(cmd);
+     answer.add("body", par.get("mkok_answer"));
+     answer.add("content", "application/json");
+   }
    else {
      answer.add("body", par.get("fail_answer"));
      answer.add("content", "application/json");
@@ -124,3 +160,40 @@ string ConfManager::getComponentOf(string name) {
    while(answer[pos] != '"') res+=answer[pos++];
    return res;
 }
+
+string ConfManager::mkWSport(string port) {
+  unsigned p = hsrv::a2unsigned(port);
+  p++;
+  return hsrv::unsigned2a(p);
+}
+
+MMessage ConfManager::execGet(vector<string>& params, string& method, string body) {
+   string target = FileManager::getStem(params.back());
+   boost::unique_lock<boost::mutex> lock(mutexclusion);
+   MMessage answer;
+   if(target == "Tunnel") {
+      MParams tunnel;
+      string homer = FileManager::getRoot(hsrv::homedir);
+      string confr = FileManager::getRoot(hsrv::configdir);
+      string tunnelh = homer+"/sshtunnel/tunnel.xml";
+      string tunnelc = confr+"/sshtunnel/tunnel.xml";
+      if(FileManager::isFile(tunnelh)) tunnel.xmlLoad(tunnelh);
+      else tunnel.xmlLoad(tunnelc);
+      string body = par.get("tunnel_answer");
+      string rport = tunnel.get("rport");
+      string host = tunnel.get("host");
+      string user = tunnel.get("user");
+      string status = tunnel.get("status");
+      hsrv::strReplace(body, "$RPORT", rport);
+      hsrv::strReplace(body, "$HOST", host);
+      hsrv::strReplace(body, "$USER", user);
+      hsrv::strReplace(body, "$STATUS", status);
+      answer.add("body", body);
+   }
+   else {
+        answer.add("body", par.get("fail_answer"));
+   }
+   answer.add("content", "application/json");
+   return answer;
+}
+

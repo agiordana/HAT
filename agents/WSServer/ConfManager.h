@@ -21,6 +21,7 @@ class ConfManager {
 public:
     static bool init(std::string dir);
     static MMessage execPut(std::vector<std::string>& params, std::string& method, std::string body="");
+    static MMessage execGet(std::vector<std::string>& params, std::string& method, std::string body="");
     static boost::mutex mutexclusion;
 protected:
    static MParams par;
@@ -31,6 +32,7 @@ protected:
    static std::string mkAreaList(std::map<std::string, BarHolder*>&);
    static std::string mkDevList(std::map<std::string, BarHolder*>&);
    static std::string getComponentOf(std::string);
+   static std::string mkWSport(std::string);
 };
 
 #endif	/* CONFMANAGER_H */
