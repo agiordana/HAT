@@ -1,0 +1,34 @@
+language: cpp
+compiler: 
+ - gcc
+ - clang
+env:
+ - DEBUG="debug"
+ - DEBUG="nodebug"
+before_install:
+ - sudo apt-get install texinfo
+ - sudo pip install cpp-coveralls
+ - sudo pip install gcovr
+ - sudo apt-get install libjson-perl
+ - sudo apt-get install libjson-xs-perl
+ - sudo apt-get install libfile-slurp-perl
+ - wget ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz
+ - tar -xvzf libmicrohttpd-0.9.37.tar.gz
+ - cd libmicrohttpd-0.9.37
+ - ./configure --prefix=/usr
+ - make
+ - sudo make install
+ - cd ..
+script:
+ - ./bootstrap
+ - mkdir build
+ - cd build
+ - if [ $DEBUG = "debug" ]; then ../configure --enable-debug --disable-shared; else ../configure; fi
+ - make
+ - make check
+after_success:
+  - if [ $DEBUG = "debug" ]; then ../ci-report-coverage; fi
+matrix:
+  exclude:
+    - compiler: clang
+      env: DEBUG="debug"
