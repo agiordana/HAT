@@ -8,7 +8,7 @@ BIN = ../bin
 XML = ../tinyxml/*.o
 JSON = ../libjson/Objects_static/*.o
 
-all:	$(OBJ) main.cpp agent.h Receiver.h ArchiveThread.h PushThread.h RemoteServerThread.h PushConnection.h
+logger:	$(OBJ) main.cpp agent.h Receiver.h ArchiveThread.h PushThread.h RemoteServerThread.h PushConnection.h
 	$(CC) $(FLAGS) $(OPTLIB) -o logger main.cpp $(AGENTLIB) $(OBJ) $(XML) $(LIB) $(JSON)
 
 %.o:	%.cpp
@@ -17,7 +17,7 @@ all:	$(OBJ) main.cpp agent.h Receiver.h ArchiveThread.h PushThread.h RemoteServe
 openssl/%.o : openssl/%.c
 	$(CC) -c $<
 	
-install:	all
+install:	logger
 	cp logger $(BIN)/logger
 
 clean:	

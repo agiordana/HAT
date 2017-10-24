@@ -55,7 +55,7 @@ string ArchiveManager::getCurrentDay(string &day, string &month, string &year) {
     today << lt->tm_year+1900;
 
     tmp.str("");
-    if (lt->tm_mon < 10) {
+    if (lt->tm_mon < 9) {
         today << 0;
         tmp << 0;
     }

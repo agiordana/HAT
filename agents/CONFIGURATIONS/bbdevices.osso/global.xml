@@ -33,6 +33,7 @@
 <attribute category="homedir" name="gpiofree" value="gpiofree"/>
 <attribute category="homedir" name="gpioafree" value="gpioafree"/>
 <attribute category="homedir" name="pwmout" value="pwmout"/>
+<attribute category="homedir" name="rawdevices" value="rawdevices"/>
 <attribute category="homedir" name="exported" value="subjects/exported"/>
 <attribute category="homedir" name="imported" value="subjects/imported"/>
 <attribute category="homedir" name="threads" value="threads"/>
