@@ -4,6 +4,7 @@ all:
 	cd minilibs; make
 	cd BBDevices; make
 	cd Manager; make
+	cd NetDevices; make
 	cd PwrControl; make
 	cd WSServer; make
 	cd MiniWWW; make
@@ -20,6 +21,7 @@ clean:
 	cd minilibs; make clean
 	cd BBDevices; make clean
 	cd Manager; make clean
+	cd NetDevices; make clean
 	cd PwrControl; make clean
 	cd WSServer; make clean
 	cd MiniWWW; make clean
@@ -36,6 +38,7 @@ install:
 	cd minilibs; make
 	cd BBDevices; make install
 	cd Manager; make install
+	cd NetDevices; make install
 	cd PwrControl; make install
 	cd WSServer; make install
 	cd MiniWWW; make install
