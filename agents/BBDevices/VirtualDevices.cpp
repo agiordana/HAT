@@ -394,7 +394,7 @@ bool VrtDevices::doArchiveUpdate() {
    string currentday = hsrv::getday();
    string yesterday = hsrv::getday(-900);
 
-   hsrv::logger->info("ARCHIVEUPD: "+day+" "+currentday+" "+yesterday);
+  // hsrv::logger->info("ARCHIVEUPD: "+day+" "+currentday+" "+yesterday);
    if(currentday == day) {
       return true;
    }
