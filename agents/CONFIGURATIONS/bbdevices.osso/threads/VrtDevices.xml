@@ -4,7 +4,7 @@
 	<attribute category="observe" name="publish" value="trigger"/>
 	<attribute category="observe" name="archiveupd" value="trigger"/>
 	<attribute category="observe" name="measure" value="trigger"/>
-	<attribute category="observe" name="poll" value="trigger"/>
+	<attribute category="observe" name="checkmemory" value="trigger"/>
 	<attribute category="observe" name="*" value="local_event"/>
 	<attribute category="observe" name="reset" value="cmd"/>
 	<attribute category="observe" name="putConf" value="cmd"/>
