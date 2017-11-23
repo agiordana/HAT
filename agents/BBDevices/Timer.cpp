@@ -97,6 +97,7 @@ void Timer::do_work(Timer* obj) {
     double period;
     double msg_time;
     double last_update_time = 0;
+    string info;
     while(1) {
         period = 0;
         msg = obj->receive_message();

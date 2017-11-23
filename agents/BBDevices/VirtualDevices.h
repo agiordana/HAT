@@ -41,6 +41,7 @@ public:
     bool execLocalEvent(MMessage&);
     bool execwait(MMessage&);
 protected:
+    int initial_memory;
     std::string day;
     void do_work(VrtDevices* obj);
     std::map<std::string, Device*> dev_by_name;
@@ -55,6 +56,7 @@ protected:
     bool devDelete(MMessage&);
     bool devRemove(std::string, std::string, MMessage&);
     bool doArchiveUpdate();
+    bool doMemoryCheck();
     bool removeComment(std::string&);
     bool mkManifest(MMessage&);
     bool deleteManifest(std::string);

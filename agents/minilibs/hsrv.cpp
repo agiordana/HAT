@@ -555,7 +555,7 @@ string hsrv::extractBin(string agentname) {
 std::string hsrv::cmdExec(string command) {
     FILE* in = NULL;
     char rbuf[MAXB];
-    size_t result;
+    size_t result = 0;
     int n = 0, i;
 
     if(debug>1) {
@@ -882,5 +882,30 @@ bool hsrv::rpcNotify(string tag, string field, string value) {
    m.add(field, value);
    hsrv::rpctab->signal(m);
    return true;
+}
+
+int hsrv::parseLine(char* line){
+    // This assumes that a digit will be found and the line ends in " Kb".
+    int i = strlen(line);
+    const char* p = line;
+    while (*p <'0' || *p > '9') p++;
+    line[i-3] = '\0';
+    i = atoi(p);
+    return i;
+}
+
+int hsrv::getMemorySize() {//Note: this value is in KB!
+    FILE* file = fopen("/proc/self/status", "r");
+    int result = -1;
+    char line[128];
+
+    while (fgets(line, 128, file) != NULL){
+        if (strncmp(line, "VmSize:", 7) == 0){
+            result = parseLine(line);
+            break;
+        }
+    }
+    fclose(file);
+    return result;
 }
 

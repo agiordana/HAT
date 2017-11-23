@@ -49,6 +49,7 @@ bool RpcWaitTable::checkTimeOut() {
         if(pending[i]->rtime + RPC_TIMEOUT < ctime) {
 	   res = mkComplain(pending[i]->tag);
 	   pending[i]->waiting_queue.send(res);
+	   hsrv::logger->info("RPC: timed out!!!!");
 	}
     }
     return true;

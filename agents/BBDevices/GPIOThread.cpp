@@ -87,6 +87,7 @@ void GPIOThread::do_work(GPIOThread* obj) {
                    if(input[i]->wait_until>0)SubjectSet::notify(out_mess);
 		   hsrv::publish(input[i]->name, asciivalue);
 		   input[i]->wait_until = tt + input[i]->w;
+		   out_mess.clear();
 	 	}
             }
     }
@@ -140,12 +141,14 @@ void GPIOThread::do_work2(GPIOThread* obj) {
            out_msg.msubtype="update";
            cmd = onewire[i]->get("poll","script");
            value = hsrv::cmdExec(cmd);
-	   onewire[i]->currentValue = getAsciiValue(value, onewire[i]->get("valuekw","script"));
-	   hsrv::publish(onewire[i]->name, onewire[i]->currentValue);
-           out_msg.add("gpio", onewire[i]->gpioname);
-           out_msg.add("name", onewire[i]->name);
-           out_msg.add("value", onewire[i]->currentValue);
-           SubjectSet::notify(out_msg);
+	   if(value != "") {
+	      onewire[i]->currentValue = getAsciiValue(value, onewire[i]->get("valuekw","script"));
+	      hsrv::publish(onewire[i]->name, onewire[i]->currentValue);
+              out_msg.add("gpio", onewire[i]->gpioname);
+              out_msg.add("name", onewire[i]->name);
+              out_msg.add("value", onewire[i]->currentValue);
+              SubjectSet::notify(out_msg);
+	   }
            out_msg.clear();
            i++;
         }

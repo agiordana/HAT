@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Penta Dynamic Solutions. All rights reserved.
 //
 
+#define MAXMEMORYGROWTH 2
+
 using namespace std;
 
 #include "VirtualDevices.h"
@@ -32,14 +34,15 @@ void VrtDevices::do_work(VrtDevices* obj) {
     string fname;
     freegpioRegister();
     makeDevicePage(dev_by_name);
+    initial_memory = hsrv::getMemorySize();
     while(1) {
         msg = obj->receive_message();
-//	cout <<"VrtDevices-----: "<< msg.xmlEncode(0)<<endl;
 	if(msg.mtype == "cmd" && msg.msubtype == "reset") doReset(msg);
 	else if(msg.mtype == "local_event" && msg.msubtype == "update") update(msg);
 	else if(msg.mtype == "trigger" && msg.msubtype == "publish") publish();
 	else if(msg.mtype == "trigger" && msg.msubtype == "measure") doMeasure();
 	else if(msg.mtype == "trigger" && msg.msubtype == "archiveupd") doArchiveUpdate();
+	else if(msg.mtype == "trigger" && msg.msubtype == "checkmemory") doMemoryCheck();
 	else if(msg.mtype == "cmd" && msg.msubtype == "putConf" && hsrv::checkConfigureEnabled()) doReboot(msg);
 	else if(msg.mtype == "cmd" && msg.msubtype == "devConfigure" && hsrv::checkConfigureEnabled()) devConfigure(msg);
 	else if(msg.mtype == "cmd" && msg.msubtype == "devDelete" && hsrv::checkConfigureEnabled()) devDelete(msg);
@@ -500,4 +503,14 @@ bool VrtDevices::makeDevicePage(map<string, Device*>& dev) {
     }
     hsrv::saveItemList("devices", "status", page);
     return true;
+}
+
+bool VrtDevices::doMemoryCheck() {
+   int current_memory = hsrv::getMemorySize();
+   if(current_memory > MAXMEMORYGROWTH * initial_memory) {
+      string info = "MEMORY is too large: "+hsrv::int2a(current_memory) + " - REBOOT!!!";
+      hsrv::logger->info(info);
+      exit(1);
+   }
+   return true;
 }
