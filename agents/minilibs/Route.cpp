@@ -2,8 +2,12 @@
 
 bool Route::match_regexp(std::string exp, std::string str) {
     regex_t reg;
-    regcomp(&reg, exp.c_str(), REG_EXTENDED);
-    int match = regexec(&reg, str.c_str(), 0, NULL, 0);
+    int match = 0;
+    int res = regcomp(&reg, exp.c_str(), REG_EXTENDED);
+    if(res==0) {
+    	match = regexec(&reg, str.c_str(), 0, NULL, 0);
+	regfree(&reg);
+    }
 
     if (match != REG_NOMATCH) {
         return true;
@@ -70,6 +74,7 @@ bool RoutingMap::load(std::string file) {
         }
     } else {
 //	std::cout << "No route config file found!" << std::endl;
+	if(doc != NULL) delete doc;
 	return false;
     }
     
@@ -96,6 +101,7 @@ bool RoutingMap::load(std::string file) {
         
         this->at(i)._template = nl;
     }   
+    if(doc != NULL) delete doc;
     return true;
 }
 
