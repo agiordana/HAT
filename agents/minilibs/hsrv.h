@@ -450,10 +450,12 @@ public:
     static bool checkConfigureEnabled();
     static bool rpcNotify(std::string, std::string, std::string);
     static int debug;
+    static int getMemorySize();
 private:
     static std::map<std::string,std::string> index;
     static std::string getHostName();
     static std::string jsonItem(std::string&);
+    static int parseLine(char*);
 };
 
 

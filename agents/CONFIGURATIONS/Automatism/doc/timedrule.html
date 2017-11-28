@@ -296,10 +296,10 @@ function timedRule(name) {
       var xmldoc = data;
       var pos=1;
       var desc = (new XMLSerializer()).serializeToString(xmldoc);
-      obj.status = getValue(desc,"status",pos);
-      obj.from = getValue(desc,"from",pos);
-      obj.to = getValue(desc,"to",pos);
-      obj.cycle = getValue(desc,"cycle",pos);
+      obj.status = getValue(desc,"status=",pos);
+      obj.from = getValue(desc,"from=",pos);
+      obj.to = getValue(desc,"to=",pos);
+      obj.cycle = getValue(desc,"cycle=",pos);
       var icon="";
       if(getCategory(cleanItem(name))=="LI") {
 	 icon = "lightbulb.png";

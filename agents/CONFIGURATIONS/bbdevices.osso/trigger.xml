@@ -4,6 +4,7 @@
         <attribute category="trigger" name="pollw1" value="20"/>
         <attribute category="trigger" name="publish" value="90"/>
         <attribute category="trigger" name="measure" value="60"/>
+        <attribute category="trigger" name="checkmemory" value="300"/>
         <attribute category="trigger" name="archiveupd" value="55"/>
         <attribute category="trigger" name="check_rpc_timeout" value="10"/>
 </set>
