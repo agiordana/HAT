@@ -50,6 +50,7 @@ button.install{
 <script>
 
 function doReset() {
+   if(confirm("This will erase the previous installation. Are you sure to want to do that?")
      $.post("/configure/reset",{},function(){});
 };
 

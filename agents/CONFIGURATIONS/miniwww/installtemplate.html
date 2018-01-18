@@ -97,25 +97,30 @@ var tmanifestpath = "/doc/install.xml";
 var installcmd = "/configure/install";
 
 function doreboot() {
-   $.post("/configure/reboot",{},function(){});
+  if(confirm("The system is now rebooting. It will take several minutes"))
+     $.post("/configure/reboot",{},function(){});
 };
 
 
 function install() {
   
   var agents="";
+  if(!confirm("The selected Agent will be installed, while any previuous installation will be destroyed")) return;
   $("#board :radio[name='boardname']:checked").each(function(index,field){
         if(agents=="") agents=field.value;
           else agents = agents +'+'+field.value;
         });
   $("#managers :checkbox:checked").each(function(index,field){
-        agents = agents +'+'+field.value;
+        if(agents=="") agents=field.value;
+          else agents = agents +'+'+field.value;
         });
-  $("#webservice :checkbox:checked").each(function(index,field){
-        agents = agents +'+'+field.value;
+  $("#webservice :radio[name='restserver']:checked").each(function(index,field){
+        if(agents=="") agents=field.value;
+          else agents = agents +'+'+field.value;
         });
   $("#loggerextra :checkbox:checked").each(function(index,field){
-        agents = agents +'+'+field.value;
+        if(agents=="") agents=field.value;
+          agents = agents +'+'+field.value;
         });
   $.get(tmanifestpath, function(data, status) {
       var tmanifest;
@@ -164,7 +169,10 @@ function setValue(manifest, value, pos) {
   <div><input type="checkbox" class="inckb" value="pwrcontrol"> Energy Management </div>
   <div><input type="checkbox" class="inckb" value="engagent"> Air Conditioning </div>
 </div>
-<div id="webservice"><div><input type="checkbox" class="inckb" value="wsserver"> REST Web Server</div></div>
+<div id="webservice">
+   <div><input type="radio" class="inckb" name="restserver" value="wsserverws"> REST Web Server with WSpusher </div>
+   <div><input type="radio" class="inckb" name="restserver" value="wsserver"> REST Web Server with Websocketd </div>
+</div>
 <div id="loggerextra"><div><input type="checkbox" class="inckb" value="logger"> Additional Logger</div></div>
 </div>
 </body>

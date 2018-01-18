@@ -74,6 +74,16 @@ bool Configurator::installer(MMessage& m) {
 	pathdst = conf + "/" +FileManager::getStem(agent[i]);
         cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
         hsrv::cmdExec(cmd);
+	if(agent[i] == "wsserverws") {
+	    pathsrc = configuration+"/wspusher";
+	    pathdst = conf + "/websocket";
+	    cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
+	    hsrv::cmdExec(cmd);
+	    pathsrc = configuration+"/sshtunnel";
+	    pathdst = conf + "/sshtunnel";
+	    cmd = "/bin/cp -r "+pathsrc+" "+pathdst;
+	    hsrv::cmdExec(cmd);
+	}
 	if(agent[i] == "wsserver") {
 	    pathsrc = configuration+"/websocket";
 	    pathdst = conf + "/websocket";

@@ -50,7 +50,9 @@ button.install{
 <script>
 
 function doReset() {
+   if(confirm("Warning: are you sure? Reset will restore initial setting. Any existing configuration will be erased! This will entail system reboot and will take several minutes!")) {
      $.post("/configure/reset",{},function(){});
+   }
 };
 
 </script>
