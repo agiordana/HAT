@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set type="archive">
+<attribute category="root" name="horus-ws" value="*"></attribute>
+<attribute category="root" name="event" value="*"></attribute>
+<attribute category="root" name="alarm" value="*"></attribute>
+<attribute category="root" name="subjects" value="*"></attribute>
+<attribute category="root" name="devices" value="*"></attribute>
+<attribute category="root" name="cmd" value="*"></attribute>
+<attribute category="root" name="net" value="*"></attribute>
+<attribute category="root" name="program" value="*"></attribute>
+<attribute category="root" name="logs" value="*"></attribute>
+<attribute category="conf" name="doc" value="*"></attribute>
+<attribute category="history" name="archive" value="10"></attribute>
+<attribute category="history" name="event" value="365"></attribute>
+<attribute category="history" name="subjects" value="-1"></attribute>
+<attribute category="history" name="devices" value="-1"></attribute>
+<attribute category="control" name="status" value="ON"></attribute>
+<attribute category="generic" name="maxdaynumber" value="10"></attribute>
+<attribute category="generic" name="compresscmd" value=""></attribute>
+<attribute category="generic" name="uploadcmd" value=""></attribute>
+</set>

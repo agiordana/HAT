@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<set type="socket1">
+<attribute name="prefix" value="horus-ws/Devices/$NAME.json"/>
+<attribute name="class" value="LI"/>
+<attribute name="event" value="$NAME_state"/>
+<attribute name="url" value="/DynamicPage/$NAME.xml"/>
+<attribute name="method" value="rpcExecGet"/>
+<attribute name="cmd" value="value=$VALUE"/>
+<attribute name="answer" value='{"response":{"message":"ok","device":{"name":"$NAME","status":"$TRUEFALSE"}}}'/>
+</set>

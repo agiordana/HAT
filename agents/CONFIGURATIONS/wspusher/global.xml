@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<set type="global">
+<attribute name="agenttype" category="generic" value="websocket"/>
+<attribute name="cmd" category="generic" value="/home/horus/bin/wspusher $PORT"/>
+</set>

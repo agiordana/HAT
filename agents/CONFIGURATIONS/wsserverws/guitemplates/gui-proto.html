@@ -1,0 +1,682 @@
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/hatstyle.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+
+<script>
+
+function mkWSport() {
+  var port = Number(window.location.port);
+  port++;
+  return port.toString();
+}
+
+var host = window.location.hostname;
+var wsuri = "ws://"+host+":"+mkWSport()+"/events";
+
+var ws = new WebSocket(wsuri);
+
+ws.onmessage = function(event) {
+  var message = event.data.split(",");
+  var todo = false;
+  var name = "";
+  var value = "false";
+  message.forEach(function(item){
+    if(item.match("event")) todo = true;
+    else if(item.match("status")) {
+      var pair = item.split(":");
+      value = cleanItem(pair[1]);
+    }
+    else if(item.match("name")) {
+      var pair = item.split(":");
+      name = cleanItem(pair[1]);
+    }
+  });
+  if(todo == true && devices[name] != undefined) {
+      devices[name].update(value);
+  }
+}
+
+
+function cleanItem(item) {
+  var citem = "";
+  for(i=0; i<item.length; i++) if(item[i] != '"' && item[i] != '}' && item[i] != '{' && item[i] != '\n') citem += item[i];
+  return citem;
+}
+
+function normalizeValue(value, digit) {
+  var res = "";
+  var n = 0;
+  var dot = false;
+  for(i=0; i<value.length && n <digit; i++) {
+    res += value[i];
+    if(dot == true) n++;
+    if(value[i] == '.') dot = true;
+  }
+  return res;
+}
+
+
+function doClick(name) {
+  var dev = name.split('.');
+  devices[dev[0]].doClick(name);
+}
+
+function categoryOf(devdesc) {
+  var cat = "";
+  var desc = devdesc.split('.');
+  var name = desc[1].split('_');
+  if(name[0] == "LI"||name[0] == "SO") cat = "LISO";
+  else if(name[0] == "TM"||name[0] == "PM") cat = "PMTM";
+  else if(name[0] == "SH") cat = "UPDOWN";
+  return cat;
+}
+
+$(document).ready(function(){
+   for(j = 0; j<devdescription.length; j++) {
+      var dev;
+      if(categoryOf(devdescription[j])=="LISO") dev = new deviceLISO(devdescription[j]);
+      else if(categoryOf(devdescription[j])=="PMTM") dev = new devicePMTM(devdescription[j]);
+      else if(categoryOf(devdescription[j])=="UPDOWN") dev = new deviceUPDOWN(devdescription[j]);
+      devices[dev.name] = dev;
+   }
+
+   $SHOWFUNCTION
+   showOnly(areas[0]);
+});
+
+function showOnly(area) {
+  canvasDelete();
+  for(i=0; i<areas.length; i++)
+    $("#"+areas[i]).hide();
+  $("#"+area).show();
+}
+
+function canvasDelete() {
+   for(i=0; i<opencanvas.length; i++) {
+     var canvas = document.getElementById(opencanvas[i]);
+     if(canvas != null) document.body.removeChild(canvas);
+   }
+   opencanvas = [];
+}
+
+function getPureName(name) {
+   if(name.length >3 && name[2] == '_') return name.slice(3);
+}
+
+function deviceUPDOWN(areaName) {
+  var AandN = areaName.split('.');
+
+  var items=AandN[1].split('+');
+  this.area = AandN[0];
+  this.name = items[0];
+  this.statusuri = "/horus-ws/Devices/"+this.name+".json";
+  this.cmduri = "/horus-ws/Devices/"+this.name+"/";
+  this.status = "off";
+  var obj = this;
+
+  this.imageUpdate = function(previous, current) {
+     var id ="";
+     var imguri;
+     if(current == "up" && previous == "off") {
+        id = "I_"+this.name+".UP";
+        imguri = "/doc/img/UpRed.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+     else if(current == "off" && previous == "up") {
+        id = "I_"+this.name+".UP";
+        imguri = "/doc/img/UpBlack.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+     if(current == "down" && previous == "off") {
+        id = "I_"+this.name+".DOWN";
+        imguri = "/doc/img/DownRed.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+     else if(current == "off" && previous == "down") {
+        id = "I_"+this.name+".DOWN";
+        imguri = "/doc/img/DownBlack.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+     else if(current == "up" && previous == "down") {
+        id = "I_"+this.name+".DOWN";
+        imguri = "/doc/img/DownBlack.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+        id = "I_"+this.name+".UP";
+        imguri = "/doc/img/UpRed.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+     else if(current == "down" && previous == "up") {
+        id = "I_"+this.name+".DOWN";
+        imguri = "/doc/img/DownRed.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+        id = "I_"+this.name+".UP";
+        imguri = "/doc/img/UpBlack.png";
+        image = document.getElementById(id);
+        image.src = imguri;
+     }
+  }
+  $.get(this.statusuri, function(data, stat) {
+     var pos=1;
+     var devstatus = data.response.device.status;
+     var htmldesc = '<div class="dbholder">';
+     htmldesc += '<div class="btn">';
+     htmldesc += ('<button id="'+obj.name+'.UP" class="miniswitch" onclick=\'doClick("'+obj.name+'.UP")\'>');
+     htmldesc += ('<img id="I_'+obj.name+'.UP" src="/doc/img/UpBlack.png" class=arrow> </button><br>');
+     htmldesc += ('<button id="'+obj.name+'.DOWN" class="miniswitch" onclick=\'doClick("'+obj.name+'.DOWN")\'>');
+     htmldesc += ('<img id="I_'+obj.name+'.DOWN" src="/doc/img/DownBlack.png" class=arrow> </button><br>');
+     htmldesc += '</div>';
+     htmldesc += ('<div class="btntext"> '+getPureName(obj.name)+' </div>');
+     htmldesc += '</div>';
+     $("#"+obj.area).append(htmldesc);
+     obj.imageUpdate(obj.status,devstatus);
+     obj.status = devstatus;
+  });
+  this.update = function(value) {
+    this.imageUpdate(this.status,value);
+    this.status = value;
+  }
+  this.doClick = function(dev) {
+    var target = dev.split('.');
+    var cmd = "";
+    if(this.status != "up" && target[1] == "UP") {
+        cmd = "UP";
+        $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
+    }
+    if(this.status != "down" && target[1] == "DOWN") {
+        cmd = "DOWN";
+        $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
+    }
+    if(this.status == "up" && target[1] == "UP") {
+        cmd = "OFF";
+        $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
+    }
+    if(this.status == "down" && target[1] == "DOWN") {
+        cmd = "OFF";
+        $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
+    }
+  }
+}
+
+function devicePMTM(areaName) {
+  var AandN = areaName.split('.');
+
+  var items=AandN[1].split('+');
+  this.area = AandN[0];
+  this.name = items[0];
+  this.status = 0;
+  var obj = this;
+  this.update = function(value) {
+     obj.status = value;
+     var measure = 0;
+     if(this.name.match("TM_")) measure = normalizeValue(value, 2);
+     else measure = normalizeValue(value, 1);
+     var pname = "#M_" + obj.name;
+     $(pname).text(measure);
+     return;
+  }
+  var htmldesc = '<div class="bholder">';
+  htmldesc += ('<div id="'+this.name+'" class="meter">');
+  htmldesc += ('<button class="meter_inner" onclick=\'doClick("'+this.name+'")\'>'+ getPureName(this.name)+': </button>');
+
+  htmldesc += ('<div id="M_'+this.name+'" class="measure"> 000 </div></div>');
+  htmldesc += '</div>';
+  $("#"+obj.area).append(htmldesc);
+  this.doClick = function(dev) {
+    if(this.name.match("PM_")) plotMeter(dev, "today", "derivative");
+    else plotTemperature(dev, "today", "normal");
+  }
+}
+
+function deviceLISO(areaName) {
+  var AandN = areaName.split('.');
+
+  var items=AandN[1].split('+');
+  this.area = AandN[0];
+  this.name = items[0];
+  this.component = [];
+  this.statusuri = "/horus-ws/Devices/"+this.name+".json";
+  this.cmduri = "/horus-ws/Devices/"+this.name+"/";
+  this.status = [];
+  var obj = this;
+
+  this.imageUpdate = function(comp, value) {
+     var id = "I_"+this.name+"."+this.component[i];
+     var image = document.getElementById(id);
+         if (value=="false" || value<1) {
+        image.src = "/doc/img/Button-Blank-Green-icon.png"
+    } else {
+        image.src = "/doc/img/Button-Blank-Red-icon.png"
+    }
+  }
+
+  if(items.length == 1) this.component.push(this.name);
+  else for(i = 1; i<items.length; i++) this.component.push(items[i]);
+  $.get(this.statusuri, function(data, stat) {
+     var pos=1;
+     var devstatus = data.response.device.status;
+     obj.status = devstatus.split('+');
+     var htmldesc = '<div class="bholder">';
+     if(obj.component.length > 1) htmldesc += ('<div class="holder">' + getPureName(obj.name) + '</div>');
+     for(i=0; i<obj.component.length; i++) {
+        var compname = obj.name+'.'+obj.component[i];
+        var pureName = (obj.component.length == 1 ? getPureName(obj.name) : getPureName(obj.component[i]));
+        htmldesc += ('<button id="'+compname+'" class="switch" onclick=\'doClick("'+compname+'")\'>');
+        htmldesc += ('<img id="I_'+compname+'" src="/doc/img/Button-Blank-Green-icon.png" class="button">'+pureName+'</button>');
+     }
+     htmldesc += '</div>';
+     $("#"+obj.area).append(htmldesc);
+     for(i=0; i<obj.status.length; i++) obj.imageUpdate(i, obj.status[i]);
+   });
+  this.doClick = function(dev) {
+    var target = dev.split('.');
+    var cmd = "";
+    for(i=0; i<this.component.length; i++) {
+      if(cmd != "") cmd += "+";
+      if(this.component[i]==target[1]) {
+         if(this.status[i]=="true") cmd += "OFF";
+           else cmd+="ON";
+         }
+      else {
+         if(this.status[i] == "true") cmd += "ON";
+         else cmd += "OFF";
+      }
+    }
+    $.ajax({method:"PUT",url:this.cmduri +cmd+ ".json",success:function(data){}});
+  }
+  this.update = function(newstatus) {
+    var values = newstatus.split('+');
+    for(i=0; i<values.length; i++)
+       if(this.status[i] != values[i]) {
+          this.status[i] = values[i];
+          this.imageUpdate(i, values[i])
+    }
+  }
+}
+
+
+function plotAxes(ctx, xB, xE, yB, yE, dX, dY, uX, uY, label) {
+   ctx.beginPath();
+   ctx.moveTo(xB,yB);
+   ctx.lineTo(xB, yE);
+   ctx.moveTo(xB, yB);
+   ctx.lineTo(xE, yB);
+   dtic = (xE - xB)/50;
+   var i = 0;
+   for(x=xB; x<=xE+1; x+=dX) {
+        plotTicX(ctx, x, yB, dtic, uX*i);
+        i++;
+   }
+   i = 0;
+   for(y=yB; y>=yE-1; y-=dY) {
+        plotTicY(ctx, xB, y, dtic, uY*i);
+        i++;
+   }
+   ctx.fillText(label,xE*0.68,yE+yB*0.05);
+   ctx.strokeStyle = "black";
+   ctx.lineWidth = 2;
+   ctx.stroke();
+}
+
+function plotAxesT(ctx, xB, xE, yB, yE, yG0, dX, dY, uX, uY, label) {
+   ctx.beginPath();
+   ctx.moveTo(xB, yB);
+   ctx.lineTo(xB, yE);
+   ctx.moveTo(xB, yG0);
+   ctx.lineTo(xE, yG0);
+   dtic = (xE - xB)/50;
+   var i = 0;
+   for(x=xB; x<=xE+1; x+=dX) {
+        plotTicX(ctx, x, yG0, dtic, uX*i);
+        i++;
+   }
+   i = 0;
+   for(y=yG0; y>=yE-1; y-=dY) {
+        plotTicY(ctx, xB, y, dtic, (uY*i));
+        i++;
+   }
+   i = 0;
+   for(y=yG0; y<=yB-1; y+=dY) {
+        plotTicY(ctx, xB, y, dtic, (uY*i));
+        i--;
+   }
+   ctx.fillText(label,xE*0.68,yE+yB*0.05);
+   ctx.strokeStyle = "black";
+   ctx.lineWidth = 2;
+   ctx.stroke();
+}
+
+function plotTicX(ctx, x, y, d, lb) {
+    ctx.moveTo(x, y-d/2);
+    ctx.lineTo(x, y+d/2);
+    ctx.fillText(lb,x-d/4,y+1.5*d);
+}
+
+function plotTicY(ctx, x, y, d, lb) {
+    ctx.moveTo(x-d/2, y);
+    ctx.lineTo(x+d/2, y);
+    ctx.fillText(lb.toFixed(1),x-3*d,y);
+}
+
+function plot(ctx, width, height, range, data, tt, lb) {
+    var ystep = 500;
+    var widthScale = range[1] - range[0],
+        heightScale = range[3] - range[2],
+        first = true;
+    var oX = width/10, oY = height - height/15;
+    var eX = width - width/40, eY = height/40;
+    var xScale = (eX - oX)/24, yScale = (oY - eY) / ((range[3] - range[2])/ystep);
+
+    ctx.beginPath();
+    for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = (data[i]/heightScale) * (oY - eY)+height-oY;
+
+         yGVal = height - yGVal; // 0,0 is top-left
+
+         if (first) {
+             ctx.moveTo(xGVal, yGVal);
+             first = false;
+         }
+         else {
+             ctx.lineTo(xGVal, yGVal);
+         }
+     }
+
+     ctx.strokeStyle = "red";
+     ctx.lineWidth = 2;
+     ctx.stroke();
+     plotAxes(ctx, oX, eX, oY, eY, xScale, yScale, 1, ystep/1000, lb);
+};
+
+function plotT(ctx, width, height, range, data, tt, lb) {
+    var ystep = 1;
+    var widthScale = range[1] - range[0],
+        heightScale = range[3] - range[2],
+        first = true;
+    var oX = width/10, oY = height - height/15;
+    var eX = width - width/40, eY = height/40;
+    var xScale = (eX - oX)/24, yScale = (oY - eY) / ((range[3] - range[2])/ystep);
+    var yGScale = heightScale/(oY-eY);
+    var yG0 = oY+range[2]/yGScale;
+
+    ctx.beginPath();
+    for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = yG0 - (data[i]/yGScale);
+
+//         yGVal = height - yGVal; // 0,0 is top-left
+
+         if (first) {
+             ctx.moveTo(xGVal, yGVal);
+             first = false;
+         }
+         else {
+             ctx.lineTo(xGVal, yGVal);
+         }
+     }
+
+     ctx.strokeStyle = "red";
+     ctx.lineWidth = 2;
+     ctx.stroke();
+     plotAxesT(ctx, oX, eX, oY, eY, yG0, xScale, yScale, 1, ystep, lb);
+};
+
+function evalTime(asciitime) {
+   var time = Number(asciitime.slice(10)) + Number(asciitime.slice(8,10))*60 + Number(asciitime.slice(6,8))* 3600;
+   return time;
+}
+
+function plotMeter(meter, myday, mode) {
+    var canvas, ctx, width, height, id;
+    id = "CANVAS_"+meter;
+    canvas = document.getElementById(id);
+    if(canvas != null) {
+        document.body.removeChild(canvas);
+        }
+    else opencanvas.push(id);
+    canvas = document.createElement("CANVAS");
+    canvas.id = "CANVAS_"+meter;
+    ctx = canvas.getContext('2d'),
+    width = window.innerWidth/3;
+    height = window.innerHeight/3;
+    if(height > width/2) width = 2*height;
+       else height = width/2;
+    canvas.width = width;
+    canvas.height = height;
+
+    canvas.style.border = '1px solid black';
+    ctx.fillStyle = "black";
+    var dd = [];
+    var tt = [];
+    var range = [];
+    var d = new Date();
+    var year = d.getFullYear().toString(), month = (d.getMonth()+1).toString(), day = d.getDate().toString();
+    if(day.length<2) day = "0"+day;
+    if(month.length<2) month = "0"+month;
+    if(myday=="today") ymd = year+month+day;
+    else if(myday=="chosenday") ymd = getmydate(year,month,day);
+    else ymd = myday;
+
+    $.ajax({url:"/horus-ws/EnergyMeter/"+meter+".json",
+            data:'{"report":"DAILY","date":"'+ymd+'"}',
+            type:"POST",
+            dataType:"json",
+            success: function(data) {
+                var params = data.response.device.energy_parameters;
+                var maxEnergy = 0;
+                var cTime = 0, pTime = 0;
+                var deltaT = 24*3600/params.length;
+                var previous=0, current;
+                var j = 0;
+                if(params.length<3) return;
+                for(i=0; i<params.length-1; i++) {
+                        if(Number(params[i].energy) > Number(params[i+1].energy)) j=i+1;
+                }
+                for(i=j; i<params.length; i++) {
+                        cTime = evalTime(params[i].time);
+                        if(i>0) deltaT = cTime - pTime;
+                        tt.push(cTime);
+                        if(mode=="derivative") {
+                           current = params[i].energy;
+                           current = ((current - previous) / deltaT) * 3600;
+                           dd.push(current);
+                           if(current>maxEnergy) maxEnergy = current;
+                           previous = params[i].energy;
+                        }
+                        else {
+                           dd.push(params[i].energy);
+                           if((params[i].energy*1)>maxEnergy) maxEnergy = params[i].energy;
+                        }
+                        pTime = cTime;
+                }
+                range.push(0);
+                range.push(24*3600);
+                range.push(0);
+                range.push((Math.round(maxEnergy/1000)+1)*1000);
+                if(dd.length<3) return;
+                for(i=1; i<dd.length-1; i++) dd[i] = (dd[i-1]+dd[i]+dd[i+1])/3;
+
+                var lb = getPureName(meter) + ": global energy = "+params[params.length-1].energy+" Wh";
+                plot(ctx, width, height, range, dd, tt, lb);
+            }
+    });
+    document.body.appendChild(canvas);
+}
+
+function plotTemperature(meter, myday, mode) {
+    var canvas, ctx, width, height, id;
+    id = "CANVAS_"+meter;
+    canvas = document.getElementById(id);
+    if(canvas != null) {
+        document.body.removeChild(canvas);
+        }
+    else opencanvas.push(id);
+    canvas = document.createElement("CANVAS");
+    canvas.id = "CANVAS_"+meter;
+    ctx = canvas.getContext('2d'),
+    width = window.innerWidth/3;
+    height = window.innerHeight/3;
+    if(height > width/2) width = 2*height;
+       else height = width/2;
+    canvas.width = width;
+    canvas.height = height;
+
+    canvas.style.border = '1px solid black';
+    ctx.fillStyle = "black";
+    var dd = [];
+    var tt = [];
+    var range = [];
+    var d = new Date();
+    var year = d.getFullYear().toString(), month = (d.getMonth()+1).toString(), day = d.getDate().toString();
+    if(day.length<2) day = "0"+day;
+    if(month.length<2) month = "0"+month;
+    if(myday=="today") ymd = year+month+day;
+    else if(myday=="chosenday") ymd = getmydate(year,month,day);
+    else ymd = myday;
+
+    $.ajax({url:"/horus-ws/Termometer/"+meter+".json",
+            data:'{"report":"DAILY","date":"'+ymd+'"}',
+            type:"POST",
+            dataType:"json",
+            success: function(data) {
+                var params = data.response.device.energy_parameters;
+                var maxEnergy = -100, minEnergy = 100;
+                var cTime = 0, pTime = 0;
+                var deltaT = 24*3600/params.length;
+                var previous=0, current;
+                if(params.length<3) return;
+                for(i=0; i<params.length; i++) {
+                        cTime = evalTime(params[i].time);
+                        if(i>0) deltaT = cTime - pTime;
+                        tt.push(cTime);
+                        dd.push(params[i].value);
+                        if((params[i].value*1)>maxEnergy) maxEnergy = params[i].value;
+                        if((params[i].value*1)<minEnergy) minEnergy = params[i].value;
+                        pTime = cTime;
+                }
+                range.push(0);
+                range.push(24*3600);
+                range.push(Math.round(minEnergy)-2);
+                range.push(Math.round(maxEnergy)+2);
+                for(i=1; i<dd.length-1; i++) {
+                        var lf = dd[i]*0.8;
+                        var sf = dd[i]*1.2;
+                        if((lf>Number(dd[i-1])&&lf>Number(dd[i+1]))||(sf<Number(dd[i-1])&&sf<Number(dd[i+1])))
+                                         dd[i] = ((Number(dd[i-1]))+Number(dd[i+1]))/2;
+
+                }
+                if(dd.length<3) return;
+                var maxT = -100, minT = 100;
+                for(i=1; i<dd.length-1; i++) {
+                   dd[i] = (Number(dd[i-1])+Number(dd[i])+Number(dd[i+1]))/3;
+                   if(dd[i]<minT) minT = dd[i];
+                   if(dd[i]>maxT) maxT = dd[i];
+                }
+                var lb = getPureName(meter)+": Max = "+Math.round(maxT)+", Min = "+Math.round(minT);
+                plotT(ctx, width, height, range, dd, tt, lb);
+            }
+    });
+    document.body.appendChild(canvas);
+}
+
+function pwrbutton(name) {
+   var res = '<button class="meter" onclick=\'plotMeter("' + name+'", "chosenday", "derivative")\'>'+ getPureName(name)+'</button>';
+   return res;
+}
+
+function tmpbutton(name) {
+   var res = '<button class="meter" onclick=\'plotTemperature("' + name+'", "chosenday", "normal")\'>'+ getPureName(name)+'</button>';
+   return res;
+}
+
+function mkbuttonPower() {
+    $.ajax({url:"/horus-ws/Devices/Categories/PM.json",
+            type:"GET",
+            dataType:"json",
+            success: function(data) {
+                var pwrdev = data.response.devices;
+                var btns = "";
+                for(i=0; i<pwrdev.length; i++) btns += pwrbutton(pwrdev[i].name);
+                document.getElementById("energy_bar").innerHTML = btns;
+              }
+            });
+}
+
+function mkbuttonTemp() {
+    $.ajax({url:"/horus-ws/Devices/Categories/TM.json",
+            type:"GET",
+            dataType:"json",
+            success: function(data) {
+                var tmpdev = data.response.devices;
+                var btns = "";
+                for(i=0; i<tmpdev.length; i++) btns += tmpbutton(tmpdev[i].name);
+                document.getElementById("temperature_bar").innerHTML = btns;
+              }
+            });
+}
+
+function getmydate(y,m,d) {
+   var yyyy = document.getElementById("year").value, mm = document.getElementById("month").value,
+       dd = document.getElementById("day").value;
+   if(mm.length<2) mm = "0"+mm;
+   if(dd.length<2) dd = "0"+dd;
+   var res = yyyy + mm + dd;
+   var res1 = y+m+d;
+   if(res > res1) {
+        document.getElementById("year").value = y;
+        document.getElementById("month").value = m;
+        document.getElementById("day").value = d;
+        return res1;
+   }
+   else return res;
+}
+
+
+
+var devdescription = [$DEVDESCRIPTION];
+
+var devices = [];
+
+var areas = [$AREALIST];
+
+var opencanvas = [];
+
+</script>
+
+</head>
+<body style="overflow:auto;">
+<div id="all">
+  <div id="header">
+     $HBUTTONS
+  </div>
+  $AREAS
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<set type="translator">
+<attribute name="cmd" category="proto" value="$time - Azione: $name = $value, richiesta dal modulo $agent" />
+<attribute name="event" category="proto" value="$time - Evento: $name = $value, segnalato dal modulo $agent" />
+<attribute name="alarm" category="proto" value="$time - Allarme: attivato da $source, segnalato dal modulo $agent "/>
+<attribute name="program" category="proto" value="$time - Modalita` allarme: $name; stato corrente: $status; segnalato dal modulo $agent "/>
+<attribute name="true" category="cmd" value="ACCESO"/>
+<attribute name="false" category="cmd" value="SPENTO"/>
+<attribute name="PON" category="cmd" value="ACCESO"/>
+<attribute name="POFF" category="cmd" value="SPENTO"/>
+<attribute name="UP" category="cmd" value="ALZATA"/>
+<attribute name="DOWN" category="cmd" value="ABBASSATA"/>
+<attribute name="true" category="event" value="ACCESO"/>
+<attribute name="UP" category="event" value="ALZATA"/>
+<attribute name="DOWN" category="event" value="ABBASSATA"/>
+<attribute name="false" category="event" value="SPENTO"/>
+<attribute name="true" category="alarm" value="ATTIVO"/>
+<attribute name="false" category="alarm" value="SPENTO"/>
+<attribute name="true" category="program" value="ATTIVO"/>
+<attribute name="false" category="program" value="DISATTIVO"/>
+<attribute name="OFF" category="program" value="SPENTO"/>
+<attribute name="MANUAL" category="program" value="MANUALE"/>
+<attribute name="AUTO" category="program" value="AUTOMATICO"/>
+<attribute name="ZONE" category="program" value="ZONE"/>
+</set>

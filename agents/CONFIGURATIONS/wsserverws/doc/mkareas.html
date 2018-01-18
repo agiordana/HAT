@@ -1,0 +1,288 @@
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+#all {
+   padding:30px;
+   width:100%;
+   overflow:auto;
+}
+
+#header {
+    color:black;
+    text-align:left;
+    font-size: 1em;
+    padding:20px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+    width:100%;
+}
+
+#guilink {
+    color:black;
+    text-align:left;
+    font-size: 1em;
+    padding:10px;
+    background-color:WhiteSmoke;
+    border:3px solid #d4d4d4;
+    width:100%;
+}
+
+button.switch{
+   width:100%;
+   float:left;
+   text-align: center;
+   width:150px;
+   height:40px;
+   border:2px solid;
+   background-color:#808080;
+   font-size: 16px;
+   color: white;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+.meter{
+   width:100%;
+   float:left;
+   width:165px;
+   height:40px;
+   border:2px solid;
+   background-color:#808080;
+   font-size: 16px;
+   color: white;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+   padding:5px;
+}
+
+.measure{
+   float:right;
+   text-align: center;
+   height:25px;
+   width:50%;
+   color:black;
+   background-color:white;
+}
+
+button.miniswitch{
+   width:30;
+   height:25px;
+   border:2px solid;
+   background-color:#EEE;
+   padding:0px;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+}
+
+button.switch:hover{
+   background-color:#800000;
+}
+
+button.miniswitch:hover{
+   background-color:#800000;
+}
+
+img.arrow{
+   width:15px;
+   height:15px;
+}
+
+img.button{
+   float:right;
+   width:25px;
+   height:25px;
+}
+
+
+.barholder{
+   color:black;
+   float:left;
+   padding:20px;
+   background-color:WhiteSmoke;
+   border:3px solid #d4d4d4;
+   width:100%;
+   overflow:auto;
+}
+
+.bholder{
+   display:block;
+   float:left;
+   width:100%;
+}
+
+.dbholder{
+   display:block;
+   float:left;
+   text-align:center;
+   height:70px;
+   border:2px solid #d4d4d4;
+   background-color:#808080;
+   moz-border-radius: 6px;
+   webkit-border-radius: 6px;
+   border-radius: 6px;
+   width:100%;
+}
+
+.btn {
+    display: inline-block;
+    margin-right: 2px;
+    background-color:#808080;;
+    float:right;
+}
+
+.btntext {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 20px;
+    background-color:#808080;;
+    font-size: 16px;
+    color: white;
+    float:left;
+    height:60px;
+    padding-top:20px;
+}
+
+.formholder {
+    widht:100%;
+    align:left;
+    padding:10px;
+    display:inline-block;
+}
+
+</style>
+
+<script>
+
+var area_num = 0;
+var arealist = ["not_used","A0"];
+var devices = [];
+var categories = ["LI","SO","SH","TM","PM"];
+
+$(document).ready(function(){
+    $("#doIt").hide();
+});
+
+function addArea() {
+   area_num++;
+   var name = "A"+area_num;
+   $("#areas").append('<div id="'+name +'" class="area"> <input type="text" id="'+name+'name" value="name"> </div>');
+   arealist.push(name);
+}
+
+function clearAreas() {
+   $("#addArea").show();
+   $("#confArea").show();
+   $("#doIt").hide();
+   $("#areas").html('<div id="A0" class="area"> <input type="text" id="A0name" value="A0">');
+   $("#partitions").html("");
+   area_num = 0;
+   arealist = ["not_used","A0"];
+   devices = [];
+}
+
+function areaChoice(name) {
+  res = '<div id="'+name+'H" class="formholder">'+getName(name)+'<form>';
+  for(i=0; i<area_num+2; i++)
+    if(i==0) res+= '<input type="radio" id="'+name+'R'+i+'" name="'+name+'" value="'+document.getElementById(arealist[i]+"name").value+'" checked>'+document.getElementById(arealist[i]+"name").value +'<br>';
+       else  res+= '<input type="radio" id="'+name+'R'+i+'" name="'+name+'" value="'+document.getElementById(arealist[i]+"name").value+'">'+document.getElementById(arealist[i]+"name").value +'<br>';
+  res += '</form></div>';
+  return res;
+}
+
+function getCategory(name) {
+  var res = name.split("_");
+  return res[0];
+}
+
+function getName(name) {
+  var res = name.split("_");
+  return res[1];
+}
+
+function areaConfig() {
+  $("#addArea").hide();
+  $("#confArea").hide();
+  $("#doIt").show();
+  for(i=0; i<categories.length; i++) {
+     var ws_url = "/horus-ws/Devices/Categories/"+categories[i]+".json";
+     $.ajax({method:"GET", url:ws_url, success:function(data) {
+	var res = JSON.parse(data);
+        for(j=0; j<res.response.devices.length; j++) {
+	  devices.push(res.response.devices[j].name);
+	  if(j==0) $("#partitions").append('<p><b>' + getCategory(res.response.devices[j].name) + '</b></p>');
+          var todo = areaChoice(res.response.devices[j].name);
+	  $("#partitions").append(todo);
+	}
+	$("#partitions").append("<br>");
+      }});
+  }
+}
+
+function doIt() {
+  var confmsg = [];
+  var confdata = '{"areas" : [';
+  var tarea = "";
+  for(i=0; i<devices.length; i++) {
+     tarea = document.querySelector('input[name="'+devices[i]+'"]:checked').value;
+     if(tarea!="not_used") {
+	 dev = '{"name":"' + devices[i] + '","area":"' + tarea +'"}';
+         confmsg.push(dev);
+     }
+  }
+  for(i=0; i<confmsg.length; i++) {
+	confdata+=confmsg[i];
+	if(i<confmsg.length-1) confdata+=",";
+  }
+  confdata += ']}';
+  console.log(confdata);
+  $.ajax({method:"PUT",url:"/horus-ws/Configure/GUI.json",data:confdata,success:function(data){}});
+}
+
+</script>
+
+</head>
+<body style="overflow:auto;">
+<div id="all">
+  <div id="guilink"> <a href="/doc/index.html"> Use current GUI </a> </div>
+  <div id="header">
+    <p><b>Create a new INTERFACE</b></p>
+    <button id="addArea" onclick="addArea()"> New Area </button>
+    <button id="confArea" onclick="areaConfig()"> Area Conf </button>
+    <button id="clearAreas" onclick="clearAreas()"> Clear </button>
+    <button id="doIt" onclick="doIt()"> Make GUI </button>
+  </div>
+  <div id="areas" class="barholder">
+     <p><b>Areas</b></p>
+     <div id="not_used" class="area" style="visibility: hidden; display:inline;"> <input type="text" id="not_usedname" value="not_used"> </div>
+     <div id="A0" class="area"> <input type="text" id="A0name" value="A0"> </div>
+  </div>
+  <div id="partitions" class="barholder">
+     <p><b>Device Assignment</b></p>
+  </div>
+</div>
+</body>
+</html>

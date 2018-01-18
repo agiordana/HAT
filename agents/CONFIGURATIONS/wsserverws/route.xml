@@ -1,0 +1,578 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<routes>
+
+<route>
+    <uri path="/DynamicPage.xml" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/DynamicPage.json" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/DynamicPage/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getDynamicPage"/>
+  </route>
+
+  <route>
+    <uri path="/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="css|fonts|js|img" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/doc/:directory/:file" method="GET"/>
+    <conditions>
+        <condition param=":directory" regexp="(.)+" />
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+
+  <route>
+    <uri path="/doc/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/first" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getFirst"></call>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/all" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getAll"></call>
+  </route>
+
+  <route>
+    <uri path="/logs/:subtype/first" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getFirst"></call>
+  </route>
+
+  <route>
+    <uri path="/logs/:subtype/last" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getLast"></call>
+  </route>
+
+  <route>
+    <uri path="/logs/:subtype/all" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getAll"></call>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/last" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getLast"></call>
+  </route>
+
+  <route>
+    <uri path="/program/:subtype/:agent/first" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+        <condition param=":agent" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getFirst"></call>
+  </route>
+
+  <route>
+    <uri path="/program/:subtype/:agent/all" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+        <condition param=":agent" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getAll"></call>
+  </route>
+
+  <route>
+    <uri path="/program/:subtype/:agent/last" method="GET"></uri>
+    <conditions>
+        <condition param=":subtype" regexp="(.)+"></condition>
+        <condition param=":agent" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getLast"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Storage.json" method="GET"></uri>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getDir"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Storage/:directory" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regex="(.)+\.json"></condition>
+    </conditions>
+    <call class="archive" method="getDir"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Storage/:directory/:file" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regex="(.)+"></condition>
+        <condition param=":file" regex="(.)+\.json"></condition>
+    </conditions>
+    <call class="archive" method="getFile"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Storage/:directory/:file" method="POST"></uri>
+    <conditions>
+        <condition param=":directory" regex="(.)+"></condition>
+        <condition param=":file" regex="(.)+\.json"></condition>
+    </conditions>
+    <call class="archive" method="putConf"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="(.)+\.json"></condition>
+    </conditions>
+    <call class="rpcserver" method="rpcExecGet"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="TH_(.)+\.json"></condition>
+    </conditions>
+    <call class="rpcserver" method="getThermostatStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/Umidity.json" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="TH_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getUmidity"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/Categories/:category" method="GET"></uri>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json"></condition>
+    </conditions>
+    <call class="rpcserver" method="rpcExecGetSet"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/Categories/:category" method="POST"></uri>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json"></condition>
+    </conditions>
+    <call class="rpcserver" method="rpcExecPostSet"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="IR_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getIrrigatorStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/devices/:category/:device/first" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+"></condition>
+        <condition param=":device" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/devices/:category/:device/last" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+"></condition>
+        <condition param=":device" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/devices/:category/:device/all" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+"></condition>
+        <condition param=":device" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/:directory/:directory1/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+        <condition param=":directory1" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+
+  <route>
+    <uri path="/:directory/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+`
+ <route>
+    <uri path="/horus-ws/EnergyMeter/:device/" method="POST"></uri>
+    <conditions>
+        <condition param=":device" regexp="PM_(.)+.json"></condition>
+    </conditions>
+    <call class="logroute" method="getPMLog"></call>
+  </route>
+
+ <route>
+    <uri path="/horus-ws/Termometer/:device/" method="POST"></uri>
+    <conditions>
+        <condition param=":device" regexp="TM_(.)+.json"></condition>
+    </conditions>
+    <call class="logroute" method="getPMLog"></call>
+  </route>
+
+ <route>
+    <uri path="/log/:device/" method="POST"></uri>
+    <conditions>
+        <condition param=":device" regexp="PM_(.)+.json"></condition>
+    </conditions>
+    <call class="logroute" method="getPMLog"></call>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/:value" method="POST"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.(.)+" />
+    </conditions>
+    <call class="rpcserver" method="rpcExecPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/:value" method="PUT"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.(.)+" />
+    </conditions>
+    <call class="rpcserver" method="rpcExecPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/intensity/:value" method="PUT"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.(.)+" />
+    </conditions>
+    <call class="rpcserver" method="rpcExecPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Devices/:device/color/:value" method="PUT"/>
+    <conditions>
+        <condition param=":device" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.(.)+" />
+    </conditions>
+    <call class="rpcserver" method="rpcExecPut"/>
+  </route>
+
+
+  <route>
+    <uri path="/horus-ws/Authmanager/Users.json" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAuthMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Authmanager/Users/:value" method="GET"/>
+    <conditions>
+        <condition param=":value" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAuthMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Authmanager/Users.json" method="POST"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAuthMngSet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Authmanager/Users/:value" method="POST"/>
+    <conditions>
+        <condition param=":value" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAuthMngSet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Authmanager/:access/:value" method="PUT"/>
+    <conditions>
+        <condition param=":access" regexp="(.)+" />
+        <condition param=":value" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAuthMngCheck"/>
+  </route>
+
+ <route>
+    <uri path="/horus-ws/Alarm/:program" method="PUT"/>
+    <conditions>
+        <condition param=":program" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Manual/:queue" method="GET"/>
+    <conditions>
+        <condition param=":queue" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Auto/:queue" method="GET"/>
+    <conditions>
+        <condition param=":queue" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Schedule.json" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Zones.json" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Zones/:zone" method="GET"/>
+    <conditions>
+        <condition param=":zone" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Manual/:queue" method="POST"/>
+    <conditions>
+        <condition param=":queue" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Auto/:queue" method="POST"/>
+    <conditions>
+        <condition param=":queue" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Schedule.json" method="POST"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Zones.json" method="POST"/>
+    <conditions>
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Zones/:zone" method="POST"/>
+    <conditions>
+        <condition param=":zone" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Alarm/Alarm.json" method="GET"/>
+    <conditions>
+        <condition param=":value" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAlarmMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Automatisms/Programmed/:category" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAutomatismMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Automatisms/SelfManaged/:category" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAutomatismMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Automatisms/Programmed/:category" method="POST"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAutomatismMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Automatisms/SelfManaged/:category" method="POST"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcAutomatismMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Log/:category" method="POST"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcLogMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/EnergyControl/:category" method="GET"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcPwrMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/EnergyControl/:category" method="POST"/>
+    <conditions>
+        <condition param=":category" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcPwrMngPost"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/ServiceNotification/:mac" method="GET"/>
+    <conditions>
+        <condition param=":mac" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcSrvMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/ServiceNotification/:mac" method="PUT"/>
+    <conditions>
+        <condition param=":mac" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcSrvMngPut"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Configure/:target" method="GET"/>
+    <conditions>
+        <condition param=":target" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcConfMngGet"/>
+  </route>
+
+  <route>
+    <uri path="/horus-ws/Configure/:target" method="PUT"/>
+    <conditions>
+        <condition param=":target" regexp="(.)+\.json" />
+    </conditions>
+    <call class="rpcserver" method="rpcConfMngPut"/>
+  </route>
+
+</routes>

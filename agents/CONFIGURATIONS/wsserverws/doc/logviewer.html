@@ -1,0 +1,568 @@
+<html5>
+
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LOG Viewer</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/hatstyle.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+
+
+<script>
+
+function getPureName(name) {
+   if(name.length >3 && name[2] == '_') return name.slice(3);
+}
+
+function plotAxes(ctx, xB, xE, yB, yE, dX, dY, uX, uY, label, period) {
+   ctx.beginPath();
+   ctx.moveTo(xB,yB);
+   ctx.lineTo(xB, yE);
+   ctx.moveTo(xB, yB);
+   ctx.lineTo(xE, yB);
+   dtic = (xE - xB)/50;
+   var i = 0;
+   for(x=xB; x<=xE+1; x+=dX) {
+        plotTicX(ctx, x, yB, dtic, uX*i);
+        i++;
+   }
+   i = 0;
+   for(y=yB; y>=yE-1; y-=dY) {
+        plotTicY(ctx, xB, y, dtic, uY*i, period);
+        i++;
+   }
+   ctx.fillText(label,xE*0.65,yE+yB*0.05);
+   ctx.strokeStyle = "black";
+   ctx.lineWidth = 2;
+   ctx.stroke();
+}
+
+
+function plotAxesT(ctx, xB, xE, yB, yE, yG0, dX, dY, uX, uY, label) {
+   ctx.beginPath();
+   ctx.moveTo(xB, yB);
+   ctx.lineTo(xB, yE);
+   ctx.moveTo(xB, yG0);
+   ctx.lineTo(xE, yG0);
+   dtic = (xE - xB)/50;
+   var i = 0;
+   for(x=xB; x<=xE+1; x+=dX) {
+        plotTicX(ctx, x, yG0, dtic, uX*i);
+        i++;
+   }
+   i = 0;
+   for(y=yG0; y>=yE-1; y-=dY) {
+        plotTicY(ctx, xB, y, dtic, (uY*i), "DAILY");
+        i++;
+   }
+   i = 0;
+   for(y=yG0; y<=yB-1; y+=dY) {
+        plotTicY(ctx, xB, y, dtic, (uY*i), "DAILY");
+        i--;
+   }
+   ctx.fillText(label,xE*0.60,yE+yB*0.05);
+   ctx.strokeStyle = "black";
+   ctx.lineWidth = 2;
+   ctx.stroke();
+}
+
+function plotTicX(ctx, x, y, d, lb) {
+    ctx.moveTo(x, y-d/2);
+    ctx.lineTo(x, y+d/2);
+    ctx.fillText(lb,x-d/4,y+1.5*d);
+}
+
+function plotTicY(ctx, x, y, d, lb, period) {
+    ctx.moveTo(x-d/2, y);
+    ctx.lineTo(x+d/2, y);
+    var ticpos = x-4.0*d;
+    if(lb<100) ticpos = x - 3.5*d;
+    if(lb<10) ticpos = x - 3.0*d;
+    if(period=="DAILY") ctx.fillText(lb.toFixed(1),ticpos,y);
+    else ctx.fillText(lb.toFixed(0),ticpos,y);
+}
+
+function computeYstep(range) {
+   var ystep = Math.round((range[3]-range[2])/10);
+   var qq = 1;
+   var i = 0;
+   while(qq<=ystep) {
+      qq = qq*10;
+      i++;
+  }
+   if(Math.abs(qq-ystep) > Math.abs(4*ystep)) qq = qq/10;
+   if(Math.abs(ystep - qq) > Math.abs((qq/2) - ystep)) qq = qq/2;
+   return qq;
+}
+
+function computeXscale(scale, p) {
+   if(p == "DAILY") return scale/24;
+   if(p == "MONTHLY") return scale/31;
+   return scale / 12;
+}
+
+function plot(ctx, width, height, range, data, tt, lb, period) {
+    var ystep = computeYstep(range);
+    var widthScale = range[1] - range[0],
+        heightScale = range[3] - range[2],
+        first = true;
+    var oX = width/10, oY = height - height/15;
+    var eX = width - width/40, eY = height/40;
+    var xScale = computeXscale(eX - oX, period), yScale = (oY - eY) / ((range[3] - range[2])/ystep);
+
+    ctx.beginPath();
+    if(period=="DAILY") {
+      for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = (data[i]/heightScale) * (oY - eY)+height-oY;
+
+         yGVal = height - yGVal; // 0,0 is top-left
+
+         if (first) {
+             ctx.moveTo(xGVal, yGVal);
+             first = false;
+         }
+         else {
+             ctx.lineTo(xGVal, yGVal);
+         }
+       }
+
+       ctx.strokeStyle = "red";
+       ctx.lineWidth = 2;
+       ctx.stroke();
+     }
+     else {
+       for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = (data[i]/heightScale) * (oY - eY)+height-oY;
+
+         yGVal = height - yGVal; // 0,0 is top-left
+	 ctx.moveTo(xGVal,oY);
+	 ctx.lineTo(xGVal, yGVal);
+         ctx.strokeStyle = "red";
+	 if(period=="MONTHLY") ctx.lineWidth = (eX-oX)/50;
+	 else ctx.lineWidth = (eX-oX)/20;
+	 ctx.stroke();
+       }
+     }
+
+     plotAxes(ctx, oX, eX, oY, eY, xScale, yScale, 1, ystep/1000, lb, period);
+};
+
+
+function plotT(ctx, width, height, range, data, tt, lb) {
+    var ystep = 1;
+    var widthScale = range[1] - range[0],
+        heightScale = range[3] - range[2],
+        first = true;
+    var oX = width/10, oY = height - height/15;
+    var eX = width - width/40, eY = height/40;
+    var xScale = (eX - oX)/24, yScale = (oY - eY) / ((range[3] - range[2])/ystep);
+    var yGScale = heightScale/(oY-eY);
+    var yG0 = oY+range[2]/yGScale;
+
+    ctx.beginPath();
+    for (var i = 0; i < tt.length; i++) {
+         var xGVal = (tt[i] / widthScale) * (eX - oX)+oX,
+             yGVal = yG0 - (data[i]/yGScale);
+
+//         yGVal = height - yGVal; // 0,0 is top-left
+
+         if (first) {
+             ctx.moveTo(xGVal, yGVal);
+             first = false;
+         }
+         else {
+             ctx.lineTo(xGVal, yGVal);
+         }
+     }
+
+     ctx.strokeStyle = "red";
+     ctx.lineWidth = 2;
+     ctx.stroke();
+     plotAxesT(ctx, oX, eX, oY, eY, yG0, xScale, yScale, 1, ystep, lb, "DAILY");
+};
+
+function evalTime(asciitime) {
+   var time = Number(asciitime.slice(10)) + Number(asciitime.slice(8,10))*60 + Number(asciitime.slice(6,8))* 3600;
+   return time;
+}
+
+function getTotalEnergy(par, p) {
+   if(p=="DAILY") return par[par.length-1].energy/1000.0;
+   var res = 0;
+   for(i=0; i<par.length; i++) res+=Number(par[i].energy);
+   return res/1000.0;
+} 
+
+
+function plotMeter(meter, myday, mode) {
+    var canvas, ctx, width, height, id, period;
+    id = "CANVAS_"+meter;
+    canvas = document.getElementById(id);
+    period = document.getElementById("period").value;
+    if(period=="") period = "DAILY";
+    if(canvas != null) {
+        document.body.removeChild(canvas);
+        }
+    else opencanvas.push(id);
+    canvas = document.createElement("CANVAS");
+    canvas.id = "CANVAS_"+meter;
+    ctx = canvas.getContext('2d'),
+    width = window.innerWidth/3;
+    height = window.innerHeight/3;
+    if(height > width/2) width = 2*height;
+       else height = width/2;
+    canvas.width = width;
+    canvas.height = height;
+
+    canvas.style.border = '1px solid black';
+    ctx.fillStyle = "black";
+    var dd = [];
+    var tt = [];
+    var range = [];
+    var d = new Date();
+    var year = d.getFullYear().toString(), month = (d.getMonth()+1).toString(), day = d.getDate().toString();
+    if(day.length<2) day = "0"+day;
+    if(month.length<2) month = "0"+month;
+    if(myday=="today") ymd = year+month+day;
+    else if(myday=="chosenday") ymd = getmydate(year,month,day);
+    else ymd = myday;
+
+    $.ajax({url:"/horus-ws/EnergyMeter/"+meter+".json",
+            data:'{"report":"'+period+'","date":"'+getYMD(ymd,period)+'"}',
+            type:"POST",
+            dataType:"json",
+            success: function(data) {
+                var params = data.response.device.energy_parameters;
+                var maxEnergy = 0;
+                var cTime = 0, pTime = 0;
+                var deltaT = 24*3600/params.length;
+                var previous=0, current;
+		var j = 0;
+		if(params.length<3) return;
+		if(period=="DAILY") 
+		   for(i=0; i<params.length-1; i++) {
+			if(Number(params[i].energy) > Number(params[i+1].energy)) j=i+1;
+		   }
+                for(i=j; i<params.length; i++) {
+                        if(period=="DAILY") cTime = evalTime(params[i].time);
+			else cTime = Number(params[i].time);
+                        if(i>0) deltaT = cTime - pTime;
+                        tt.push(cTime);
+                        if(period=="DAILY") {
+                           current = params[i].energy;
+                           current = ((current - previous) / deltaT) * 3600;
+                           dd.push(current);
+                           if(current>maxEnergy) maxEnergy = current;
+                           previous = params[i].energy;
+                        }
+                        else {
+                           dd.push(params[i].energy);
+                           if((params[i].energy*1)>maxEnergy) maxEnergy = params[i].energy;
+                        }
+                        pTime = cTime;
+                }
+
+                range.push(0);
+                if(period=="DAILY") range.push(24*3600);
+                else if(period=="MONTHLY") range.push(31);
+                else range.push(12);
+                range.push(0);
+                range.push((Math.round(maxEnergy/1000)+1)*1000);
+
+		if(dd.length<3) return;
+                if(period=="DAILY") for(i=1; i<dd.length-1; i++) dd[i] = (dd[i-1]+dd[i]+dd[i+1])/3;
+
+		var lb = getPureName(meter) + ": eng = "+getTotalEnergy(params,period)+" kWh";
+                plot(ctx, width, height, range, dd, tt, lb, period);
+	        download(j2csv(dd), mkFileName(getPureName(meter)), 'text/csv');
+            }
+    });
+    document.body.appendChild(canvas);
+}
+
+function j2csv(dd) {
+  var csv ="";
+  for(i=0; i<dd.length; i++) {
+    csv+=(i+';'+(Math.round(dd[i]*1000)/1000)+'\n');
+  }
+  return csv;
+}
+
+function getYMD(dd, period) {
+  var res;
+  if(period=="MONTHLY") res = dd.slice(0,6);
+  else if(period=="ANNUAL") res = dd.slice(0,4);
+  else res = dd;
+  return res;
+} 
+
+
+function plotTemperature(meter, myday, mode) {
+    var canvas, ctx, width, height, id;
+    id = "CANVAS_"+meter;
+    canvas = document.getElementById(id);
+    if(canvas != null) {
+        document.body.removeChild(canvas);
+        }
+    else opencanvas.push(id);
+    canvas = document.createElement("CANVAS");
+    canvas.id = "CANVAS_"+meter;
+    ctx = canvas.getContext('2d'),
+    width = window.innerWidth/3;
+    height = window.innerHeight/3;
+    if(height > width/2) width = 2*height;
+       else height = width/2;
+    canvas.width = width;
+    canvas.height = height;
+
+    canvas.style.border = '1px solid black';
+    ctx.fillStyle = "black";
+    var dd = [];
+    var tt = [];
+    var range = [];
+    var d = new Date();
+    var year = d.getFullYear().toString(), month = (d.getMonth()+1).toString(), day = d.getDate().toString();
+    if(day.length<2) day = "0"+day;
+    if(month.length<2) month = "0"+month;
+    if(myday=="today") ymd = year+month+day;
+    else if(myday=="chosenday") ymd = getmydate(year,month,day);
+    else ymd = myday;
+    $.ajax({url:"/horus-ws/Termometer/"+meter+".json",
+            data:'{"report":"DAILY","date":"'+ymd+'"}',
+            type:"POST",
+            dataType:"json",
+            success: function(data) {
+                var params = data.response.device.energy_parameters;
+                var maxEnergy = -100, minEnergy = 100;
+                var cTime = 0, pTime = 0;
+                var deltaT = 24*3600/params.length;
+                var previous=0, current;
+		if(params.length<3) return;
+                for(i=0; i<params.length; i++) {
+                        cTime = evalTime(params[i].time);
+                        if(i>0) deltaT = cTime - pTime;
+                        tt.push(cTime);
+			dd.push(params[i].value);
+                        if((params[i].value*1)>maxEnergy) maxEnergy = params[i].value;
+                        if((params[i].value*1)<minEnergy) minEnergy = params[i].value;
+                        pTime = cTime;
+                }
+                range.push(0);
+                range.push(24*3600);
+                range.push(Math.round(minEnergy)-2);
+                range.push(Math.round(maxEnergy)+2);
+		for(i=1; i<dd.length-1; i++) {
+			var lf = dd[i]*0.8;
+			var sf = dd[i]*1.2;
+			if((lf>Number(dd[i-1])&&lf>Number(dd[i+1]))||(sf<Number(dd[i-1])&&sf<Number(dd[i+1])))
+					 dd[i] = ((Number(dd[i-1]))+Number(dd[i+1]))/2;
+		        
+		}
+		if(dd.length<3) return;
+		var maxT = -100, minT = 100, avgT = 0;
+		for(i=1; i<dd.length-1; i++) {
+		   dd[i] = (Number(dd[i-1])+Number(dd[i])+Number(dd[i+1]))/3;
+		   if(dd[i]<minT) minT = dd[i];
+		   if(dd[i]>maxT) maxT = dd[i];
+		   avgT += Number(dd[i]);
+		}
+		avgT /= dd.length;
+		var lb = getPureName(meter)+": Max="+Math.round(maxT)+", Min="+Math.round(minT) + ", Avg="+Math.round(avgT*10)/10;
+                plotT(ctx, width, height, range, dd, tt, lb);
+            }
+    });
+    document.body.appendChild(canvas);
+}
+
+function pwrbutton(name) {
+   var res = '<button class="meter" onclick=\'plotMeter("' + name+'", "chosenday", "derivative")\'>'+ getPureName(name)+'</button>';
+   return res;
+}
+
+function tmpbutton(name) {
+   var res = '<button class="meter" onclick=\'plotTemperature("' + name+'", "chosenday", "normal")\'>'+ getPureName(name)+'</button>';
+   return res;
+}
+
+function mkbuttonPower() {
+    $.ajax({url:"/horus-ws/Devices/Categories/PM.json",
+            type:"GET",
+            dataType:"json",
+            success: function(data) {
+		var pwrdev = data.response.devices;
+		var btns = "";
+		for(i=0; i<pwrdev.length; i++) btns += pwrbutton(pwrdev[i].name);
+		document.getElementById("energy_bar").innerHTML = btns;
+              }
+	    });
+}
+
+function mkbuttonTemp() {
+    $.ajax({url:"/horus-ws/Devices/Categories/TM.json",
+            type:"GET",
+            dataType:"json",
+            success: function(data) {
+		var tmpdev = data.response.devices;
+		var btns = "";
+		for(i=0; i<tmpdev.length; i++) btns += tmpbutton(tmpdev[i].name);
+		document.getElementById("temperature_bar").innerHTML = btns;
+              }
+	    });
+}
+
+function getmydate(y,m,d) {
+   var yyyy = document.getElementById("year").value, mm = document.getElementById("month").value,
+       dd = document.getElementById("day").value;
+   if(mm.length<2) mm = "0"+mm;
+   if(dd.length<2) dd = "0"+dd;
+   var res = yyyy + mm + dd;
+   var res1 = y+m+d;
+   if(res > res1) {
+	document.getElementById("year").value = y;
+	document.getElementById("month").value = m;
+	document.getElementById("day").value = d;
+	return res1;
+   }
+   else return res;
+}
+
+function canvasDelete() {
+   for(i=0; i<opencanvas.length; i++) {
+     var canvas = document.getElementById(opencanvas[i]);
+     if(canvas != null) document.body.removeChild(canvas);
+   }
+   opencanvas = [];
+}
+
+
+$(document).ready(function(){
+    mkbuttonPower();
+    mkbuttonTemp();
+    $("#show_Energy").click(function(){showOnly("Energy");});
+    $("#show_Temperature").click(function(){showOnly("Temperature");});
+    showOnly(areas[0]);
+});
+
+function showOnly(area) {
+  canvasDelete();
+  for(i=0; i<areas.length; i++)
+    $("#"+areas[i]).hide();
+  $("#"+area).show();
+  document.getElementById("a").style.visibility="hidden";
+}
+
+function setHeaderTime() {
+  var dd = new Date();
+  var dyear = dd.getFullYear().toString(), dmonth = (dd.getMonth()+1).toString(), dday = dd.getDate().toString();
+
+  document.getElementById("year").value = dyear;
+  document.getElementById("month").value = dmonth;
+  document.getElementById("day").value = dday;
+}
+
+function download(text, name, type) {
+  var a = document.getElementById("a");
+  var file = new Blob([text], {type: type});
+  a.href = URL.createObjectURL(file);
+  a.download = name;
+  document.getElementById("a").style.visibility="visible";
+}
+
+function mkFileName(name) {
+  var file = name+'-'+document.getElementById("year").value;
+  if(document.getElementById("period").value == "DAILY") {
+     file +="-";
+     file += document.getElementById("month").value;
+     file +="-";
+     file += document.getElementById("day").value;
+  }
+  else if(document.getElementById("period").value == "MONTHLY") {
+     file +="-";
+     file += document.getElementById("month").value;
+  }
+  file += ".csv";
+  return file;
+}
+
+var opencanvas = [];
+var devices = [];
+var areas = ["Energy", "Temperature"];
+
+</script>
+
+<style>
+
+.chs {
+  padding:5px;
+  border:2px solid #d4d4d4;
+  background-color:White;
+}
+.save {
+  float:right;
+  width:60;
+  height:25px
+  padding:5px;
+  border:2px;
+  visibility:hidden;
+}
+
+</style>
+
+</head>
+
+<body style="overflow:auto;">
+
+<div id="all">
+  <div id="header">
+     <div class="chs">
+       <button id="show_Energy">Energy</button><button id="show_Temperature">Temperature</button>
+       <div class="save">
+       <a href="" id="a"><img src="/doc/img/save.png" height="25px" width="25px"></a>
+       </div>
+     </div>
+     <div class="chs">
+       Period:
+       <select id="period">
+         <option value="DAILY"> Day </option>
+         <option value="MONTHLY"> Month </option>
+         <option value="ANNUAL"> Year </option>
+       </select>
+     </div>
+     <div class="chs">
+       Year: <input type="number" id="year" min="2015" max="2020" value="2017" style="width: 4em"/>
+       Month: <input type="number" id="month" min="1" max="12" value="1" style="width: 3em"/>
+       Day:<input type="number" id="day" min="1" max="31" value="1" style="width: 3em"/>
+     </div>
+  </div>
+  <div id="Energy" class="barholder">
+     <p><b> Energy </b> </p>
+     <div class="bholder" id="energy_bar"> nothing </div> 
+  </div>
+  <div id="Temperature" class="barholder">
+     <p><b> Temperature </b> </p>
+     <div class="bholder" id="temperature_bar"> nothing </div> 
+  </div>
+</div>
+
+<script> setHeaderTime(); </script>
+
+</body>
+</html5>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<set type="switchedlight">
+<attribute name="prefix" value="horus-ws/Devices/$NAME/ON.json"/>
+<attribute name="class" value="SL"/>
+<attribute name="event" value="$NAME_state"/>
+<attribute name="method" value="rpcExecPut"/>
+<attribute name="cmd" value="value=ON"/>
+<attribute name="answer" value='{"response":{"message":"ok","agent_upload_results":"$TRUEFALSE"}}'/>
+</set>

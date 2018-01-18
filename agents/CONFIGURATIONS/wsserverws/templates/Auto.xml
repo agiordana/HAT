@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<programs name="AUTO">
+<day weekday="1"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="2"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="3"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="4"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="5"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="6"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+<day weekday="7"><periods><P1 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P1><P2 from="$TT" to="$TT"><alarms><alarm name="ALL"/></alarms></P2></periods></day>
+</programs>

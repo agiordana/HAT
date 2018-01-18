@@ -1,0 +1,95 @@
+<html5>
+
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LOG Viewer</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/hatstyle.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+
+
+<script>
+
+function doClick() {
+  sendCmd();
+};
+
+function sendCmd() {
+   var iid = "I_Tunnel";
+   var image = document.getElementById(iid);
+   if(image.src.match("Green")) {
+      var body = '{"rport":"'+document.getElementById("port").value+'","host":"'+document.getElementById("host").value+'","user":"'+document.getElementById("user").value+'"}';
+      $.ajax({method:"PUT",
+		 url:"/horus-ws/Configure/TunnelSTART.json",
+		data:body,
+	     success:function(data){statusUpdate()}});
+   }
+   else {
+      $.ajax({method:"PUT",url:"/horus-ws/Configure/TunnelHALT.json",success:function(data){statusUpdate()}});
+   }
+};
+
+function updateImage(id, value) {
+    var image = document.getElementById(id);
+    if (value=="OFF") {
+        image.src = "/doc/img/Button-Blank-Green-icon.png"
+    } else {
+        image.src = "/doc/img/Button-Blank-Red-icon.png"
+    }
+}
+
+function updateText(id, value) {
+  document.getElementById(id).value = value;
+  return;
+}
+
+function statusUpdate() {
+   $.ajax({method:"GET",
+	      url:"/horus-ws/Configure/Tunnel.json",
+	  success:function(data){
+		    updateImage("I_Tunnel", data.response.status);
+		    updateText("port", data.response.rport);
+		    updateText("host", data.response.host);
+		    updateText("user", data.response.user);
+		  }});
+}
+
+statusUpdate();
+
+</script>
+</head>
+
+<body style="overflow:auto;">
+<div id="all">
+ <div id="header">
+     <button id="tunnel" class="switch" onclick="doClick()"><img id="I_Tunnel" src="/doc/img/Button-Blank-Green-icon.png" class=button> Tunnel </button><br><br>
+  <div style="padding:3px; font-size: 20px">
+     Port: <input type="text" id="port" value="" style="width: 8em; font-size: 20px"/><br>
+  </div>
+  <div style="padding:3px; font-size: 20px">
+     Host: <input type="text" id="host" value="" style="width: 8em; font-size: 20px"/><br>
+  </div>
+  <div style="padding:3px; font-size: 20px">
+     User: <input type="text" id="user" value="" style="width: 8em; font-size: 20px"/>
+  </div>
+ </div>
+</div>
+
+</body>
+</html5>
