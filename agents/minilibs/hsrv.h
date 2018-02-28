@@ -402,6 +402,8 @@ public:
      @brief modalita` di comportamento dell'agente
      */
     static std::string behaviour;	
+    static std::string mqtt;	
+    static std::string mqtt_domain;	
     static std::string configurator;	
     /**
      @var static HorusLogger*
