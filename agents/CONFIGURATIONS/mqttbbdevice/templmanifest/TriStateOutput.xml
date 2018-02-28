@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="devConfigure">
+<field name="$NAME" value=""/>
+<field name="$UPOUT" value=""/>
+<field name="$DOWNOUT" value=""/>
+<field name="$UPIN" value=""/>
+<field name="$DOWNIN" value=""/>
+<field name="$PREFIX" value="SH"/>
+<field name="url" value="/cmd/devConfigure/TriStateOutput"/>
+<field name="value" value="TriStateOutput"/>
+</message>

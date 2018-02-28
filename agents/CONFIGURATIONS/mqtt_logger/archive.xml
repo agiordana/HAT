@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set type="archive">
+<attribute category="root" name="event" value="*"></attribute>
+<attribute category="root" name="alarm" value="*"></attribute>
+<attribute category="root" name="subjects" value="*"></attribute>
+<attribute category="root" name="cmd" value="*"></attribute>
+<attribute category="root" name="net" value="*"></attribute>
+<attribute category="root" name="update" value="*"></attribute>
+<attribute category="conf" name="doc" value="*"></attribute>
+<attribute category="history" name="archive" value="10"></attribute>
+<attribute category="history" name="subjects" value="-1"></attribute>
+<attribute category="control" name="status" value="ON"></attribute>
+</set>
