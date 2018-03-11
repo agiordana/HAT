@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<routes>
+  <route>
+    <uri path="/doc/:file" method="GET"/>
+    <conditions>
+        <condition param=":file" regexp="(.)+.(.)+" />
+    </conditions>
+    <call class="archive" method="getFile"/>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/first" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getFirst"></call>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/all" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getAll"></call>
+  </route>
+
+  <route>
+    <uri path="/event/:subtype/last" method="GET"></uri>
+    <conditions>
+        <condition param=":type" regexp="(.)+"></condition>
+        <condition param=":subtype" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getLast"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="LI_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getLightStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="SL_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getSwitchedLightStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="DI_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getDimmerStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="SH_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getShutterStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="SO_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getSocketStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="SA_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getSocketStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="GA_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getGateStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="TH_(.)+\.json"></condition>
+    </conditions>
+    <call class="logroute" method="getThermostatStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device/Umidity.json" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="TH_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getUmidity"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="GV_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getGasValveStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="FV_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getFireValveStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="FV_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getFireValveStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/Devices/:device" method="GET"></uri>
+    <conditions>
+        <condition param=":device" regexp="IR_(.)"></condition>
+    </conditions>
+    <call class="logroute" method="getIrrigatorStatus"></call>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/exported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/first" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getFirst"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/last" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getLast"/>
+  </route>
+
+  <route>
+    <uri path="/subjects/imported/all" method="GET"/>
+    <conditions>
+    </conditions>
+    <call class="archive" method="getAll"/>
+  </route>
+
+  <route>
+    <uri path="/:directory/:directory1/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+        <condition param=":directory1" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+
+  <route>
+    <uri path="/:directory/" method="GET"></uri>
+    <conditions>
+        <condition param=":directory" regexp="(.)+"></condition>
+    </conditions>
+    <call class="archive" method="getList"></call>
+  </route>
+`
+ <route>
+    <uri path="/log/:device/" method="POST"></uri>
+    <conditions>
+        <condition param=":device" regexp="PM_(.)+.json"></condition>
+    </conditions>
+    <call class="logroute" method="getPMLog"></call>
+  </route>
+
+</routes>

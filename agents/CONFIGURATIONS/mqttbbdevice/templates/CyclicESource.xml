@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--semantic_class=FSMDevice-->
+<device name="$PREFIX_$NAME" alias="LS_$NAME+LS_$NAME1">
+    <state name="q0" start="TRUE">
+        <transition name="t0" to="q1">
+	    <condition type="local_event" subtype="$INPUT" value="0" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="1"/>
+		<action type="event" subtype="LS_$NAME1" value="1"/>
+            </actions>
+        </transition>
+        <transition name="t1" to="q1">
+	    <condition type="local_event" subtype="$INPUT" value="1" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="1"/>
+		<action type="event" subtype="LS_$NAME1" value="1"/>
+            </actions>
+        </transition>
+    </state>
+    <state name="q1" start="FALSE">
+        <transition name="t2" to="q2">
+	    <condition type="local_event" subtype="$INPUT" value="0" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="0"/>
+		<action type="event" subtype="LS_$NAME1" value="1"/>
+            </actions>
+        </transition>
+        <transition name="t3" to="q2">
+	    <condition type="local_event" subtype="$INPUT" value="1" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="0"/>
+		<action type="event" subtype="LS_$NAME1" value="1"/>
+            </actions>
+        </transition>
+    </state>
+    <state name="q2" start="FALSE">
+        <transition name="t4" to="q3">
+	    <condition type="local_event" subtype="$INPUT" value="0" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="1"/>
+		<action type="event" subtype="LS_$NAME1" value="0"/>
+            </actions>
+        </transition>
+        <transition name="t5" to="q3">
+	    <condition type="local_event" subtype="$INPUT" value="1" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="1"/>
+		<action type="event" subtype="LS_$NAME1" value="0"/>
+            </actions>
+        </transition>
+    </state>
+    <state name="q3" start="FALSE">
+        <transition name="t6" to="q0">
+	    <condition type="local_event" subtype="$INPUT" value="0" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="0"/>
+		<action type="event" subtype="LS_$NAME1" value="0"/>
+            </actions>
+        </transition>
+        <transition name="t7" to="q0">
+	    <condition type="local_event" subtype="$INPUT" value="1" />
+            <actions>
+		<action type="event" subtype="LS_$NAME" value="0"/>
+		<action type="event" subtype="LS_$NAME1" value="0"/>
+            </actions>
+        </transition>
+    </state>
+</device>
+

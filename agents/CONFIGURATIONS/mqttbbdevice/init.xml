@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<set type="init">
+<attribute category="script" name="cmd1" value="echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots"/>
+</set>

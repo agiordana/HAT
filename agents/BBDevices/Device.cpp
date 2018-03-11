@@ -68,3 +68,4 @@ string Device::userType() {
     if(tmp.length() == 2) return tmp;
     else return "UN";
 }
+

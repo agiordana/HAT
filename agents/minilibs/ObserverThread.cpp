@@ -61,7 +61,7 @@ bool ObserverThread::getSubjects(MParams& subj) {
 }
 
 void ObserverThread::do_work(ObserverThread* obj) {
-cout<<"ObserverThread::do_work"<<endl;
+    cout<<"ObserverThread::do_work"<<endl;
 }
 
 void ObserverThread::do_work1(ObserverThread* obj) {

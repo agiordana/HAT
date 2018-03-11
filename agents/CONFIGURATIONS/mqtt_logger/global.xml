@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<set type="pathnames">
+<attribute name="agenttype" category="generic" value="mqtt_logger"/>
+<attribute name="agentname" category="generic" value="mqtt_logger_$HOST"/>
+<attribute name="homedir" category="generic" value="/home/horus/horus/horus_home/mqtt_logger"/>
+<attribute name="emergency_homedir" category="generic" value="/home/horus/horus_home/mqtt_logger"/>
+<attribute name="logfile" category="generic" value="AGENT-LOG"/>
+<attribute name="behaviour" category="generic" value="active"/>
+<attribute name="timeunit" category="generic" value="1"/>
+<attribute category="homedir" name="observers" value="observers"/>
+<attribute category="homedir" name="archive" value="archive"/>
+</set>

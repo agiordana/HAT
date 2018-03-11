@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<!--semantic_class=AnalogInput-->
+<set type="$PREFIX_$NAME">
+<attribute name="type" category="generic" value="AnalogInput"/>
+<attribute name="name" category="generic" value="$PREFIX_$NAME"/>
+<attribute name="input" category="input" value="$AI"/>
+<attribute name="scale_factor" category="generic" value="0.001"/>
+<attribute name="status" category="generic" value="ON"/>
+</set>

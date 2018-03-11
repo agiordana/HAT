@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<message type="cmd" subtype="devConfigure">
+<field name="$DURATION" value="0"/>
+<field name="$INPUT" value=""/>
+<field name="$NAME" value=""/>
+<field name="$OUTPUT" value=""/>
+<field name="$PDURATION" value="0"/>
+<field name="$PREFIX" value="LI"/>
+<field name="url" value="/cmd/devConfigure/PulseSwitchLS"/>
+<field name="value" value="PulseSwitchLS"/>
+</message>

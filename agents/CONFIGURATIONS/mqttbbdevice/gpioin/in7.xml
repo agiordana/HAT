@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<set type="in7">
+<attribute name="type" value="booleanin"/>
+<attribute name="capename" value="IN7"/>
+<attribute name="gpioname" value="gpio65"/>
+<attribute name="gpiopath" value="/sys/class/gpio/gpio65"/>
+<attribute name="waitfor" value="0"/>
+<attribute category="script" name="cmd1" value="echo 65 > /sys/class/gpio/export"/>
+<attribute category="script" name="cmd2" value="echo in > /sys/class/gpio/gpio65/direction"/>
+<attribute category="script" name="cmd3" value="echo both > /sys/class/gpio/gpio65/edge"/>
+</set>

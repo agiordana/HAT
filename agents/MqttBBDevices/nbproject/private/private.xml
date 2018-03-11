@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <code-assistance-data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <code-model-enabled>true</code-model-enabled>
+    </code-assistance-data>
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>0</activeConfTypeElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/GPIOThread.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/Gpio.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/Gpio.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/GPIOThread.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/VirtualDevices.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/VirtualDevices.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/agent.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/agent.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/Device.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/Device.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/ElectricMeter.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/ElectricMeter.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/FSMDevice.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/FSMDevice.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/BinaryInput.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/BinaryInput.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/BinaryOutput.cpp</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/BinaryOutput.h</file>
+            <file>file:/Users/attilio/programs/Horus/master-track/agents/BBDevices/Pwm.h</file>
+        </group>
+    </open-files>
+</project-private>
