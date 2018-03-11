@@ -1,0 +1,27 @@
+CC = g++
+FLAGS = -I. -I../libs -I../tinyxml -I/usr/local/include/boost -I/usr/local/include/websocketpp -I../libjson -g -DNDEBUG
+LIB = -lstdc++ -lpthread -lssl -lcrypto -lboost_system -lboost_thread -ljson
+AGENTLIB = ../libs/*.o
+OBJ = agent.o DummySource.o DummyPit.o
+PKG_CONFIG_PATH := /usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig
+CMODBUS = `pkg-config --cflags libmodbus`
+LIBMODBUS = `pkg-config --cflags --libs libmodbus`
+WEBSOCKETLIBS = -L/usr/local/lib /usr/local/lib/libwebsocketpp.a /usr/local/lib/libboost_system.a /usr/local/lib/libboost_date_time.a /usr/local/lib/libboost_program_options.a /usr/local/lib/libboost_thread.a /usr/local/lib/libboost_regex.a
+JSONLIB = ../libjson/Objects_static/*.o
+BIN = ../bin
+XML = ../tinyxml/*.o
+
+all:	$(OBJ) main.cpp agent.h DummySource.h
+	$(CC) $(FLAGS) $(LIBMODBUS) $(WEBSOCKETLIBS) $(JSONLIB) -o soapagentx main.cpp $(AGENTLIB) $(OBJ) $(XML) $(LIB)
+
+%.o:	%.cpp
+	$(CC) -c $(FLAGS) $<
+
+openssl/%.o : openssl/%.c
+	$(CC) -c $<
+	
+install:	all
+	cp soapagent $(BIN)
+
+clean:	
+	rm *.o soapagentx

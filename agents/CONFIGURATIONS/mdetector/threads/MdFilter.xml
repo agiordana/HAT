@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<set type="thread">
+	<attribute category="observe" name="motion" value="local_event"/>
+</set>
