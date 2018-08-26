@@ -13,9 +13,11 @@
 #ifdef MACOS
 #define NET_TYPE "en0"
 #define NET_TYPE1 "en1"
+#define NET_TYPE2 "en2"
 #else
 #define NET_TYPE "eth0"
 #define NET_TYPE1 "eth1"
+#define NET_TYPE2 "wlan0"
 #endif
 
 using namespace std;
@@ -300,6 +302,18 @@ string AgentNet::retrieve_my_ip() {
             return addressBuffer;
         }
      }
+
+    //scorro la lista alla ricerca dell'interfaccia NET_TYPE2 con indirizzo IPv4
+    for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+        if (ifa->ifa_addr != NULL && ifa ->ifa_addr->sa_family==AF_INET && strncmp(ifa->ifa_name,NET_TYPE2,6)==0) {
+            //recupero e restituisco una stringa contenente l'indirizzo IP
+            tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+            char addressBuffer[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+            return addressBuffer;
+        }
+     }
+
     //libero struttura
     if (ifAddrStruct!=NULL) freeifaddrs(ifAddrStruct);
     //se l'indirizzo cercato non e' stato trovato, restituisco 127.0.0.1

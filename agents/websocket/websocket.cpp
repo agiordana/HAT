@@ -20,8 +20,19 @@ int main() {
    MParams wsglobal;
    MParams wsnet;
    string path = conf + "/websocket/global.xml";
-   string wsservernet = conf + "/wsserver/agentnet.xml";
-   string wsserverglobal = conf + "/wsserver/global.xml";
+   string wsservernet;
+   string wsserverglobal;
+   string wsdir = conf + "/wsserver";
+   string wsdirws = conf + "/wsserverws";
+   if(FileManager::isDir(wsdir)) {
+	wsservernet = conf + "/wsserver/agentnet.xml";
+        wsserverglobal = conf + "/wsserver/global.xml";
+   }
+   else if(FileManager::isDir(wsdirws)) {
+        wsservernet = conf + "/wsserverws/agentnet.xml";
+        wsserverglobal = conf + "/wsserverws/global.xml";
+   }
+   else return 0;
    global.xmlLoad(path);
    wsnet.xmlLoad(wsservernet);
    wsglobal.xmlLoad(wsserverglobal);
