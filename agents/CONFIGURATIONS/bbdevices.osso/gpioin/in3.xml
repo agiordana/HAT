@@ -5,7 +5,6 @@
 <attribute name="gpioname" value="gpio26"/>
 <attribute name="gpiopath" value="/sys/class/gpio/gpio26"/>
 <attribute name="waitfor" value="0"/>
-<attribute category="script" name="cmd1" value="echo 26 > /sys/class/gpio/export"/>
 <attribute category="script" name="cmd2" value="echo in > /sys/class/gpio/gpio26/direction"/>
 <attribute category="script" name="cmd3" value="echo both > /sys/class/gpio/gpio26/edge"/>
 </set>

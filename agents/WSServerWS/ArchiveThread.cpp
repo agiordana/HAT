@@ -123,7 +123,7 @@ bool ArchiveThread::writelog(string lfile, MMessage msg) {
     ofstream out;
     bool first;        
     out.open(lfile.c_str(), ofstream::app);
-    if(out!=NULL) {
+    if(out.is_open()) {
         out <<"{";
         MMessage::iterator it;
         first = true;

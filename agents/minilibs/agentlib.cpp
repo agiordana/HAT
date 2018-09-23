@@ -41,8 +41,7 @@ int AgentConf::mklock() {
 	string lockname = hsrv::homedir+"/.lock";
 	    
     in.open(lockname.c_str());
-	if(in != NULL) 
-        return -1;
+	if(in.is_open()) return -1;
 	in.close();
 	pid = getpid();
 	out.open(lockname.c_str());
@@ -58,8 +57,7 @@ pid_t AgentConf::getlockvalue() {
 	string lockname = hsrv::homedir+"/.lock";
 	
     in.open(lockname.c_str());
-	if(in != NULL) 
-        return 0;
+	if(in.is_open()) return 0;
 	in >> pid;
 	in.close();
     
@@ -73,7 +71,7 @@ int AgentConf::saveFile(string& ty, string& name, string& body, bool raw) {
     
 	out.open(path.c_str());
 	
-    if(out == NULL) return 0;
+    if(!out.is_open()) return 0;
     if(!raw) {
         for(unsigned i = 0; i < body.size(); i++) {
 		if(body[i] == ']') flag=1;
@@ -100,7 +98,7 @@ int AgentConf::deleteFile(string& ty, string& name) {
     
 	in.open(path.c_str());
 	
-    if(in == NULL) 
+    if(!in.is_open()) 
         return 0;
 	
     in.close();
@@ -273,7 +271,7 @@ MMessage AgentConf::mkHomePage(MMessage* m) {
     string buffer;
     string pagename = hsrv::configdir+"/index.html";
     ifstream pagefile(pagename.c_str());
-    while (pagefile!=NULL && !pagefile.eof()) {
+    while (pagefile.is_open() && !pagefile.eof()) {
         pagefile >> buffer;
         page <<buffer<<" ";
     }

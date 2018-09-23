@@ -4,6 +4,5 @@
 <attribute name="capename" value="OUT4"/>
 <attribute name="gpioname" value="gpio69"/>
 <attribute name="gpiopath" value="/sys/class/gpio/gpio69"/>
-<attribute category="script" name="cmd1" value="echo 69 > /sys/class/gpio/export"/>
 <attribute category="script" name="cmd2" value="echo out > /sys/class/gpio/gpio69/direction"/>
 </set>

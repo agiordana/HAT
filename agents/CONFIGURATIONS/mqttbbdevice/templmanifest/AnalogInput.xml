@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<message type="cmd" subtype="devConfigure">
-<field name="$AI" value=""/>
-<field name="$NAME" value=""/>
-<field name="$PREFIX" value="TM"/>
-<field name="url" value="/cmd/devConfigure/AnalogInput"/>
-<field name="value" value="AnalogInput"/>
-</message>

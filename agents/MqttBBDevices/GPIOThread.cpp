@@ -201,17 +201,6 @@ int GPIOThread::get_current_value(int fd) {
     return value;
 }
 
-/*
-bool GPIOThread::set_current_value(string out, string v) {
-   FILE *chout;
-   if(hsrv::debug >= 1) cout<<"WRITING: "<<out<<"="<<v<<endl;
-   chout = fopen(out.c_str(), "w");
-   if(chout == NULL) return false;
-   fprintf(chout, "%s", v.c_str());
-   fclose(chout);
-   return true;
-}
-*/
 
 bool GPIOThread::gpioRegister() {
    ofstream gpioch;
@@ -279,8 +268,8 @@ bool GPIOThread::owDefine(string dir, string name, string gpioname) {
    string templpath = hsrv::configdir + "/templates/OneWire.xml";
    string devpath = hsrv::configdir + "/onewire/" + name + ".xml";
    ifstream in(templpath.c_str());
-   if(in==NULL) return false;
-      while((ch=in.get())&&!in.eof()) {
+   if(!in.is_open()) return false;
+   while((ch=in.get())&&!in.eof()) {
       templ+=ch;
    }
    in.close();
@@ -288,7 +277,7 @@ bool GPIOThread::owDefine(string dir, string name, string gpioname) {
    while(hsrv::strReplace(templ,"$NAME",name));
    while(hsrv::strReplace(templ,"$GPIONAME",gpioname));
    ofstream out(devpath.c_str());
-   if(out == NULL) return false;
+   if(!out.is_open()) return false;
    for(size_t i=0; i<templ.size(); i++) out.put(templ[i]);
    out.close();
    return true;

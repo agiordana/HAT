@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<message type="cmd" subtype="devConfigure">
-<field name="$INPUT" value=""/>
-<field name="$NAME" value=""/>
-<field name="$DELAY" value="0"/>
-<field name="$PREFIX" value="SE"/>
-<field name="url" value="/cmd/devConfigure/BinaryInput"/>
-<field name="value" value="BinaryInput"/>
-</message>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pannello Configurazione di Horus</title>
+
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="/doc/css/style.css">
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="/doc/js/html5shiv.js"></script>
+        <script type="text/javascript" src="/doc/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/doc/js/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="/doc/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/doc/js/fullscreen.js"></script>
+        <script type="text/javascript" src="/doc/js/jquery-cookie.js" charset="utf-8" ></script>
+                <script src="/doc/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+        <script src="/doc/js/utility.js" charset="utf-8" type="text/javascript"></script>
+<style>
+
+div.probe {
+   display: block;
+   text-align:center;
+   font-weight:normal;
+   float:left;
+   padding: 10px;
+   background-color:WhiteSmoke;
+   border:1px solid #d4d4d4;
+}
+
+div.prfield {
+  background-color:White;
+  text-align:center;
+  border:1px solid #d4d4d4;
+  font-weight:normal;
+  padding: 5px;
+}
+</style>
+<script>
+
+var myVar = setInterval(myTimer, 1000);
+
+var firsttime = 1;
+
+function myTimer() {
+   $(document).ready(function(){
+     if(firsttime > 0) { 
+        $("#rawio").text("");
+        $.get("/DynamicPage.json", function(data, status){
+		$.each(data.list, function(k,v){
+		   $.each(v, function(p, out) {
+		     if(p.substr(0,2) == "PR" || p.substr(0,2) == "PW" || p.substr(0,3) == "OUT" || p.substr(0,2) == "IN" || p.substr(0,3) == "VIN") {
+		       if(p.substr(0,2) !="PR") {
+			  if(p.substr(0,2) !="PW") $("#rawio").append(makeImage(p,out));
+			  else $("#rawio").append(makePwm(p,out));
+		       }
+		       else $("#probes").append(makeProbe(p,out));
+		   }})
+		})
+        });
+	firsttime = 0;
+      }
+      else {
+        $.get("/DynamicPage.json", function(data, status){
+                $.each(data.list, function(k,v){
+                  $.each(v, function(p, out) {
+		    if(p.substr(0,2) == "PR" || p.substr(0,2) == "PW" || p.substr(0,3) == "OUT" || p.substr(0,2) == "IN" || p.substr(0,3) == "VIN") {
+                      if(p.substr(0,2) !="PR") {
+			  if(p.substr(0,2) !="PW") updateImage(p, out);
+			  else updatePwm(p, out);
+		      }
+		      else updateProbe(p, out);
+                   }})
+                })
+        });
+      }
+  })
+};
+
+function sendCmd(id) {
+   var image = document.getElementById(id);
+   if(image.src.match("green"))
+      $.post("/cmd/"+id+"/ON",{},function(){});
+   else
+      $.post("/cmd/"+id+"/OFF",{},function(){});
+};
+
+function sendVCmd(id) {
+   var image = document.getElementById(id);
+   if(image.src.match("green"))
+      $.post("/cmd/"+id+"/ON",{},function(){});
+   else
+      $.post("/cmd/"+id+"/OFF",{},function(){});
+};
+
+function sendPCmd(id) {
+  var name = "F_"+id;
+  var value = document.getElementById(name);
+  var v = value.innerHTML;
+  var x = parseInt(v, 10);
+  x += 10;
+  if(x > 100) x = 0;
+  value = x.toString(10);
+
+  $.post("/cmd/"+id+"/"+value,{},function(){});
+};
+
+function makeImage(name, value) {
+    var result = "<td width=\"60px\" align=\"center\">"+name+"<br>";
+    if (value<1) {
+        result += "<img id=\""+ name +"\" src=\"/doc/img/green-led.png\" width=\"20\" height=\"20\">";
+    } else {
+        result += "<img id=\""+ name +"\" src=\"/doc/img/red-led.png\" width=\"20\" height=\"20\">";
+    }
+    if(name.match("OUT")) result += "<br><br><button id=\"B_"+name+"\" onclick='sendCmd(\""+name+"\")'>"+name+"</button>";
+    else if(name.match("VIN")) result += "<br><br><button id=\"B_"+name+"\" onclick='sendVCmd(\""+name+"\")'>"+name+"</button>";
+    result += "</td>";
+    return result;
+}
+
+function makePwm(name, value) {
+   var result = "<div id=\"" + name + "\" class=\"probe\"><button id=\"B_"+name+"\" onclick='sendPCmd(\""+name+"\")'>"+name+"</button><div id=\"F_"+name+"\" class=\"prfield\"> 000000 </div></div>";
+   return result;
+   
+}
+function makeProbe(name, value) {
+   var result = "<div id=\"" + name + "\" class=\"probe\">" + name + "<div id=\"F_"+name+"\" class=\"prfield\"> 00000 </div></div>";
+   return result;
+}
+
+function updateImage(id, value) {
+    var image = document.getElementById(id);
+    if (value<1) {
+        image.src = "/doc/img/green-led.png";
+    } else {
+        image.src = "/doc/img/red-led.png";
+    }
+}
+
+function updatePwm(name, value) {
+  pname = "#F_" + name;
+  $(pname).text(value);
+  return;
+}
+
+function updateProbe(name, value) {
+  pname = "#" + name;
+  field = name + "<div class=\"prfield\">" + value + "</div>";
+  $(pname).html(field);
+  return;
+}
+
+</script>
+</head>
+<body>
+<div id="rawio"> </div>
+<div id="probes"></div>
+<br>
+</body>
+</html>
+

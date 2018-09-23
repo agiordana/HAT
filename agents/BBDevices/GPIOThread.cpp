@@ -279,8 +279,8 @@ bool GPIOThread::owDefine(string dir, string name, string gpioname) {
    string templpath = hsrv::configdir + "/templates/OneWire.xml";
    string devpath = hsrv::configdir + "/onewire/" + name + ".xml";
    ifstream in(templpath.c_str());
-   if(in==NULL) return false;
-      while((ch=in.get())&&!in.eof()) {
+   if(!in.is_open()) return false;
+   while((ch=in.get())&&!in.eof()) {
       templ+=ch;
    }
    in.close();
@@ -288,7 +288,7 @@ bool GPIOThread::owDefine(string dir, string name, string gpioname) {
    while(hsrv::strReplace(templ,"$NAME",name));
    while(hsrv::strReplace(templ,"$GPIONAME",gpioname));
    ofstream out(devpath.c_str());
-   if(out == NULL) return false;
+   if(!out.is_open()) return false;
    for(size_t i=0; i<templ.size(); i++) out.put(templ[i]);
    out.close();
    return true;

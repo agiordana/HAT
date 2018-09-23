@@ -76,13 +76,13 @@ bool RestService::xmlLoad(string xmlfile) {
 
 
 
-void RestService::render_GET(const http_request &req, http_response** res) {
+const http_response RestService::render_GET(const http_request &req) {
     int resp_code;
     MMessage mresp;
     string resp_body;
     string resp_type;
     string uri;
-
+//  cout<<"GET: "<<req.get_path()<<endl;
     if (req.get_path() == "" or req.get_path() == "/") {
       uri = "/doc/index.html";      
     } else {
@@ -102,12 +102,12 @@ void RestService::render_GET(const http_request &req, http_response** res) {
     
     resp_type = mresp.getString("content");
 
-    *res = new http_response(http_response_builder(resp_body, resp_code, resp_type).string_response());
-//    *res = new http_response(http_response_builder(resp_body, resp_code).string_response());
+    http_response res(http_response_builder(resp_body, resp_code, resp_type).string_response());
+    return res;
 }
 
 
-void RestService::render_PUT(const http_request &req, http_response** res) {
+const http_response RestService::render_PUT(const http_request &req) {
     int resp_code;
     MMessage mresp;
     string resp_body;
@@ -116,6 +116,7 @@ void RestService::render_PUT(const http_request &req, http_response** res) {
     string uri;
     
     uri = req.get_path();
+//  cout<<"PUT: "<<uri<<endl;
     body = req.get_content();
     mresp = hsrv::router->route(uri, "PUT", body);
     	
@@ -135,11 +136,12 @@ void RestService::render_PUT(const http_request &req, http_response** res) {
         resp_code = 200;
     }
     
-    *res = new http_response(http_response_builder(resp_body, resp_code, resp_type).string_response());
+    http_response res(http_response_builder(resp_body, resp_code, resp_type).string_response());
+    return res;
 }
 
 
-void RestService::render_POST(const http_request &req, http_response** res) {
+const http_response RestService::render_POST(const http_request &req) {
     int resp_code;
     MMessage mresp;
     string resp_body;
@@ -147,6 +149,7 @@ void RestService::render_POST(const http_request &req, http_response** res) {
     string body;
     string uri;
     uri = req.get_path();
+//  cout<<"POST: "<<uri<<endl;
     body = req.get_content();    
     if(uri == "" || uri == "/") {
 	mresp = nonRest_POST(body);
@@ -176,54 +179,63 @@ void RestService::render_POST(const http_request &req, http_response** res) {
         resp_code = 200;
     }
     
-    *res = new http_response(http_response_builder(resp_body, resp_code, resp_type).string_response());
+    http_response res(http_response_builder(resp_body, resp_code, resp_type).string_response());
+    return res;
 }
 
 
 
 
-void RestService::render(const http_request &req, http_response** res) {
+const http_response RestService::render(const http_request &req) {
 
     if (verbose) std::cout << req;
+//  cout<<req<<endl;
+    http_response res(http_response_builder("generic response", 200).string_response());
 
-    *res = new http_response(http_response_builder("generic response", 200).string_response());
-
-    if (verbose) std::cout << **res;
+    if (verbose) std::cout << res;
+    return res;
 }
 
-void RestService::render_HEAD(const http_request &req, http_response** res) {
+const http_response RestService::render_HEAD(const http_request &req) {
 
     if (verbose) std::cout << req;
+//  cout<<req<<endl;
 
-    *res = new http_response(http_response_builder("HEAD response", 200).string_response());
+    http_response res(http_response_builder("HEAD response", 200).string_response());
 
-    if (verbose) std::cout << **res;
+    if (verbose) std::cout << res;
+    return res;
 }
 
-void RestService::render_OPTIONS(const http_request &req, http_response** res) {
+const http_response RestService::render_OPTIONS(const http_request &req) {
 
     if (verbose) std::cout << req;
+//  cout<<req<<endl;
 
-    *res = new http_response(http_response_builder("OPTIONS response", 200).string_response());
+    http_response res(http_response_builder("OPTIONS response", 200).string_response());
 
-    if (verbose) std::cout << **res;
+    if (verbose) std::cout << res;
+    return res;
 }
 
-void RestService::render_CONNECT(const http_request &req, http_response** res) {
+const http_response RestService::render_CONNECT(const http_request &req) {
 
     if (verbose) std::cout << req;
+//  cout<<req<<endl;
 
-    *res = new http_response(http_response_builder("CONNECT response", 200).string_response());
+    http_response res(http_response_builder("CONNECT response", 200).string_response());
 
-    if (verbose) std::cout << **res;
+    if (verbose) std::cout << res;
+    return res;
 }
 
-void RestService::render_DELETE(const http_request &req, http_response** res) {
+const http_response RestService::render_DELETE(const http_request &req) {
  int resp_code;
     MMessage mresp;
     string resp_body;
     string resp_type;
     string uri;
+//  cout<<req<<endl;
 
     if (req.get_path() != "") {
       uri = req.get_path(); 
@@ -242,18 +254,21 @@ void RestService::render_DELETE(const http_request &req, http_response** res) {
         resp_code = 200;
     }
     
-    *res = new http_response(http_response_builder(resp_body, resp_code).string_response());
+    http_response res(http_response_builder(resp_body, resp_code).string_response());
+    return res;
 }
 
 
 bool RestService::start(std::string n) {
     xmlLoad("HttpServer.xml");
     name = n;
-    create_webserver cw = create_webserver(s_port).max_threads(5);
+//  cout<<"Server starting"<<endl;
+    //create_webserver cw = create_webserver(s_port).max_threads(5);
+webserver ws = create_webserver(s_port).start_method(http::http_utils::INTERNAL_SELECT).max_threads(5);
     //
     // Create webserver using the configured options
     //
-    webserver ws = cw;
+    //webserver ws = cw;
 
     //
     // Create and register service resource available at /service
@@ -264,7 +279,8 @@ bool RestService::start(std::string n) {
     //
     // Start and block the webserver
     //
-    return ws.start(true);
+    ws.start(true);
+    return 0;
 }
 
 MMessage RestService::nonRest_POST(std::string body) {

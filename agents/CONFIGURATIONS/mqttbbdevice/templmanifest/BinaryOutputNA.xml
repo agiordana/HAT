@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<message type="cmd" subtype="devConfigure">
-<field name="$DURATION" value="0"/>
-<field name="$NAME" value=""/>
-<field name="$OUTPUT" value=""/>
-<field name="$PREFIX" value="SO"/>
-<field name="url" value="/cmd/devConfigure/BinaryOutputNA"/>
-<field name="value" value="BinaryOutputNA"/>
-</message>

@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<message type="cmd" subtype="devConfigure">
-<field name="$NAME" value=""/>
-<field name="$PWMOUT" value=""/>
-<field name="$PREFIX" value="DI"/>
-<field name="url" value="/cmd/devConfigure/BWDimmer"/>
-<field name="value" value="BWDimmer"/>
-</message>

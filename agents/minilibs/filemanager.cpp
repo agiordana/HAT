@@ -476,8 +476,7 @@ string FileManager::readFile(string& name) {
 	string tmp;
     
 	in.open(name.c_str());
-	if(in == NULL) 
-        return r;
+	if(!in.is_open()) return r;
     
 	while(!in.eof()) {
 		in >> tmp;
@@ -492,7 +491,7 @@ string FileManager::readFile(string& name) {
 bool FileManager::saveFile(std::string& fname, std::string& content) {
 	ofstream out;
 	out.open(fname.c_str());
-	if(out==NULL) {
+	if(!out.is_open()) {
 		hsrv::logger->error(fname+" is not accessible", __FILE__,__FUNCTION__,__LINE__);
 		return false;
 	}

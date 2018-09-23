@@ -100,7 +100,7 @@ bool PwrProgram::load() {
 	string curprog, prgname, prgpath;
 	prgname = hsrv::homedir+"/CURRENTP";
 	prg.open(prgname.c_str());
-	if(prg!=NULL) prg >> curprog;
+	if(prg.is_open()) prg >> curprog;
 	else curprog = "OFF";
 	prg.close();
 	return load(curprog);

@@ -141,7 +141,7 @@ public:
 		std::string r;
 		out.open(name.c_str());
         
-		if(out == NULL) 
+		if(!out.is_open()) 
             return 0;
 		
         r = xmlEncode(1);

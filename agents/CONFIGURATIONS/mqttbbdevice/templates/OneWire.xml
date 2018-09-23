@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<set type="$NAME">
-<attribute name="type" value="w1analog"/>
-<attribute name="capename" value="$NAME"/>
-<attribute name="gpioname" value="$GPIONAME"/>
-<attribute name="waitfor" value="0"/>
-<attribute category="script" name="poll" value="cat $OWDIR/$GPIONAME/w1_slave"/>
-<attribute category="script" name="valuekw" value="t="/>
-</set>

@@ -67,7 +67,7 @@ bool hsrv::load(string path0, string path1) {
 int hsrv::isfile(string& fname, string type) {
 	string fline;
 	ifstream in(fname.c_str());
-	if(in==NULL) return 0;
+	if(!in.is_open()) return 0;
 	in>>fline;
 	in.close();
 	if(fline.find(type)==string::npos) return 0;
@@ -76,7 +76,7 @@ int hsrv::isfile(string& fname, string type) {
 
 int hsrv::isfile(string& fname) {
 	ifstream in(fname.c_str());
-	if(in==NULL) return 0;
+	if(!in.is_open()) return 0;
 	in.close();
 	return 1;
 }
@@ -517,8 +517,7 @@ string hsrv::readFile(string& name) {
 	string tmp;
     
 	in.open(name.c_str());
-	if(in == NULL) 
-        return r;
+	if(!in.is_open()) return r;
     
 	while(!in.eof()) {
 		in >> tmp;
@@ -679,10 +678,10 @@ bool hsrv::saveFile(string& ty, string& name, string& body) {
     
 	out.open(path.c_str());
 	
-    if(out == NULL) 
+    if(!out.is_open()) 
         return false;
 	
-    for(unsigned i = 0; i < body.size(); i++) {
+    for(size_t i = 0; i < body.size(); i++) {
 		if(body[i] == ']') 
             flag=1;
 		
@@ -706,8 +705,7 @@ bool hsrv::deleteFile(string& ty, string& name) {
     
 	in.open(path.c_str());
 	
-    if(in == NULL) 
-        return 0;
+    if(!in.is_open()) return 0;
 	
     in.close();
 	unlink(path.c_str());

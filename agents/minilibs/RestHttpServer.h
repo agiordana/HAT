@@ -13,7 +13,7 @@
 
 using namespace httpserver;
 
-class RestService : public http_resource<RestService> {
+class RestService : public http_resource {
 public:
     
     RestService() {};
@@ -25,21 +25,21 @@ public:
 	
     bool start(std::string n = "");
 
-    void render_GET(const http_request &req, http_response** res);
+    const http_response render_GET(const http_request &req);
 
-    void render_PUT(const http_request &req, http_response** res);
+    const http_response render_PUT(const http_request &req);
 
-    void render_POST(const http_request &req, http_response** res);
+    const http_response render_POST(const http_request &req);
 
-    void render(const http_request &req, http_response** res);
+    const http_response render(const http_request &req);
 
-    void render_HEAD(const http_request &req, http_response** res);
+    const http_response render_HEAD(const http_request &req);
 
-    void render_OPTIONS(const http_request &req, http_response** res);
+    const http_response render_OPTIONS(const http_request &req);
 
-    void render_CONNECT(const http_request &req, http_response** res);
+    const http_response render_CONNECT(const http_request &req);
 
-    void render_DELETE(const http_request &req, http_response** res);
+    const http_response render_DELETE(const http_request &req);
 
 private:
     MMessage nonRest_POST(std::string);

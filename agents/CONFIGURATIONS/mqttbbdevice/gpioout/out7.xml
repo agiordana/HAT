@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<set type="out7">
-<attribute name="type" value="booleanout"/>
-<attribute name="capename" value="OUT7"/>
-<attribute name="gpioname" value="gpio66"/>
-<attribute name="gpiopath" value="/sys/class/gpio/gpio66"/>
-<attribute category="script" name="cmd1" value="echo 66 > /sys/class/gpio/export"/>
-<attribute category="script" name="cmd2" value="echo out > /sys/class/gpio/gpio66/direction"/>
-</set>
