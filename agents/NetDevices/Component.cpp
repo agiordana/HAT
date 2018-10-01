@@ -49,7 +49,7 @@ string Component::setValue(string v) {
 		add("active", "OFF");
 		return "status";
 	}
-        string request = "POST "+cmd+" HTTP/1.1\r\n\r\n\r\n\r\n";
+        string request = "POST "+cmd+" HTTP/1.1\r\nConnection: close\r\n\r\n\r\n\r\n";
 	res = rpc->sendStringMessage(request);
 	if(res.find(answer)!=string::npos) {
 		return v;
@@ -84,7 +84,7 @@ bool Component::check() {
 bool Component::sync() {
   string getreq = get("statusread", "cmd");
   string request = "";
-  if(getreq == "") request = "GET /DynamicPage/"+get("name")+".xml HTTP/1.1\r\n\r\n\r\n\r\n";
+  if(getreq == "") request = "GET /DynamicPage/"+get("name")+".xml HTTP/1.1\r\nConnection: close\r\n\r\n\r\n\r\n";
   else request = getreq;
   if(!mkAgentRPC()) return false;
   string res = rpc->sendStringMessage(request); 

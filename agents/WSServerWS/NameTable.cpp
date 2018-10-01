@@ -157,7 +157,7 @@ bool NameTable::setDevice(MMessage& msg, string ag) {
          string message = msg.xmlEncode(1);
          for(size_t i=0; i<aglist.size(); i++)
 	    if(matchAgent(ag, i)) {
-               string request = "POST / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\n\r\n"+message+"\r\n\r\n";
+               string request = "POST / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\nConnection: close\r\n\r\n"+message+"\r\n\r\n";
                RpcCall call(agent[aglist[i]].port, agent[aglist[i]].address);
                string answer = call.sendStringMessage(request);
                string body = getBody(answer);
@@ -179,8 +179,8 @@ string NameTable::notify(MMessage& msg) {
     string url = msg.getString("url");
     size_t agindx = namelookup[msg.msubtype];
     string request; 
-    if(url == "") request = "POST / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\n\r\n"+message+"\r\n\r\n";
-	else request = "POST "+url+" HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(msg.getString("body").size())+"\r\n\r\n"+msg.getString("body")+"\r\n\r\n";
+    if(url == "") request = "POST / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\nConnection: close\r\n\r\n"+message+"\r\n\r\n";
+	else request = "POST "+url+" HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(msg.getString("body").size())+"\r\nConnection: close\r\n\r\n"+msg.getString("body")+"\r\n\r\n";
     RpcCall call(agent[agindx].port, agent[agindx].address);
     string answer = call.sendStringMessage(request);
     string body = getBody(answer);
@@ -194,8 +194,8 @@ string NameTable::getstatus(MMessage& msg) {
     string url = msg.getString("url");
     size_t agindx = namelookup[msg.msubtype];
     string request; 
-    if(url == "") request = "GET / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\n\r\n"+message+"\r\n\r\n";
-	else request = "GET "+url+" HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(msg.getString("body").size())+"\r\n\r\n\r\n\r\n";
+    if(url == "") request = "GET / HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(message.size())+"\r\nConnection: close\r\n\r\n"+message+"\r\n\r\n";
+	else request = "GET "+url+" HTTP/1.1\r\nContent-Length: "+hsrv::unsigned2a(msg.getString("body").size())+"\r\nConnection: close\r\n\r\n\r\n\r\n";
     RpcCall call(agent[agindx].port, agent[agindx].address);
     //cout<<"NT: "<<agent[agindx].address<<":"<<agent[agindx].port<<request<<endl;
     string answer = call.sendStringMessage(request);
@@ -278,7 +278,7 @@ MMessage NameTable::getAgentDescription(string ag) {
 }
 
 string NameTable::getPage(string url, AgentDesc& agent) {
-   string message = "GET "+url+" HTTP/1.1\r\n\r\n\r\n";
+   string message = "GET "+url+" HTTP/1.1\r\nConnection: close\r\n\r\n\r\n";
    RpcCall call(agent.port, agent.address);
    string answer = call.sendStringMessage(message);
    string body = getBody(answer);

@@ -28,7 +28,7 @@ string RpcCall::sendStringMessage(string& message) {
     string info;
 
     if(true) {
-        info = "Message sent: "+message;
+        info = "Message sent: "+targetip+":"+targetport+" "+message;
         hsrv::logger->info(info, __FILE__, __FUNCTION__, __LINE__);
     }
     buffer = (char*)malloc(message.size()+2);
@@ -49,7 +49,7 @@ string RpcCall::sendStringMessage(string& message) {
     connectClose();
     free(buffer);
     if(timeout <= 0) {
-        hsrv::logger->alert(name+": tcp connection timed out!!!!");
+        hsrv::logger->alert(name+": tcp connection timed out!!!! received data: "+answer);
     }
     return answer;
 }
